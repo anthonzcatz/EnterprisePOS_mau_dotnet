@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Sidebar: dark, icon-centered when collapsed, icon+label when expanded.
+  Active item = lime-green icon background + white card highlight.
+  Hover = slightly lighter dark bg (PointerOver VSM).
+  Toggle button at bottom collapses / expands.
+-->
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EnterprisePOS.Components.PosSidebarView"
+             x:Name="Root"
+             BackgroundColor="{StaticResource PosSidebar}">
+    <Grid RowDefinitions="Auto,*,Auto" Padding="0,20,0,16">
+
+        <!-- ─── Brand logo ─── -->
+        <Grid Grid.Row="0"
+              HorizontalOptions="Fill"
+              Margin="0,0,0,24">
+            <HorizontalStackLayout Spacing="10"
+                                   Padding="14,0"
+                                   HorizontalOptions="{Binding Source={x:Reference Root}, Path=HeaderHorizontalOptions}">
+                <Border BackgroundColor="{StaticResource Primary}"
+                        WidthRequest="40"
+                        HeightRequest="40"
+                        StrokeThickness="0"
+                        Padding="0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="12" />
+                    </Border.StrokeShape>
+                    <Label Text="◉"
+                           FontSize="20"
+                           TextColor="{StaticResource OffBlack}"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center" />
+                </Border>
+                <Label Text="EnterprisePOS"
+                       TextColor="{StaticResource White}"
+                       FontAttributes="Bold"
+                       FontSize="14"
+                       VerticalOptions="Center"
+                       IsVisible="{Binding Source={x:Reference Root}, Path=ShowLabels}" />
+            </HorizontalStackLayout>
+        </Grid>
+
+        <!-- ─── Nav items ─── -->
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding Source={x:Reference Root}, Path=NavItems}"
+                        SelectionMode="None"
+                        Margin="0">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="2" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid HorizontalOptions="{Binding Source={x:Reference Root}, Path=ItemRowHorizontalOptions}"
+                          WidthRequest="{Binding Source={x:Reference Root}, Path=ItemRowWidth}"
+                          Padding="0,2">
+                        <!-- Active background pill -->
+                        <Border StrokeThickness="0"
+                                BackgroundColor="Transparent"
+                                HorizontalOptions="{Binding Source={x:Reference Root}, Path=ActiveBackgroundHorizontalOptions}"
+                                WidthRequest="{Binding Source={x:Reference Root}, Path=ActivePillWidth}"
+                                Padding="{Binding Source={x:Reference Root}, Path=ActivePillPadding}">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12" />
+                            </Border.StrokeShape>
+                            <Border.Triggers>
+                                <DataTrigger TargetType="Border" Binding="{Binding IsActive}" Value="True">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource PosNavActive}" />
+                                </DataTrigger>
+                            </Border.Triggers>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={x:Reference Root}, Path=NavigateCommand}"
+                                                      CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroupList>
+                                    <VisualStateGroup Name="CommonStates">
+                                        <VisualState Name="Normal" />
+                                        <VisualState Name="PointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="#33363B" />
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateGroupList>
+                            </VisualStateManager.VisualStateGroups>
+
+                            <HorizontalStackLayout Spacing="{Binding Source={x:Reference Root}, Path=IconSpacing}"
+                                                   HorizontalOptions="{Binding Source={x:Reference Root}, Path=ItemHorizontalOptions}"
+                                                   VerticalOptions="Center">
+
+                                <!-- Icon pill — lime bg when active -->
+                                <Border WidthRequest="36"
+                                        HeightRequest="36"
+                                        StrokeThickness="0"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        Padding="0">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="10" />
+                                    </Border.StrokeShape>
+                                    <Border.BackgroundColor>Transparent</Border.BackgroundColor>
+                                    <Border.Triggers>
+                                        <DataTrigger TargetType="Border" Binding="{Binding IsActive}" Value="True">
+                                            <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                                        </DataTrigger>
+                                    </Border.Triggers>
+                                    <Label Text="{Binding Glyph}"
+                                           FontSize="18"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center"
+                                           TextColor="{StaticResource Gray400}">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsActive}" Value="True">
+                                                <Setter Property="TextColor" Value="{StaticResource OffBlack}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                </Border>
+
+                                <!-- Label — only shown when expanded -->
+                                <Label Text="{Binding Title}"
+                                       FontSize="13"
+                                       VerticalOptions="Center"
+                                       IsVisible="{Binding Source={x:Reference Root}, Path=ShowLabels}"
+                                       TextColor="{StaticResource Gray400}">
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding IsActive}" Value="True">
+                                            <Setter Property="TextColor" Value="{StaticResource White}" />
+                                            <Setter Property="FontAttributes" Value="Bold" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                            </HorizontalStackLayout>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- ─── Collapse/Expand toggle ─── -->
+        <Grid Grid.Row="2" Padding="8,8,8,0" HorizontalOptions="Fill">
+            <Border StrokeThickness="0"
+                    BackgroundColor="{StaticResource PosNavActive}"
+                    Padding="8,10"
+                    HorizontalOptions="Fill">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="12" />
+                </Border.StrokeShape>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Source={x:Reference Root}, Path=ToggleCommand}" />
+                </Border.GestureRecognizers>
+                <Label Text="{Binding Source={x:Reference Root}, Path=ToggleIcon}"
+                       FontSize="18"
+                       TextColor="{StaticResource Gray400}"
+                       HorizontalOptions="{Binding Source={x:Reference Root}, Path=ItemHorizontalOptions}"
+                       HorizontalTextAlignment="Center"
+                       VerticalOptions="Center" />
+            </Border>
+        </Grid>
+
+    </Grid>
+</ContentView>

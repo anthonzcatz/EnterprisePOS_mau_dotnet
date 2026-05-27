@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EnterprisePOS.MainPage"
+             Title="Enterprise POS">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30,0" Spacing="25">
+            <Image Source="dotnet_bot.png"
+                   HeightRequest="185"
+                   Aspect="AspectFit" />
+            <Label Text="Enterprise POS"
+                   Style="{StaticResource Headline}" />
+            <Label Text="App is running. If you see this screen, the window is visible."
+                   Style="{StaticResource SubHeadline}" />
+            <Label Text="Module pages (Dashboard, POS, etc.) are temporarily disabled while we fix a Windows display bug."
+                   FontSize="13"
+                   TextColor="{StaticResource Gray500}" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

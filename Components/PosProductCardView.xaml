@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Product card matching the reference screenshot:
+  - Rounded card with light gray image area
+  - Dark pill stock badge top-left over the image
+  - Bold product name, muted description (2 lines max)
+  - Price in dark/black
+  - Small "Add to Cart" outline pill button at bottom
+-->
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EnterprisePOS.Components.PosProductCardView"
+             x:Name="Root">
+    <Border BackgroundColor="{StaticResource PosCard}"
+            Stroke="{StaticResource PosBorder}"
+            StrokeThickness="1"
+            Padding="12,12,12,14">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="18" />
+        </Border.StrokeShape>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroupList>
+                <VisualStateGroup Name="CommonStates">
+                    <VisualState Name="Normal" />
+                    <VisualState Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="Stroke" Value="{StaticResource Primary}" />
+                            <Setter Property="BackgroundColor" Value="#FCFDFB" />
+                            <Setter Property="TranslationY" Value="-1" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </VisualStateManager.VisualStateGroups>
+        <VerticalStackLayout Spacing="10">
+
+            <!-- ── Image + stock badge ── -->
+            <Grid HeightRequest="148">
+                <!-- Rounded image area -->
+                <Border StrokeThickness="0"
+                        BackgroundColor="{StaticResource Gray100}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="14" />
+                    </Border.StrokeShape>
+                    <Image Source="{Binding Source={x:Reference Root}, Path=ImageSource}"
+                           Aspect="AspectFit"
+                           Margin="8" />
+                </Border>
+
+                <!-- Stock badge — dark pill top-left -->
+                <Border BackgroundColor="{StaticResource PosStockBadge}"
+                        StrokeThickness="0"
+                        Padding="10,5"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start"
+                        Margin="10,10,0,0">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20" />
+                    </Border.StrokeShape>
+                    <Label Text="{Binding Source={x:Reference Root}, Path=StockBadgeText}"
+                           TextColor="{StaticResource White}"
+                           FontSize="11"
+                           FontAttributes="Bold" />
+                </Border>
+            </Grid>
+
+            <!-- ── Name ── -->
+            <Label Text="{Binding Source={x:Reference Root}, Path=Title}"
+                   FontAttributes="Bold"
+                   FontSize="14"
+                   TextColor="{StaticResource Gray900}"
+                   LineBreakMode="TailTruncation"
+                   MaxLines="1" />
+
+            <!-- ── Description ── -->
+            <Label Text="{Binding Source={x:Reference Root}, Path=Description}"
+                   FontSize="12"
+                   TextColor="{StaticResource PosTextMuted}"
+                   MaxLines="2"
+                   LineBreakMode="TailTruncation" />
+
+            <!-- ── Price ── -->
+            <Label Text="{Binding Source={x:Reference Root}, Path=PriceText}"
+                   FontAttributes="Bold"
+                   FontSize="15"
+                   TextColor="{StaticResource Gray900}" />
+
+            <!-- ── Add to Cart — small outline pill ── -->
+            <Button Text="+ Add to Cart"
+                    Style="{StaticResource PosOutlineButton}"
+                    HorizontalOptions="Fill"
+                    Command="{Binding Source={x:Reference Root}, Path=AddCommand}"
+                    CommandParameter="{Binding Source={x:Reference Root}, Path=CommandParameter}" />
+        </VerticalStackLayout>
+    </Border>
+</ContentView>

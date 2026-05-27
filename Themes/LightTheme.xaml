@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Brand -->
+    <Color x:Key="Color.Brand.Primary">#2F6FED</Color>
+    <Color x:Key="Color.Brand.Secondary">#EAF1FF</Color>
+
+    <!-- Surfaces -->
+    <Color x:Key="Color.Surface.App">#F6F8FC</Color>
+    <Color x:Key="Color.Surface.Card">#FFFFFF</Color>
+    <Color x:Key="Color.Surface.Elevated">#FFFFFF</Color>
+
+    <!-- Text -->
+    <Color x:Key="Color.Text.Primary">#0F172A</Color>
+    <Color x:Key="Color.Text.Secondary">#475569</Color>
+    <Color x:Key="Color.Text.Muted">#64748B</Color>
+    <Color x:Key="Color.Text.OnBrand">#FFFFFF</Color>
+
+    <!-- Borders -->
+    <Color x:Key="Color.Border.Subtle">#E2E8F0</Color>
+    <Color x:Key="Color.Border.Strong">#CBD5E1</Color>
+
+    <!-- Status -->
+    <Color x:Key="Color.Success">#16A34A</Color>
+    <Color x:Key="Color.Warning">#F59E0B</Color>
+    <Color x:Key="Color.Danger">#DC2626</Color>
+
+    <!-- Brushes -->
+    <SolidColorBrush x:Key="Brush.Brand.Primary" Color="{DynamicResource Color.Brand.Primary}" />
+    <SolidColorBrush x:Key="Brush.Surface.App" Color="{DynamicResource Color.Surface.App}" />
+    <SolidColorBrush x:Key="Brush.Surface.Card" Color="{DynamicResource Color.Surface.Card}" />
+    <SolidColorBrush x:Key="Brush.Text.Primary" Color="{DynamicResource Color.Text.Primary}" />
+    <SolidColorBrush x:Key="Brush.Text.Secondary" Color="{DynamicResource Color.Text.Secondary}" />
+    <SolidColorBrush x:Key="Brush.Text.OnBrand" Color="{DynamicResource Color.Text.OnBrand}" />
+    <SolidColorBrush x:Key="Brush.Border.Subtle" Color="{DynamicResource Color.Border.Subtle}" />
+
+</ResourceDictionary>

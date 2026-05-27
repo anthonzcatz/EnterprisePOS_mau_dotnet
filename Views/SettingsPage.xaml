@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EnterprisePOS.Views.SettingsPage"
+             Title="Settings"
+             Padding="20">
+    <VerticalStackLayout Spacing="18">
+        <Label Text="Theme"
+               FontSize="20"
+               FontAttributes="Bold" />
+
+        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+            <Label Grid.Column="0"
+                   Text="{Binding IsDark, StringFormat='Dark mode: {0}'}"
+                   VerticalOptions="Center" />
+            <Switch Grid.Column="1"
+                    IsToggled="{Binding IsDark, Mode=TwoWay}"
+                    VerticalOptions="Center" />
+        </Grid>
+
+        <Label Text="Uses system light/dark app theme."
+               TextColor="{StaticResource Gray500}"
+               FontSize="12" />
+    </VerticalStackLayout>
+</ContentPage>

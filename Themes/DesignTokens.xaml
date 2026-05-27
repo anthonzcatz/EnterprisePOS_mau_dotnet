@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Spacing -->
+    <x:Double x:Key="Space_2">2</x:Double>
+    <x:Double x:Key="Space_4">4</x:Double>
+    <x:Double x:Key="Space_6">6</x:Double>
+    <x:Double x:Key="Space_8">8</x:Double>
+    <x:Double x:Key="Space_10">10</x:Double>
+    <x:Double x:Key="Space_12">12</x:Double>
+    <x:Double x:Key="Space_14">14</x:Double>
+    <x:Double x:Key="Space_16">16</x:Double>
+    <x:Double x:Key="Space_20">20</x:Double>
+    <x:Double x:Key="Space_24">24</x:Double>
+
+    <!-- Radius -->
+    <x:Double x:Key="Radius_10">10</x:Double>
+    <x:Double x:Key="Radius_14">14</x:Double>
+    <x:Double x:Key="Radius_18">18</x:Double>
+
+    <!-- Typography -->
+    <x:Double x:Key="Font_12">12</x:Double>
+    <x:Double x:Key="Font_14">14</x:Double>
+    <x:Double x:Key="Font_16">16</x:Double>
+    <x:Double x:Key="Font_20">20</x:Double>
+    <x:Double x:Key="Font_28">28</x:Double>
+
+</ResourceDictionary>

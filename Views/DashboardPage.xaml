@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:EnterprisePOS.ViewModels"
+             xmlns:models="clr-namespace:EnterprisePOS.Models"
+             xmlns:components="clr-namespace:EnterprisePOS.Components"
+             x:Class="EnterprisePOS.Views.DashboardPage"
+             x:DataType="vm:DashboardViewModel"
+             Title="Dashboard">
+    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
+        <VerticalStackLayout Padding="20" Spacing="16">
+            <Label Text="Enterprise Overview"
+                   Style="{StaticResource Headline}"
+                   HorizontalOptions="Start"
+                   HorizontalTextAlignment="Start" />
+
+            <Label Text="Realtime business snapshot"
+                   TextColor="{StaticResource Gray500}" />
+
+            <CollectionView ItemsSource="{Binding Metrics}"
+                            SelectionMode="None"
+                            HeightRequest="420">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical"
+                                     Span="2"
+                                     HorizontalItemSpacing="12"
+                                     VerticalItemSpacing="12" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:DashboardMetric">
+                        <components:MetricCardView Title="{Binding Title}"
+                                                   Value="{Binding Value}"
+                                                   Delta="{Binding Delta}" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </RefreshView>
+</ContentPage>

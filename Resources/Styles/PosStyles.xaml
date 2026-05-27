@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- ── Primary / lime-green button (Continue, Place Order) ── -->
+    <Style x:Key="PosPrimaryButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+        <Setter Property="TextColor" Value="{StaticResource OffBlack}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="CornerRadius" Value="26" />
+        <Setter Property="Padding" Value="18,12" />
+        <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="MinimumHeightRequest" Value="48" />
+    </Style>
+
+    <!-- ── Outline button (Add to Cart — small, pill) ── -->
+    <Style x:Key="PosOutlineButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+        <Setter Property="TextColor" Value="{StaticResource Gray900}" />
+        <Setter Property="BorderColor" Value="{StaticResource PosBorder}" />
+        <Setter Property="BorderWidth" Value="1" />
+        <Setter Property="CornerRadius" Value="20" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Padding" Value="10,6" />
+        <Setter Property="MinimumHeightRequest" Value="36" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup Name="CommonStates">
+                    <VisualState Name="Normal" />
+                    <VisualState Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="#F9FAFB" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="#F3F4F6" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!-- ── Section headers ── -->
+    <Style x:Key="PosSectionTitle" TargetType="Label">
+        <Setter Property="FontSize" Value="17" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource Gray900}" />
+    </Style>
+
+    <!-- ── Category tab label (active) ── -->
+    <Style x:Key="PosCategoryActive" TargetType="Label">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource Gray900}" />
+    </Style>
+
+    <!-- ── Category tab label (inactive) ── -->
+    <Style x:Key="PosCategoryInactive" TargetType="Label">
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="TextColor" Value="{StaticResource Gray500}" />
+    </Style>
+
+    <!-- ── Compact navbar: Create a Note pill ── -->
+    <Style x:Key="PosCreateNoteButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+        <Setter Property="TextColor" Value="{StaticResource OffBlack}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="CornerRadius" Value="18" />
+        <Setter Property="Padding" Value="14,6" />
+        <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="MinimumHeightRequest" Value="36" />
+        <Setter Property="HeightRequest" Value="36" />
+    </Style>
+
+    <!-- ── Compact search bar (slimmer navbar) ── -->
+    <Style x:Key="PosSearchBarCompact" TargetType="SearchBar">
+        <Setter Property="BackgroundColor" Value="{StaticResource Gray100}" />
+        <Setter Property="PlaceholderColor" Value="{StaticResource PosTextMuted}" />
+        <Setter Property="TextColor" Value="{StaticResource Gray900}" />
+        <Setter Property="MinimumHeightRequest" Value="38" />
+        <Setter Property="HeightRequest" Value="38" />
+        <Setter Property="FontSize" Value="13" />
+    </Style>
+
+    <!-- ── Search bar ── -->
+    <Style x:Key="PosSearchBar" TargetType="SearchBar">
+        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+        <Setter Property="PlaceholderColor" Value="{StaticResource PosTextMuted}" />
+        <Setter Property="TextColor" Value="{StaticResource Gray900}" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
+    </Style>
+
+</ResourceDictionary>

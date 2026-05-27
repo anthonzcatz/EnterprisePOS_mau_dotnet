@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:EnterprisePOS.Components"
+             x:Class="EnterprisePOS.Views.POSPage"
+             x:Name="Page"
+             Title="POS"
+             BackgroundColor="{StaticResource PosCanvas}">
+
+    <Grid x:Name="LayoutRoot">
+
+        <!-- Tablet / laptop — navbar row 0; catalog + cart split row 1 -->
+        <Grid x:Name="WideLayout"
+              IsVisible="False"
+              ColumnSpacing="0"
+              RowDefinitions="Auto,*"
+              RowSpacing="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="{Binding SidebarGridLength}" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="380" />
+            </Grid.ColumnDefinitions>
+
+            <components:PosSidebarView Grid.RowSpan="2"
+                                       Grid.Column="0"
+                                       NavItems="{Binding NavItems}"
+                                       IsCollapsed="{Binding IsSidebarCollapsed}"
+                                       ToggleCommand="{Binding ToggleSidebarCommand}"
+                                       NavigateCommand="{Binding NavigateCommand}" />
+
+            <!-- Top navbar — compact, full width -->
+            <Border Grid.Row="0"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    BackgroundColor="{StaticResource White}"
+                    StrokeThickness="0"
+                    Padding="20,10,18,10">
+                <Grid ColumnDefinitions="*,Auto,Auto,Auto,Auto"
+                      ColumnSpacing="8"
+                      VerticalOptions="Center">
+                    <SearchBar Grid.Column="0"
+                               Style="{StaticResource PosSearchBarCompact}"
+                               Placeholder="Search your decorations here..."
+                               Text="{Binding SearchText}"
+                               VerticalOptions="Center" />
+                    <Button Grid.Column="1"
+                            Text="Create a Note"
+                            Style="{StaticResource PosCreateNoteButton}"
+                            VerticalOptions="Center" />
+                    <!-- Chat icon -->
+                    <Border Grid.Column="2"
+                            WidthRequest="36"
+                            HeightRequest="36"
+                            Stroke="{StaticResource PosBorder}"
+                            StrokeThickness="1"
+                            BackgroundColor="{StaticResource White}"
+                            VerticalOptions="Center">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+                        <Label Text="💬"
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center" />
+                    </Border>
+                    <!-- Bell icon -->
+                    <Border Grid.Column="3"
+                            WidthRequest="36"
+                            HeightRequest="36"
+                            Stroke="{StaticResource PosBorder}"
+                            StrokeThickness="1"
+                            BackgroundColor="{StaticResource White}"
+                            VerticalOptions="Center">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+                        <Label Text="🔔"
+                               FontSize="16"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center" />
+                    </Border>
+                    <!-- Cashier profile -->
+                    <HorizontalStackLayout Grid.Column="4"
+                                           Spacing="8"
+                                           VerticalOptions="Center">
+                        <Border StrokeThickness="0"
+                                HeightRequest="36"
+                                WidthRequest="36"
+                                VerticalOptions="Center">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="18" />
+                            </Border.StrokeShape>
+                            <Image Source="{Binding CashierImageUrl}"
+                                   Aspect="AspectFill" />
+                        </Border>
+                        <VerticalStackLayout Spacing="0"
+                                             VerticalOptions="Center">
+                            <Label Text="{Binding CashierName}"
+                                   FontAttributes="Bold"
+                                   FontSize="13"
+                                   TextColor="{StaticResource Gray900}" />
+                            <Label Text="{Binding CashierRole}"
+                                   FontSize="11"
+                                   TextColor="{StaticResource PosTextMuted}" />
+                        </VerticalStackLayout>
+                        <Label Text="▾"
+                               FontSize="12"
+                               TextColor="{StaticResource Gray500}"
+                               VerticalOptions="Center"
+                               Margin="2,0,0,0" />
+                    </HorizontalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- Catalog: categories only here (not shared with cart height) -->
+            <Grid Grid.Row="1"
+                  Grid.Column="1"
+                  RowDefinitions="Auto,Auto,Auto,*"
+                  RowSpacing="0"
+                  BackgroundColor="{StaticResource PosCanvas}">
+                <BoxView Grid.Row="0"
+                         HeightRequest="1"
+                         Color="{StaticResource PosBorder}"
+                         Margin="20,0,12,8" />
+                <Border Grid.Row="1"
+                        BackgroundColor="{StaticResource White}"
+                        StrokeThickness="0"
+                        HeightRequest="52"
+                        Padding="0">
+                    <ScrollView Orientation="Horizontal"
+                                HorizontalScrollBarVisibility="Default"
+                                VerticalScrollBarVisibility="Never">
+                        <HorizontalStackLayout BindableLayout.ItemsSource="{Binding Categories}"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center"
+                                               Padding="12,0">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Padding="0">
+                                        <components:PosCategoryTabView Title="{Binding Name}"
+                                                                       Icon="{Binding Icon}"
+                                                                       IsSelected="{Binding IsSelected}" />
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={x:Reference Page}, Path=BindingContext.SelectCategoryCommand}"
+                                                                  CommandParameter="{Binding .}" />
+                                        </Grid.GestureRecognizers>
+                                    </Grid>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </HorizontalStackLayout>
+                    </ScrollView>
+                </Border>
+                <BoxView Grid.Row="2"
+                         HeightRequest="1"
+                         Color="{StaticResource PosBorder}"
+                         Margin="20,0,12,0" />
+                <CollectionView Grid.Row="3"
+                                ItemsSource="{Binding Products}"
+                                SelectionMode="None"
+                                Margin="20,8,12,16">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical"
+                                         Span="{Binding ProductGridSpan}"
+                                         HorizontalItemSpacing="12"
+                                         VerticalItemSpacing="12" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <components:PosProductCardView Title="{Binding Name}"
+                                                           Description="{Binding Description}"
+                                                           PriceText="{Binding Price, StringFormat='${0:F2}'}"
+                                                           StockBadgeText="{Binding StockCount, StringFormat='{0} Stock'}"
+                                                           ImageSource="{Binding Image}"
+                                                           CommandParameter="{Binding .}"
+                                                           AddCommand="{Binding Source={x:Reference Page}, Path=BindingContext.AddToCartCommand}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+
+            <!-- Cart — full height directly under cashier navbar -->
+            <Grid Grid.Row="1"
+                  Grid.Column="2"
+                  BackgroundColor="{StaticResource PosCanvas}"
+                  Padding="12,12,18,16"
+                  RowDefinitions="*,Auto,Auto,Auto,Auto"
+                  RowSpacing="12">
+                <!-- Cart card: header + items in ONE bordered panel (fills column height) -->
+                <Border Grid.Row="0"
+                        VerticalOptions="Fill"
+                        BackgroundColor="{StaticResource White}"
+                        Stroke="{StaticResource PosBorder}"
+                        StrokeThickness="1"
+                        Padding="14"
+                        StrokeShape="RoundRectangle 16">
+                    <Grid RowDefinitions="Auto,Auto,*"
+                          VerticalOptions="Fill"
+                          RowSpacing="10">
+                        <Grid Grid.Row="0"
+                              ColumnDefinitions="*,Auto"
+                              ColumnSpacing="8">
+                            <Label Text="Detail Transaction"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Gray900}"
+                                   VerticalOptions="Center" />
+                            <Border Grid.Column="1"
+                                    Stroke="{StaticResource PosBorder}"
+                                    StrokeThickness="1"
+                                    BackgroundColor="{StaticResource White}"
+                                    Padding="8,4"
+                                    VerticalOptions="Center">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="14" />
+                                </Border.StrokeShape>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ResetOrderCommand}" />
+                                </Border.GestureRecognizers>
+                                <HorizontalStackLayout Spacing="4"
+                                                       VerticalOptions="Center">
+                                    <Label Text="🗑"
+                                           FontSize="10"
+                                           VerticalOptions="Center" />
+                                    <Label Text="Reset Order"
+                                           FontSize="11"
+                                           TextColor="{StaticResource Gray900}"
+                                           VerticalOptions="Center" />
+                                </HorizontalStackLayout>
+                            </Border>
+                        </Grid>
+                        <BoxView Grid.Row="1"
+                                 HeightRequest="1"
+                                 Color="{StaticResource PosBorder}" />
+                        <ScrollView Grid.Row="2"
+                                    VerticalOptions="Fill"
+                                    VerticalScrollBarVisibility="Default">
+                            <VerticalStackLayout Spacing="0"
+                                                 BindableLayout.ItemsSource="{Binding CartItems}">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate>
+                                        <components:PosCartLineView Title="{Binding Name}"
+                                                                    Description="{Binding Description}"
+                                                                    PriceText="{Binding LineTotal, StringFormat='${0:F2}'}"
+                                                                    QuantityText="{Binding Quantity}"
+                                                                    Size="{Binding Size}"
+                                                                    Color="{Binding Color}"
+                                                                    TotalText="{Binding LineTotal, StringFormat='Total ${0:F2}'}"
+                                                                    ImageSource="{Binding Image}"
+                                                                    CommandParameter="{Binding .}"
+                                                                    IncreaseCommand="{Binding Source={x:Reference Page}, Path=BindingContext.IncreaseQuantityCommand}"
+                                                                    DecreaseCommand="{Binding Source={x:Reference Page}, Path=BindingContext.DecreaseQuantityCommand}"
+                                                                    DeleteCommand="{Binding Source={x:Reference Page}, Path=BindingContext.DeleteCartItemCommand}" />
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </VerticalStackLayout>
+                        </ScrollView>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="1"
+                        BackgroundColor="{StaticResource White}"
+                        Stroke="{StaticResource PosBorder}"
+                        StrokeThickness="1"
+                        Padding="12"
+                        StrokeShape="RoundRectangle 12">
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <Label Text="🎁"
+                               FontSize="20"
+                               VerticalOptions="Center" />
+                        <VerticalStackLayout Grid.Column="1" Spacing="2" Margin="8,0">
+                            <Label Text="Promo New User (10%)"
+                                   FontAttributes="Bold"
+                                   FontSize="13" />
+                            <Label Text="Discount applied automatically"
+                                   FontSize="11"
+                                   TextColor="{StaticResource PosTextMuted}" />
+                        </VerticalStackLayout>
+                        <Button Grid.Column="2"
+                                Text="Change Promo"
+                                BackgroundColor="#C4F57A"
+                                TextColor="{StaticResource Gray900}"
+                                Padding="10,6"
+                                FontSize="12"
+                                CornerRadius="16"
+                                BorderWidth="0" />
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="2"
+                        BackgroundColor="{StaticResource White}"
+                        Stroke="{StaticResource PosBorder}"
+                        StrokeThickness="1"
+                        Padding="16"
+                        StrokeShape="RoundRectangle 16">
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Sub-Total" TextColor="{StaticResource PosTextMuted}" FontSize="13" />
+                            <Label Grid.Column="1" Text="{Binding SubTotal, StringFormat='${0:F2}'}" FontSize="13" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Tax (12%)" TextColor="{StaticResource PosTextMuted}" FontSize="13" />
+                            <Label Grid.Column="1" Text="{Binding TaxAmount, StringFormat='${0:F2}'}" FontSize="13" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Discount" TextColor="{StaticResource PosTextMuted}" FontSize="13" />
+                            <Label Grid.Column="1" Text="{Binding DiscountAmount, StringFormat='-${0:F2}'}" FontSize="13" TextColor="{StaticResource Primary}" />
+                        </Grid>
+                        <BoxView HeightRequest="1" Color="{StaticResource PosBorder}" Margin="0,4" />
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Total Payment" FontAttributes="Bold" FontSize="15" />
+                            <Label Grid.Column="1"
+                                   Text="{Binding TotalPayment, StringFormat='${0:F2}'}"
+                                   FontAttributes="Bold"
+                                   FontSize="17"
+                                   TextColor="{StaticResource Gray900}" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Grid.Row="3"
+                        BackgroundColor="{StaticResource White}"
+                        Stroke="{StaticResource PosBorder}"
+                        StrokeThickness="1"
+                        Padding="12"
+                        StrokeShape="RoundRectangle 12">
+                    <Grid ColumnDefinitions="Auto,*,Auto">
+                        <HorizontalStackLayout Spacing="6">
+                            <Ellipse WidthRequest="24"
+                                     HeightRequest="24"
+                                     Fill="#EB001B" />
+                            <Ellipse WidthRequest="24"
+                                     HeightRequest="24"
+                                     Fill="#F79E1B"
+                                     Margin="-12,0,0,0" />
+                        </HorizontalStackLayout>
+                        <Label Grid.Column="1"
+                               Text="Credit Card"
+                               FontAttributes="Bold"
+                               FontSize="14"
+                               VerticalOptions="Center"
+                               Margin="8,0" />
+                        <Label Grid.Column="2"
+                               Text="Change Method ›"
+                               FontSize="12"
+                               TextColor="{StaticResource PosTextMuted}"
+                               VerticalOptions="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ChangePaymentMethodCommand}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Grid>
+                </Border>
+
+                <Button Grid.Row="4"
+                        Text="Continue"
+                        BackgroundColor="#C4F57A"
+                        TextColor="{StaticResource Gray900}"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        CornerRadius="28"
+                        HeightRequest="56"
+                        Padding="0"
+                        Command="{Binding ContinueCommand}" />
+            </Grid>
+        </Grid>
+
+        <!-- Phone -->
+        <ScrollView x:Name="NarrowLayout" IsVisible="True">
+            <VerticalStackLayout Padding="12" Spacing="12">
+                <SearchBar Style="{StaticResource PosSearchBar}"
+                           Placeholder="Search your decorations here..."
+                           Text="{Binding SearchText}" />
+                <CollectionView ItemsSource="{Binding Categories}"
+                                HeightRequest="52"
+                                SelectionMode="None"
+                                HorizontalScrollBarVisibility="Default">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Horizontal" ItemSpacing="0" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <components:PosCategoryTabView Title="{Binding Name}"
+                                                               Icon="{Binding Icon}"
+                                                               IsSelected="{Binding IsSelected}" />
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={x:Reference Page}, Path=BindingContext.SelectCategoryCommand}"
+                                                          CommandParameter="{Binding .}" />
+                                </Grid.GestureRecognizers>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <CollectionView ItemsSource="{Binding Products}"
+                                SelectionMode="None"
+                                HeightRequest="360">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="10" VerticalItemSpacing="10" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <components:PosProductCardView Title="{Binding Name}"
+                                                           Description="{Binding Description}"
+                                                           PriceText="{Binding Price, StringFormat='${0:F2}'}"
+                                                           StockBadgeText="{Binding StockCount, StringFormat='{0} Stock'}"
+                                                           ImageSource="{Binding Image}"
+                                                           CommandParameter="{Binding .}"
+                                                           AddCommand="{Binding Source={x:Reference Page}, Path=BindingContext.AddToCartCommand}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Label Text="Detail Items" Style="{StaticResource PosSectionTitle}" />
+                <Border BackgroundColor="{StaticResource White}"
+                        Stroke="{StaticResource PosBorder}"
+                        StrokeThickness="1"
+                        Padding="12"
+                        StrokeShape="RoundRectangle 16">
+                    <CollectionView ItemsSource="{Binding CartItems}"
+                                    SelectionMode="None"
+                                    HeightRequest="200">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <components:PosCartLineView Title="{Binding Name}"
+                                                            Description="{Binding Description}"
+                                                            PriceText="{Binding LineTotal, StringFormat='${0:F2}'}"
+                                                            QuantityText="{Binding Quantity}"
+                                                            ImageSource="{Binding Image}"
+                                                            CommandParameter="{Binding .}"
+                                                            IncreaseCommand="{Binding Source={x:Reference Page}, Path=BindingContext.IncreaseQuantityCommand}"
+                                                            DecreaseCommand="{Binding Source={x:Reference Page}, Path=BindingContext.DecreaseQuantityCommand}" />
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Border>
+                <Button Text="Place an Order"
+                        Style="{StaticResource PosPrimaryButton}"
+                        Command="{Binding PlaceOrderCommand}" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EnterprisePOS.Components.PosCategoryTabView"
+             x:Name="Root">
+    <VerticalStackLayout Spacing="8"
+                         Padding="14,10,14,0"
+                         MinimumWidthRequest="120">
+        <HorizontalStackLayout Spacing="8"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center">
+            <Border WidthRequest="26"
+                    HeightRequest="26"
+                    StrokeThickness="0"
+                    BackgroundColor="{StaticResource Gray100}"
+                    VerticalOptions="Center">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="8" />
+                </Border.StrokeShape>
+                <Label Text="{Binding Source={x:Reference Root}, Path=Icon}"
+                       FontSize="14"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center" />
+            </Border>
+            <Label Text="{Binding Source={x:Reference Root}, Path=Title}"
+                   FontSize="13"
+                   TextColor="{StaticResource Gray600}"
+                   VerticalOptions="Center"
+                   LineBreakMode="NoWrap">
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label"
+                                 Binding="{Binding Source={x:Reference Root}, Path=IsSelected}"
+                                 Value="True">
+                        <Setter Property="FontAttributes" Value="Bold" />
+                        <Setter Property="TextColor" Value="{StaticResource Gray900}" />
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
+        </HorizontalStackLayout>
+        <BoxView HeightRequest="2"
+                 Color="{StaticResource Gray900}"
+                 HorizontalOptions="Fill"
+                 IsVisible="{Binding Source={x:Reference Root}, Path=IsSelected}" />
+    </VerticalStackLayout>
+</ContentView>
