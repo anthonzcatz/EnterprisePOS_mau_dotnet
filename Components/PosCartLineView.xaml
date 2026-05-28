@@ -35,27 +35,11 @@
                        TextColor="{StaticResource Gray900}"
                        LineBreakMode="TailTruncation"
                        MaxLines="1" />
-                <HorizontalStackLayout Spacing="6">
-                    <Border BackgroundColor="{StaticResource White}"
-                            StrokeThickness="0"
-                            Padding="8,3"
-                            StrokeShape="RoundRectangle 10"
-                            IsVisible="{Binding Source={x:Reference Root}, Path=Size, Converter={StaticResource StringNotEmptyConverter}}">
-                        <Label Text="{Binding Source={x:Reference Root}, Path=Size}"
-                               FontSize="10"
-                               TextColor="{StaticResource Gray500}" />
-                    </Border>
-                    <HorizontalStackLayout Spacing="4"
-                                           VerticalOptions="Center"
-                                           IsVisible="{Binding Source={x:Reference Root}, Path=Color, Converter={StaticResource StringNotEmptyConverter}}">
-                        <Ellipse WidthRequest="7"
-                                 HeightRequest="7"
-                                 Fill="{StaticResource Gray400}" />
-                        <Label Text="{Binding Source={x:Reference Root}, Path=Color}"
-                               FontSize="10"
-                               TextColor="{StaticResource Gray500}" />
-                    </HorizontalStackLayout>
-                </HorizontalStackLayout>
+                <Label Text="{Binding Source={x:Reference Root}, Path=Description}"
+                       FontSize="12"
+                       TextColor="{StaticResource PosTextMuted}"
+                       LineBreakMode="TailTruncation"
+                       MaxLines="1" />
             </VerticalStackLayout>
 
             <!-- Delete — fixed 20x20 (WinUI ignores small Button sizes) -->

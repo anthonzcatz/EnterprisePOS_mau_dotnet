@@ -1,7 +1,15 @@
+using System.Windows.Input;
+
 namespace EnterprisePOS.Components;
 
 public partial class PosCategoryTabView : ContentView
 {
+	public static readonly BindableProperty SelectCommandProperty =
+		BindableProperty.Create(nameof(SelectCommand), typeof(ICommand), typeof(PosCategoryTabView));
+
+	public static readonly BindableProperty CommandParameterProperty =
+		BindableProperty.Create(nameof(CommandParameter), typeof(object), typeof(PosCategoryTabView));
+
 	public static readonly BindableProperty TitleProperty =
 		BindableProperty.Create(nameof(Title), typeof(string), typeof(PosCategoryTabView), string.Empty);
 
@@ -41,5 +49,17 @@ public partial class PosCategoryTabView : ContentView
 	{
 		get => (bool)GetValue(IsSelectedProperty);
 		set => SetValue(IsSelectedProperty, value);
+	}
+
+	public ICommand? SelectCommand
+	{
+		get => (ICommand?)GetValue(SelectCommandProperty);
+		set => SetValue(SelectCommandProperty, value);
+	}
+
+	public object? CommandParameter
+	{
+		get => GetValue(CommandParameterProperty);
+		set => SetValue(CommandParameterProperty, value);
 	}
 }

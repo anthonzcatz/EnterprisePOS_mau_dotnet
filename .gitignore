@@ -1,3 +1,6 @@
 corehost_trace.txt
 bin/
 obj/
+certs/*.pfx
+certs/*.cer
+publish_*.log

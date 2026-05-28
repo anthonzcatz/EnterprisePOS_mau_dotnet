@@ -85,12 +85,26 @@
                    FontSize="15"
                    TextColor="{StaticResource Gray900}" />
 
-            <!-- ── Add to Cart — small outline pill ── -->
-            <Button Text="+ Add to Cart"
-                    Style="{StaticResource PosOutlineButton}"
-                    HorizontalOptions="Fill"
-                    Command="{Binding Source={x:Reference Root}, Path=AddCommand}"
-                    CommandParameter="{Binding Source={x:Reference Root}, Path=CommandParameter}" />
+            <!-- ── Add to Cart — Border+Tap works reliably on WinUI MSIX ── -->
+            <Border Stroke="{StaticResource Primary}"
+                    StrokeThickness="1.5"
+                    BackgroundColor="Transparent"
+                    Padding="12,8"
+                    HorizontalOptions="Fill">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Source={x:Reference Root}, Path=AddCommand}"
+                                        CommandParameter="{Binding Source={x:Reference Root}, Path=CommandParameter}" />
+                </Border.GestureRecognizers>
+                <Label Text="+ Add to Cart"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource Gray900}"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center" />
+            </Border>
         </VerticalStackLayout>
     </Border>
 </ContentView>

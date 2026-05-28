@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using EnterprisePOS.Helpers;
 using EnterprisePOS.Interfaces;
@@ -15,7 +15,17 @@ public sealed class POSViewModel : BaseViewModel
 	private string searchText = string.Empty;
 	private string selectedCategoryKey = "all";
 	private bool isSidebarCollapsed = true;
+	private bool isMobileSidebarOpen;
+	private bool isProfileMenuOpen;
 	private double availableWidth = 0;
+	private int paymentMethodIndex = 0;
+
+	private static readonly (string Label, string Icon)[] PaymentMethods =
+	[
+		("Cash", "💵"),
+		("GCash", "📱"),
+		("Credit Card", "💳")
+	];
 
 	public POSViewModel(IPosService posService)
 	{
@@ -30,6 +40,11 @@ public sealed class POSViewModel : BaseViewModel
 		ContinueCommand = new Command(async () => await ContinueAsync());
 		ChangePaymentMethodCommand = new Command(ChangePaymentMethod);
 		ToggleSidebarCommand = new Command(ToggleSidebar);
+		OpenMobileSidebarCommand = new Command(OpenMobileSidebar);
+		CloseMobileSidebarCommand = new Command(CloseMobileSidebar);
+		ToggleProfileMenuCommand = new Command(ToggleProfileMenu);
+		CloseProfileMenuCommand = new Command(CloseProfileMenu);
+		ProfileMenuCommand = new Command<PosNavItem>(SelectProfileMenuItem);
 		NavigateCommand = new Command<PosNavItem>(Navigate);
 	}
 
@@ -37,6 +52,7 @@ public sealed class POSViewModel : BaseViewModel
 	public ObservableCollection<CartItem> CartItems { get; } = [];
 	public ObservableCollection<ProductCategory> Categories { get; } = [];
 	public ObservableCollection<PosNavItem> NavItems { get; } = [];
+	public ObservableCollection<PosNavItem> ProfileMenuItems { get; } = [];
 
 	public Command<Product> AddToCartCommand { get; }
 	public Command<CartItem> IncreaseQuantityCommand { get; }
@@ -48,11 +64,24 @@ public sealed class POSViewModel : BaseViewModel
 	public Command ContinueCommand { get; }
 	public Command ChangePaymentMethodCommand { get; }
 	public Command ToggleSidebarCommand { get; }
+	public Command OpenMobileSidebarCommand { get; }
+	public Command CloseMobileSidebarCommand { get; }
+	public Command ToggleProfileMenuCommand { get; }
+	public Command CloseProfileMenuCommand { get; }
+	public Command<PosNavItem> ProfileMenuCommand { get; }
 	public Command<PosNavItem> NavigateCommand { get; }
+
+	public double MobileSidebarWidth => Math.Min(260, availableWidth > 0 ? availableWidth * 0.7 : 240);
+
+	public string StoreName { get; } = "Dos Avenue";
+	public string StoreTagline { get; } = "Coffee · Pastries · Good days";
 
 	public string CashierName { get; } = "Antonella";
 	public string CashierRole { get; } = "Cashier";
 	public string CashierImageUrl { get; } = "https://picsum.photos/seed/cashier/80/80";
+
+	public string PaymentMethodLabel => PaymentMethods[paymentMethodIndex].Label;
+	public string PaymentMethodIcon => PaymentMethods[paymentMethodIndex].Icon;
 
 	public bool IsSidebarCollapsed
 	{
@@ -69,6 +98,20 @@ public sealed class POSViewModel : BaseViewModel
 	public GridLength SidebarGridLength =>
 		new(IsSidebarCollapsed ? SidebarCollapsedWidth : SidebarExpandedWidth);
 
+	public bool IsMobileSidebarOpen
+	{
+		get => isMobileSidebarOpen;
+		set => SetProperty(ref isMobileSidebarOpen, value);
+	}
+
+	public bool IsProfileMenuOpen
+	{
+		get => isProfileMenuOpen;
+		set => SetProperty(ref isProfileMenuOpen, value);
+	}
+
+	public string SelectedCategoryName => Categories.FirstOrDefault(category => category.IsSelected)?.Name ?? "All Menu";
+
 	public int ProductGridSpan
 	{
 		get
@@ -84,6 +127,7 @@ public sealed class POSViewModel : BaseViewModel
 	{
 		availableWidth = width;
 		OnPropertyChanged(nameof(ProductGridSpan));
+		OnPropertyChanged(nameof(MobileSidebarWidth));
 	}
 
 	public string SearchText
@@ -120,6 +164,7 @@ public sealed class POSViewModel : BaseViewModel
 		try
 		{
 			LoadNavItems();
+			LoadProfileMenuItems();
 			LoadCategories();
 
 			allProducts = (await posService.GetProductsAsync()).ToList();
@@ -136,32 +181,74 @@ public sealed class POSViewModel : BaseViewModel
 	private void LoadNavItems()
 	{
 		NavItems.Clear();
-		NavItems.Add(new PosNavItem { Key = "home",      Title = "Home",      Glyph = "⌂" });
-		NavItems.Add(new PosNavItem { Key = "pos",       Title = "POS",       Glyph = "▦",  IsActive = true });
-		NavItems.Add(new PosNavItem { Key = "orders",    Title = "Orders",    Glyph = "🛒" });
-		NavItems.Add(new PosNavItem { Key = "history",   Title = "History",   Glyph = "🕐" });
-		NavItems.Add(new PosNavItem { Key = "customers", Title = "Customers", Glyph = "👤" });
-		NavItems.Add(new PosNavItem { Key = "links",     Title = "Links",     Glyph = "🔗" });
+		NavItems.Add(new PosNavItem { Key = "home", Title = "Home", Glyph = "\uE80F" });
+		NavItems.Add(new PosNavItem { Key = "pos", Title = "Register", Glyph = "\uE719", IsActive = true });
+		NavItems.Add(new PosNavItem { Key = "orders", Title = "Orders", Glyph = "\uE7BF" });
+		NavItems.Add(new PosNavItem { Key = "kitchen", Title = "Kitchen", Glyph = "\uE790" });
+		NavItems.Add(new PosNavItem { Key = "customers", Title = "Guests", Glyph = "\uE77B" });
+		NavItems.Add(new PosNavItem { Key = "reports", Title = "Reports", Glyph = "\uE9D2" });
+	}
+
+	private void LoadProfileMenuItems()
+	{
+		ProfileMenuItems.Clear();
+		ProfileMenuItems.Add(new PosNavItem { Key = "shift-summary", Title = "Shift summary", Glyph = "⏱" });
+		ProfileMenuItems.Add(new PosNavItem { Key = "sales-report", Title = "Sales report", Glyph = "📈" });
+		ProfileMenuItems.Add(new PosNavItem { Key = "notes", Title = "Cashier notes", Glyph = "📝" });
+		ProfileMenuItems.Add(new PosNavItem { Key = "logout", Title = "Sign out", Glyph = "↪" });
 	}
 
 	private void LoadCategories()
 	{
 		Categories.Clear();
-		Categories.Add(new ProductCategory { Key = "all", Name = "All Decorations", Icon = "▦", IsSelected = true });
-		Categories.Add(new ProductCategory { Key = "plants", Name = "Artificial Plants", Icon = "🌿" });
-		Categories.Add(new ProductCategory { Key = "flowers", Name = "Artificial Flowers", Icon = "🌸" });
-		Categories.Add(new ProductCategory { Key = "pots", Name = "Plant Pots", Icon = "🪴" });
-		Categories.Add(new ProductCategory { Key = "vases", Name = "Vases & Bowls", Icon = "🏺" });
-		Categories.Add(new ProductCategory { Key = "candles", Name = "Candles", Icon = "🕯" });
-		Categories.Add(new ProductCategory { Key = "lights", Name = "String Lights", Icon = "💡" });
-		Categories.Add(new ProductCategory { Key = "tools", Name = "Garden Tools", Icon = "🔧" });
-		Categories.Add(new ProductCategory { Key = "seasonal", Name = "Seasonal", Icon = "🎄" });
+		Categories.Add(new ProductCategory { Key = "all", Name = "All Menu", Icon = "☕", IsSelected = true });
+		Categories.Add(new ProductCategory { Key = "coffee", Name = "Coffee", Icon = "☕" });
+		Categories.Add(new ProductCategory { Key = "espresso", Name = "Espresso", Icon = "◉" });
+		Categories.Add(new ProductCategory { Key = "tea", Name = "Tea", Icon = "🍵" });
+		Categories.Add(new ProductCategory { Key = "pastries", Name = "Pastries", Icon = "🥐" });
+		Categories.Add(new ProductCategory { Key = "sandwiches", Name = "Bites", Icon = "🥪" });
+		Categories.Add(new ProductCategory { Key = "cold", Name = "Cold Drinks", Icon = "🧊" });
+		Categories.Add(new ProductCategory { Key = "seasonal", Name = "Seasonal", Icon = "✨" });
 		SelectedCategoryKey = "all";
+		OnPropertyChanged(nameof(SelectedCategoryName));
 	}
 
 	private void ToggleSidebar()
 	{
 		IsSidebarCollapsed = !IsSidebarCollapsed;
+	}
+
+	private void OpenMobileSidebar()
+	{
+		IsSidebarCollapsed = false;
+		IsProfileMenuOpen = false;
+		IsMobileSidebarOpen = true;
+	}
+
+	private void CloseMobileSidebar()
+	{
+		IsMobileSidebarOpen = false;
+	}
+
+	private void ToggleProfileMenu()
+	{
+		IsMobileSidebarOpen = false;
+		IsProfileMenuOpen = !IsProfileMenuOpen;
+	}
+
+	private void CloseProfileMenu()
+	{
+		IsProfileMenuOpen = false;
+	}
+
+	private void SelectProfileMenuItem(PosNavItem? item)
+	{
+		if (item is null)
+		{
+			return;
+		}
+
+		IsProfileMenuOpen = false;
 	}
 
 	private void Navigate(PosNavItem? item)
@@ -175,6 +262,9 @@ public sealed class POSViewModel : BaseViewModel
 		{
 			nav.IsActive = nav.Key == item.Key;
 		}
+
+		IsProfileMenuOpen = false;
+		IsMobileSidebarOpen = false;
 	}
 
 	private void SelectCategory(ProductCategory? category)
@@ -190,6 +280,7 @@ public sealed class POSViewModel : BaseViewModel
 			cat.IsSelected = cat.Key == category.Key;
 		}
 
+		OnPropertyChanged(nameof(SelectedCategoryName));
 		ApplyFilter();
 	}
 
@@ -305,9 +396,11 @@ public sealed class POSViewModel : BaseViewModel
 			"OK");
 	}
 
-	private static void ChangePaymentMethod()
+	private void ChangePaymentMethod()
 	{
-		// TODO: Show payment method selection
+		paymentMethodIndex = (paymentMethodIndex + 1) % PaymentMethods.Length;
+		OnPropertyChanged(nameof(PaymentMethodLabel));
+		OnPropertyChanged(nameof(PaymentMethodIcon));
 	}
 
 	private void NotifyTotals()
@@ -328,7 +421,7 @@ public sealed class POSViewModel : BaseViewModel
 
 		await page.DisplayAlertAsync(
 			"Order placed",
-			"Payment integration can connect here (card, cash, e-wallet).",
+			"Payment integration can connect here (cash, card, e-wallet).",
 			"OK");
 	}
 }

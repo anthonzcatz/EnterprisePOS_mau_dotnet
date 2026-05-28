@@ -1,180 +1,145 @@
 # EnterprisePOS Implementation Roadmap
 
-> Enterprise cross-platform POS & business management UI — .NET MAUI, MVVM, responsive Shell.
+> Copied from Cursor plan `enterprisepos_roadmap_45971317.plan.md` for version control in this repo.
 
-**Last reviewed:** 2026-05-27
+## Direction and Scope
 
-## Status legend
+Build in phases starting with UI foundation + responsive shell + Dashboard + POS (mock/local services first), then integrate API/MySQL/SignalR. This minimizes rework and gives visible progress early.
 
-| Mark | Meaning |
-|------|---------|
-| `[x]` | **Done** — in repo and current build |
-| `[~]` | **Partial** — started, not complete or not on all platforms |
-| `[ ]` | **Not started** |
+## Folder Structure Decision
 
----
+Your proposed structure is good and should be kept, with a few additions for enterprise scaling.
 
-## Platform support (single codebase)
+Recommended structure:
 
-| Platform | TFM | Build | Responsive UI |
-|----------|-----|-------|-----------------|
-| Windows desktop | `net10.0-windows10.0.19041.0` | `[x]` | `[x]` POS wide/narrow + Shell flyout |
-| Android phone | `net10.0-android` | `[x]` | `[~]` TabBar + stacked POS |
-| Android tablet | `net10.0-android` | `[x]` | `[~]` Flyout + POS wide layout |
-| iOS | `net10.0-ios` | `[~]` | `[~]` same patterns (verify on device) |
-| Mac desktop | `net10.0-maccatalyst` | `[~]` | `[~]` same as Windows (verify) |
+- `Views/`
+- `ViewModels/`
+- `Models/`
+- `Services/`
+- `Repositories/`
+- `Components/`
+- `Themes/`
+- `Helpers/`
+- `Interfaces/`
+- `DTOs/`
+- `Validators/`
+- `Configurations/`
+- `State/` (session/cart/app state)
+- `Navigation/` (route names, navigation service)
+- `Infrastructure/` (api client, auth handlers, persistence adapters)
 
-**Run Windows:** `.\run.ps1` or `bin\Debug\net10.0-windows10.0.19041.0\win-x64\EnterprisePOS.exe`
+## Target Architecture
 
----
+```mermaid
+flowchart LR
+    UI[Views+Components] --> VM[ViewModels]
+    VM --> Svc[Services]
+    Svc --> Repo[Repositories]
+    Repo --> Infra[Infrastructure]
+    Infra --> Api[ASP.NETCoreAPI]
+    Infra --> Db[MySQL]
+    VM --> State[StateStore]
+    Svc --> RT[SignalRClient]
+```
 
-## Folder structure — OK ba?
+## Immediate Implementation Checklist (Phase 1)
 
-| Folder | Status | Notes |
-|--------|--------|-------|
-| `Views/` | `[x]` | `POSPage`, `DashboardHomePage`, module placeholders |
-| `ViewModels/` | `[~]` | POS, Settings, Dashboard VMs |
-| `Models/` | `[x]` | Product, Cart, Category, Nav |
-| `Services/` | `[~]` | Mock POS/Dashboard, Theme, Shell nav |
-| `Repositories/` | `[~]` | `InMemoryRepository` stub |
-| `Components/` | `[x]` | POS cards, sidebar, category tabs, cart line |
-| `Themes/` | `[~]` | Light/Dark/Tokens in repo — **excluded from build** (WinUI) |
-| `Helpers/` | `[x]` | BaseViewModel, ServiceHelper, converters, **LayoutBreakpoints** |
-| `Interfaces/` | `[~]` | IPos, IDashboard, INavigation, IApi, IRepository |
-| `DTOs/` | `[~]` | Folder + README (contracts next) |
-| `Validators/` | `[~]` | Folder + README |
-| `Configurations/` | `[x]` | `AppSettings.cs` (API/SignalR URLs, mock flag) |
-| `Navigation/` | `[x]` | `Routes.cs` |
-| `Resources/` | `[x]` | MAUI **Assets** equivalent: Images, Fonts, Styles |
-| `docs/` | `[x]` | This roadmap |
+1. **Foundation setup (MVVM-first)**
+   - Introduce base abstractions (`BaseViewModel`, `INavigationService`, `IApiService`, `IRepository<T>`)
+   - Register services/viewmodels in DI from [`MauiProgram.cs`](../MauiProgram.cs)
+   - Replace code-behind interactions in pages with commands/properties
 
-**Hindi kailangan hiwalay na `Assets/`** sa MAUI — gamitin `Resources/` (Images, Fonts, Raw, Styles). OK ang structure mo kung `Assets` = `Resources`.
+2. **Responsive Shell and navigation system**
+   - Rework [`AppShell.xaml`](../AppShell.xaml) to support:
+     - Desktop/tablet: sidebar (Flyout)
+     - Mobile: bottom tabs for primary modules
+   - Add centralized routes in `Navigation/Routes.cs`
 
----
+3. **Theme system and design tokens**
+   - Move from basic style files to semantic tokens in [`Resources/Styles/Colors.xaml`](../Resources/Styles/Colors.xaml) and [`Resources/Styles/Styles.xaml`](../Resources/Styles/Styles.xaml)
+   - Add Light/Dark dictionaries and runtime theme switching service
+   - Standardize spacing, radius, shadows, and typography tokens
 
-## Recommended immediate goals — status
+4. **Core reusable UI components**
+   - Create `Components/` controls: metric card, section header, searchable list toolbar, empty-state, primary action button
+   - Ensure touch-friendly minimum sizes for tablet POS terminals
 
-| Goal | Status |
+5. **Dashboard + POS initial module slice**
+   - Replace template [`MainPage.xaml`](../MainPage.xaml) with role-ready dashboard shell page
+   - Add `Views/DashboardPage.xaml` + `DashboardViewModel`
+   - Add `Views/POSPage.xaml` + `POSViewModel` with:
+     - product grid, category filter, search, cart summary, checkout panel
+     - mock service-backed async data loading
+
+## Phase 2 (Business Modules UI Skeleton)
+
+- Add navigation-ready pages + viewmodels for:
+  - Products, Inventory, Booking, Customers, Reports, Users/Roles, Notifications, Logs, Settings, Branches, Payments
+- Add role/permission-ready menu visibility model
+- Introduce shared list/detail page templates
+
+## Phase 3 (Data and Integration Layer)
+
+- API-first contracts (`DTOs/`, `Interfaces/`, mappers)
+- ASP.NET Core API client setup with auth token pipeline
+- Repository implementations backed by API + local cache fallback
+- MySQL-ready backend contract alignment
+
+## Phase 4 (Realtime, Offline, Hardware)
+
+- SignalR event channels (inventory changes, dashboard activity, order updates)
+- Offline queue/sync strategy for POS transactions
+- Hardware adapter interfaces for barcode, thermal printer, cash drawer, QR
+
+## Phase 5 (Hardening and Enterprise Readiness)
+
+- Validation framework + global error handling + logging pipeline
+- Performance passes (paging, lazy loading, virtualization-ready lists)
+- Accessibility and touch ergonomics review
+- Cross-device QA matrix (Windows, Android phone/tablet, iOS, MacCatalyst)
+
+## Definition of Done Per Module
+
+- MVVM bindings only (no business logic in code-behind)
+- Responsive layouts for desktop/tablet/mobile
+- Themed with semantic tokens only (no hardcoded colors)
+- Async service calls with loading/error/empty states
+- Navigation and permission hooks prepared
+
+## Execution Order
+
+- Sprint 1: Foundation + AppShell responsive + theme tokens
+- Sprint 2: Dashboard + POS (mock data)
+- Sprint 3: Remaining module skeletons + reusable components expansion
+- Sprint 4: API/MySQL integration + auth + repositories
+- Sprint 5: SignalR/offline/hardware adapters + optimization
+
+## Current Progress Snapshot
+
+| Area | Status |
 |------|--------|
-| Responsive AppShell | `[~]` Flyout/TabBar not enabled right now (POS-only stable due to WinUI crash) |
-| Sidebar navigation | `[x]` Shell flyout modules + POS internal `PosSidebarView` |
-| Tablet layout | `[x]` POS 3-column ≥900px; flyout collapsible |
-| POS screen | `[x]` Reference UI: navbar, categories, grid, cart |
-| Mobile bottom navigation | `[ ]` TabBar temporarily disabled (re-enable after stability) |
-| Reusable components | `[x]` PosProductCard, PosCartLine, PosCategoryTab, PosSidebar |
-| Theme system | `[~]` ThemeService + Settings; full token dictionaries excluded |
-| MVVM + DI | `[x]` MauiProgram registrations |
-| Scalable folders | `[x]` DTOs, Repositories, Configurations added |
+| MVVM + DI foundation | Done (base classes, mock services) |
+| POS module (tablet/laptop layout) | Done — sidebar, catalog, cart panel |
+| Responsive breakpoint (~900px) | Done on `POSPage` |
+| Dashboard | In repo; excluded from build until WinUI-stable |
+| Semantic `Themes/` dictionaries | In repo; excluded from build until safe merge |
+| Flyout / bottom tabs shell | Planned (Sprint 1) |
+| API / MySQL / SignalR | Phase 3–4 |
+| Windows portable publish | Documented — see [PUBLISH_WINDOWS.md](PUBLISH_WINDOWS.md) |
+| Windows MSIX installer | Script [`publish-msix.ps1`](../publish-msix.ps1) + [PUBLISH_WINDOWS.md](PUBLISH_WINDOWS.md) |
 
----
+## Windows packaging (desktop)
 
-## Phase 1 — Foundation & core UI
+Full step-by-step instructions (dev run, portable folder, MSIX, cert trust, troubleshooting): **[PUBLISH_WINDOWS.md](PUBLISH_WINDOWS.md)**
 
-### 1. Foundation (MVVM-first)
+Quick reference:
 
-- [x] `BaseViewModel`, `ServiceHelper`
-- [x] `INavigationService` + `ShellNavigationService` (registered in DI)
-- [~] `IApiService`, `IRepository<T>` (interfaces only)
-- [x] DI: POS, Settings, Theme, Dashboard mock, all module pages
-- [x] Code-behind: layout breakpoints only (no business logic in POS page)
+| Goal | Command |
+|------|---------|
+| Live preview (auto rebuild on save) | `.\watch.ps1` |
+| Run during development (one-off) | `.\run.ps1` |
+| XAML Hot Reload (fastest UI) | Visual Studio F5 — see [PUBLISH_WINDOWS.md](PUBLISH_WINDOWS.md) |
+| Portable Release folder | `dotnet publish -c Release -f net10.0-windows10.0.19041.0 -p:WindowsPackageType=None` |
+| Signed MSIX installer | `.\publish-msix.ps1` |
 
-### 2. Responsive shell & navigation
-
-- [~] `AppShell` — responsive flyout/tabbar to re-enable (POS-only currently stable)
-- [x] `LayoutBreakpoints` (599 / 900)
-- [~] `ApplyResponsiveChrome` (re-enable after WinUI stability)
-- [x] `Routes.cs` + route registration
-- [x] POS page: wide (sidebar + catalog + cart) vs narrow (stacked) at **900px**
-
-### 3. Theme system
-
-- [x] `Colors.xaml`, `PosStyles.xaml`, global `Styles.xaml`
-- [x] `ThemeService` + Settings dark/light toggle
-- [~] `Themes/*.xaml` excluded from build (re-enable when WinUI-safe)
-- [ ] Semantic tokens only app-wide
-
-### 4. Reusable components
-
-| Component | Status |
-|-----------|--------|
-| PosProductCardView | `[x]` |
-| PosCartLineView | `[x]` |
-| PosCategoryTabView | `[x]` icons + underline |
-| PosSidebarView | `[x]` collapsible |
-| MetricCardView | `[~]` excluded (Dashboard) |
-| Empty state | `[ ]` |
-
-### 5. POS module (active)
-
-- [x] Top navbar: search, compact Create Note, chat/bell, cashier avatar
-- [x] Categories: icons, horizontal scroll, centered when few items
-- [x] Product grid (responsive span)
-- [x] Cart card: Detail Transaction + Reset inside bordered panel
-- [x] Cart line: compact remove / + / −
-- [x] Promo, summary, payment, Continue
-- [x] Mock data + cart logic
-
-### 6. Dashboard
-
-- [x] `DashboardHomePage` placeholder KPI cards (in build)
-- [~] Full `DashboardPage` + charts (excluded from build)
-
-### 7. Other modules
-
-- [~] Products, Inventory, Booking, Settings — placeholder pages in Shell
-
----
-
-## Phase 2–5 (unchanged priorities)
-
-- [ ] Customers, Reports, Users, Notifications, Logs, Branches, Payments
-- [ ] API + MySQL + JWT
-- [ ] SignalR realtime
-- [ ] Offline sync, hardware (printer, scanner, drawer)
-- [ ] Validation, logging, paging, accessibility pass
-
----
-
-## Sprint order
-
-| Sprint | Focus | Status |
-|--------|--------|--------|
-| **Sprint 1** | Foundation + responsive shell + theme | `[~]` **mostly done** |
-| **Sprint 2** | Dashboard + POS mock | `[~]` POS done; Dashboard placeholder |
-| **Sprint 3** | Module skeletons | `[~]` in Shell nav |
-| **Sprint 4** | API / MySQL | `[ ]` |
-| **Sprint 5** | SignalR / offline / hardware | `[ ]` |
-
----
-
-## What you did right (keep doing)
-
-- MVVM from the start  
-- Reusable `Components/`  
-- Responsive layouts (`LayoutBreakpoints`, POS wide/narrow)  
-- Modular folders (not one giant page)  
-- Mock services before API  
-
-## Avoid
-
-- One giant XAML page with all modules  
-- Logic in code-behind  
-- Hardcoded colors everywhere (migrate to tokens)  
-
----
-
-## Next steps (recommended order)
-
-1. Test on **Android emulator** (phone + tablet width) — TabBar + POS narrow layout  
-2. Re-enable **DashboardPage** / **MetricCardView** safely on Windows  
-3. Wire **POS internal sidebar** → Shell `GoToAsync` (remove duplicate nav)  
-4. **Barcode** entry on POS search  
-5. Phase 3: **DTOs** + API client implementation  
-
----
-
-## How to update this doc
-
-1. Change `[ ]` → `[x]` or `[~]`.  
-2. Update **Last reviewed** date.  
-3. Adjust **Next steps** when priorities change.
+`WindowsPackageType` stays **`None`** in the project file for normal builds; MSIX is enabled only at publish time so Debug/dev workflows stay stable.

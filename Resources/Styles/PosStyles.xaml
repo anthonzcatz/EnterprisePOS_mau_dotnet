@@ -77,6 +77,18 @@
         <Setter Property="HeightRequest" Value="36" />
     </Style>
 
+    <!-- ── Compact toolbar / icon chips ── -->
+    <Style x:Key="PosIconButton" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+        <Setter Property="Stroke" Value="{StaticResource PosBorder}" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="Padding" Value="10,8" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="StrokeShape">
+            <RoundRectangle CornerRadius="12" />
+        </Setter>
+    </Style>
+
     <!-- ── Compact search bar (slimmer navbar) ── -->
     <Style x:Key="PosSearchBarCompact" TargetType="SearchBar">
         <Setter Property="BackgroundColor" Value="{StaticResource Gray100}" />

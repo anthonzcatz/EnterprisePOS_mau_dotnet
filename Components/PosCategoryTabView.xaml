@@ -6,6 +6,10 @@
     <VerticalStackLayout Spacing="8"
                          Padding="14,10,14,0"
                          MinimumWidthRequest="120">
+        <VerticalStackLayout.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding Source={x:Reference Root}, Path=SelectCommand}"
+                                CommandParameter="{Binding Source={x:Reference Root}, Path=CommandParameter}" />
+        </VerticalStackLayout.GestureRecognizers>
         <HorizontalStackLayout Spacing="8"
                                HorizontalOptions="Center"
                                VerticalOptions="Center">
@@ -34,6 +38,20 @@
                                  Binding="{Binding Source={x:Reference Root}, Path=IsSelected}"
                                  Value="True">
                         <Setter Property="FontAttributes" Value="Bold" />
+                        <Setter Property="TextColor" Value="{StaticResource Gray900}" />
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
+            <Label Text="›"
+                   FontSize="16"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource Gray300}"
+                   VerticalOptions="Center"
+                   IsVisible="{Binding Source={x:Reference Root}, Path=IsSelected}">
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label"
+                                 Binding="{Binding Source={x:Reference Root}, Path=IsSelected}"
+                                 Value="True">
                         <Setter Property="TextColor" Value="{StaticResource Gray900}" />
                     </DataTrigger>
                 </Label.Triggers>

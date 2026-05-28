@@ -26,7 +26,7 @@
 
 
 
-		<ApplicationTitle>EnterprisePOS</ApplicationTitle>
+		<ApplicationTitle>Dos Avenue</ApplicationTitle>
 
 		<ApplicationId>com.companyname.enterprisepos</ApplicationId>
 
@@ -36,7 +36,11 @@
 
 
 
+		<!-- Use None for self-contained publish, or MSIX for installer -->
 		<WindowsPackageType>None</WindowsPackageType>
+
+		<!-- Suppress XamlC warnings -->
+		<NoWarn>$(NoWarn);XC0022;XC0025;XC0024;XC0045</NoWarn>
 
 
 
