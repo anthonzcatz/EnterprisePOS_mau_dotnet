@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EnterprisePOS.Features.Dashboard.Views.SimpleDashboardPage"
+             Title="Dashboard">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            
+            <!-- Header -->
+            <Label Text="EnterprisePOS Dashboard"
+                   FontSize="32"
+                   FontAttributes="Bold"
+                   TextColor="#1A1D2E"
+                   HorizontalOptions="Center"/>
+            
+            <Label Text="Welcome back! Here's your business overview."
+                   FontSize="16"
+                   TextColor="#6C757D"
+                   HorizontalOptions="Center"/>
+            
+            <BoxView HeightRequest="1" Color="#E9ECEF" Margin="0,10"/>
+            
+            <!-- KPI Cards Grid -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10" RowSpacing="10">
+                
+                <!-- Today's Sales -->
+                <Frame Grid.Column="0" BackgroundColor="White" CornerRadius="12" Padding="15" HasShadow="True">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Today's Sales" FontSize="14" TextColor="#6C757D"/>
+                        <Label Text="₱12,450" FontSize="24" FontAttributes="Bold" TextColor="#1A1D2E"/>
+                        <Label Text="+15% from yesterday" FontSize="12" TextColor="#00D97E"/>
+                    </VerticalStackLayout>
+                </Frame>
+                
+                <!-- Total Orders -->
+                <Frame Grid.Column="1" BackgroundColor="White" CornerRadius="12" Padding="15" HasShadow="True">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Total Orders" FontSize="14" TextColor="#6C757D"/>
+                        <Label Text="48" FontSize="24" FontAttributes="Bold" TextColor="#1A1D2E"/>
+                        <Label Text="+12% from yesterday" FontSize="12" TextColor="#00D97E"/>
+                    </VerticalStackLayout>
+                </Frame>
+                
+                <!-- Revenue -->
+                <Frame Grid.Column="0" BackgroundColor="White" CornerRadius="12" Padding="15" HasShadow="True">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Revenue" FontSize="14" TextColor="#6C757D"/>
+                        <Label Text="₱15,890" FontSize="24" FontAttributes="Bold" TextColor="#1A1D2E"/>
+                        <Label Text="+8% from yesterday" FontSize="12" TextColor="#00D97E"/>
+                    </VerticalStackLayout>
+                </Frame>
+                
+                <!-- Customers -->
+                <Frame Grid.Column="1" BackgroundColor="White" CornerRadius="12" Padding="15" HasShadow="True">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Customers" FontSize="14" TextColor="#6C757D"/>
+                        <Label Text="23" FontSize="24" FontAttributes="Bold" TextColor="#1A1D2E"/>
+                        <Label Text="+5% from yesterday" FontSize="12" TextColor="#00D97E"/>
+                    </VerticalStackLayout>
+                </Frame>
+            </Grid>
+            
+            <!-- Additional KPIs -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10" RowSpacing="10">
+                <Frame Grid.Column="0" BackgroundColor="White" CornerRadius="12" Padding="15" HasShadow="True">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Low Stock" FontSize="14" TextColor="#6C757D"/>
+                        <Label Text="5" FontSize="24" FontAttributes="Bold" TextColor="#E63757"/>
+                        <Label Text="Items need restock" FontSize="12" TextColor="#6C757D"/>
+                    </VerticalStackLayout>
+                </Frame>
+                
+                <Frame Grid.Column="1" BackgroundColor="White" CornerRadius="12" Padding="15" HasShadow="True">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Pending Orders" FontSize="14" TextColor="#6C757D"/>
+                        <Label Text="3" FontSize="24" FontAttributes="Bold" TextColor="#F6C343"/>
+                        <Label Text="Awaiting processing" FontSize="12" TextColor="#6C757D"/>
+                    </VerticalStackLayout>
+                </Frame>
+                
+                <Frame Grid.Column="0" BackgroundColor="White" CornerRadius="12" Padding="15" HasShadow="True">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Active Terminals" FontSize="14" TextColor="#6C757D"/>
+                        <Label Text="4" FontSize="24" FontAttributes="Bold" TextColor="#2C7BE5"/>
+                        <Label Text="Online now" FontSize="12" TextColor="#6C757D"/>
+                    </VerticalStackLayout>
+                </Frame>
+                
+                <Frame Grid.Column="1" BackgroundColor="White" CornerRadius="12" Padding="15" HasShadow="True">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Total Products" FontSize="14" TextColor="#6C757D"/>
+                        <Label Text="156" FontSize="24" FontAttributes="Bold" TextColor="#1A1D2E"/>
+                        <Label Text="In inventory" FontSize="12" TextColor="#6C757D"/>
+                    </VerticalStackLayout>
+                </Frame>
+            </Grid>
+            
+            <!-- Chart Placeholders -->
+            <BoxView HeightRequest="1" Color="#E9ECEF" Margin="0,10"/>
+            
+            <Label Text="Sales Analytics"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   TextColor="#1A1D2E"/>
+            
+            <!-- Sales Chart Placeholder -->
+            <Frame BackgroundColor="White" CornerRadius="12" Padding="20" HasShadow="True" HeightRequest="250">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Sales Trend (Last 7 Days)" FontSize="16" FontAttributes="Bold" TextColor="#1A1D2E"/>
+                    <BoxView HeightRequest="150" Color="#F9FAFD" CornerRadius="8"/>
+                    <Label Text="Chart will display sales data here" FontSize="12" TextColor="#95A5A6" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Frame>
+            
+            <!-- Payment Methods Chart Placeholder -->
+            <Frame BackgroundColor="White" CornerRadius="12" Padding="20" HasShadow="True" HeightRequest="250">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Payment Methods Distribution" FontSize="16" FontAttributes="Bold" TextColor="#1A1D2E"/>
+                    <BoxView HeightRequest="150" Color="#F9FAFD" CornerRadius="8"/>
+                    <Label Text="Chart will display payment data here" FontSize="12" TextColor="#95A5A6" HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Frame>
+            
+            <!-- Recent Orders Section -->
+            <BoxView HeightRequest="1" Color="#E9ECEF" Margin="0,10"/>
+            
+            <Label Text="Recent Orders"
+                   FontSize="20"
+                   FontAttributes="Bold"
+                   TextColor="#1A1D2E"/>
+            
+            <Frame BackgroundColor="White" CornerRadius="12" Padding="15" HasShadow="True">
+                <VerticalStackLayout Spacing="12">
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                        <Frame Grid.Column="0" BackgroundColor="#2C7BE5" WidthRequest="40" HeightRequest="40" CornerRadius="20" Padding="0">
+                            <Label Text="JD" TextColor="White" FontAttributes="Bold" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Frame>
+                        <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                            <Label Text="John Doe" FontSize="14" FontAttributes="Bold" TextColor="#1A1D2E"/>
+                            <Label Text="3 items · ₱450" FontSize="12" TextColor="#6C757D"/>
+                        </VerticalStackLayout>
+                        <Frame Grid.Column="2" BackgroundColor="#00D97E" CornerRadius="12" Padding="8,4" VerticalOptions="Center">
+                            <Label Text="Paid" TextColor="White" FontSize="12" FontAttributes="Bold"/>
+                        </Frame>
+                    </Grid>
+                    
+                    <BoxView HeightRequest="1" Color="#E9ECEF"/>
+                    
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                        <Frame Grid.Column="0" BackgroundColor="#F6C343" WidthRequest="40" HeightRequest="40" CornerRadius="20" Padding="0">
+                            <Label Text="MA" TextColor="White" FontAttributes="Bold" FontSize="14" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Frame>
+                        <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                            <Label Text="Maria Santos" FontSize="14" FontAttributes="Bold" TextColor="#1A1D2E"/>
+                            <Label Text="5 items · ₱890" FontSize="12" TextColor="#6C757D"/>
+                        </VerticalStackLayout>
+                        <Frame Grid.Column="2" BackgroundColor="#F6C343" CornerRadius="12" Padding="8,4" VerticalOptions="Center">
+                            <Label Text="Pending" TextColor="White" FontSize="12" FontAttributes="Bold"/>
+                        </Frame>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+            
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

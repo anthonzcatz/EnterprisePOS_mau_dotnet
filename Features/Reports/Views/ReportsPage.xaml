@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EnterprisePOS.Features.Reports.Views.ReportsPage"
+             Title="Reports">
+    <Grid RowDefinitions="Auto,Auto,*">
+        <!-- Header -->
+        <Frame Grid.Row="0" BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" 
+               Padding="20" Margin="0">
+            <Label Text="Reports" FontSize="28" FontAttributes="Bold" TextColor="White"/>
+        </Frame>
+
+        <!-- Report Type Selection -->
+        <Grid Grid.Row="1" Padding="15" ColumnDefinitions="*,*,*">
+            <Button Grid.Column="0" Text="Sales Report" Margin="5"/>
+            <Button Grid.Column="1" Text="Inventory Report" Margin="5"/>
+            <Button Grid.Column="2" Text="Revenue Report" Margin="5"/>
+        </Grid>
+
+        <!-- Content -->
+        <ScrollView Grid.Row="2">
+            <StackLayout Padding="15">
+                <Label Text="Reports and analytics coming soon..." 
+                       HorizontalOptions="Center" 
+                       VerticalOptions="Center"
+                       FontSize="18"
+                       TextColor="Gray"/>
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

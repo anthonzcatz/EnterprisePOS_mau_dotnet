@@ -1,0 +1,1 @@
+$proc = Start-Process "C:\xampp\htdocs\EnterprisePOS\bin\Debug\net10.0-windows10.0.19041.0\win-x64\EnterprisePOS.exe" -PassThru; Start-Sleep 5; if (Get-Process -Id $proc.Id -ErrorAction SilentlyContinue) { "RUNNING PID $($proc.Id)" } else { "EXITED code $($proc.ExitCode)" }

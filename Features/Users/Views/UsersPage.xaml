@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EnterprisePOS.Features.Users.Views.UsersPage"
+             Title="Users">
+    <Grid RowDefinitions="Auto,Auto,*">
+        <!-- Header -->
+        <Frame Grid.Row="0" BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" 
+               Padding="20" Margin="0">
+            <Label Text="Users" FontSize="28" FontAttributes="Bold" TextColor="White"/>
+        </Frame>
+
+        <!-- Search and Actions -->
+        <Grid Grid.Row="1" Padding="15" ColumnDefinitions="*,Auto">
+            <Entry Grid.Column="0" Placeholder="Search users..." Margin="0,0,10,0"/>
+            <Button Grid.Column="1" Text="Add User" WidthRequest="150"/>
+        </Grid>
+
+        <!-- Content -->
+        <ScrollView Grid.Row="2">
+            <StackLayout Padding="15">
+                <Label Text="User management coming soon..." 
+                       HorizontalOptions="Center" 
+                       VerticalOptions="Center"
+                       FontSize="18"
+                       TextColor="Gray"/>
+            </StackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

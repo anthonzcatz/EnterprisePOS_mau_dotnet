@@ -3,10 +3,8 @@
     "Windows Machine": {
       "commandName": "Project",
       "nativeDebugging": false,
-      "environmentVariables": {
-        "COREHOST_TRACE": "",
-        "COREHOST_TRACEFILE": ""
-      }
+      "targetFramework": "net10.0-windows10.0.19041.0",
+      "environmentVariables": {}
     }
   }
 }

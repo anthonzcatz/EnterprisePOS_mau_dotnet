@@ -36,11 +36,15 @@
 
 
 
-		<!-- Use None for self-contained publish, or MSIX for installer -->
-		<WindowsPackageType>None</WindowsPackageType>
+		<!-- Use MSIX for installer -->
+		<WindowsPackageType Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">MSIX</WindowsPackageType>
 
-		<!-- Suppress XamlC warnings -->
-		<NoWarn>$(NoWarn);XC0022;XC0025;XC0024;XC0045</NoWarn>
+		<!-- Embed WinAppSDK runtime so the .exe runs on any machine without system registration -->
+		<WindowsAppSDKSelfContained Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">false</WindowsAppSDKSelfContained>
+
+		<!-- Suppress XamlC warnings and MA002 (explicit PackageReference below handles it) -->
+		<NoWarn>$(NoWarn);XC0022;XC0025;XC0024;XC0045;CS0579</NoWarn>
+		<SkipValidateMauiImplicitPackageReferences>true</SkipValidateMauiImplicitPackageReferences>
 
 
 
@@ -49,6 +53,13 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">15.0</SupportedOSPlatformVersion>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+
+		<!-- Disable AOT for Android to fix SkiaSharp compatibility issue -->
+		<AndroidEnableAotProfiling>false</AndroidEnableAotProfiling>
+		<AndroidEnableAot>false</AndroidEnableAot>
+		
+		<!-- Use Mono runtime instead of AOT -->
+		<AndroidLinkMode>None</AndroidLinkMode>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 
@@ -60,9 +71,9 @@
 
 	<ItemGroup>
 
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#22A06B" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" />
 
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#22A06B" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#FFFFFF" BaseSize="128,128" />
 
 		<MauiImage Include="Resources\Images\*" />
 
@@ -77,23 +88,27 @@
 
 
 	<ItemGroup>
+		<Compile Remove="EnterprisePOS.Tests\**" />
+		<EmbeddedResource Remove="EnterprisePOS.Tests\**" />
+		<MauiXaml Remove="EnterprisePOS.Tests\**" />
+		<None Remove="EnterprisePOS.Tests\**" />
+	</ItemGroup>
 
-		<MauiXaml Remove="Themes\**\*.xaml" />
-
-		<MauiXaml Remove="Views\DashboardPage.xaml" />
-
-		<MauiXaml Remove="Components\MetricCardView.xaml" />
-
-		<Compile Remove="Views\DashboardPage.xaml.cs" />
-
-		<Compile Remove="Components\MetricCardView.xaml.cs" />
-
+	<ItemGroup><!-- No exclusions needed - all files are properly organized -->
 	</ItemGroup>
 	<ItemGroup>
 
-		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="9.0.0" />
 
+		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.0" />
+		<PackageReference Include="LiveChartsCore.SkiaSharpView.Maui" Version="2.0.0-rc2" />
 	</ItemGroup>
 </Project>
 

@@ -1,16 +1,61 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Shell
     x:Class="EnterprisePOS.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:views="clr-namespace:EnterprisePOS.Views"
+    xmlns:pos="clr-namespace:EnterprisePOS.Features.POS.Views"
+    xmlns:dashboard="clr-namespace:EnterprisePOS.Features.Dashboard.Views"
+    xmlns:settings="clr-namespace:EnterprisePOS.Features.Settings.Views"
+    Shell.FlyoutBehavior="Flyout"
     Shell.NavBarIsVisible="False"
-    Title="Dos Avenue">
+    FlyoutBackgroundColor="#1A1D2E"
+    Title="EnterprisePOS">
 
-    <!-- Minimal stable shell: POS only (avoids WinUI startup crash) -->
-    <ShellContent
-        Title="POS"
-        ContentTemplate="{DataTemplate views:POSPage}"
-        Route="pos" />
+    <!-- Sidebar Header -->
+    <Shell.FlyoutHeader>
+        <Grid HeightRequest="70" BackgroundColor="#1A1D2E" Padding="20,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Frame Grid.Column="0" BackgroundColor="#2C7BE5"
+                   WidthRequest="36" HeightRequest="36"
+                   CornerRadius="8" Padding="0" HasShadow="False">
+                <Label Text="EP" TextColor="White" FontSize="13"
+                       FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </Frame>
+            <VerticalStackLayout Grid.Column="1" Margin="12,0,0,0" VerticalOptions="Center">
+                <Label Text="EnterprisePOS" TextColor="White" FontSize="15" FontAttributes="Bold"/>
+                <Label Text="v1.0" TextColor="#95A5A6" FontSize="11"/>
+            </VerticalStackLayout>
+        </Grid>
+    </Shell.FlyoutHeader>
+
+    <!-- Navigation -->
+    <FlyoutItem Title="Dashboard" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="Dashboard"
+                      ContentTemplate="{DataTemplate dashboard:DashboardPage}"
+                      Route="dashboard"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="POS" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="Point of Sale"
+                      ContentTemplate="{DataTemplate pos:POSPage}"
+                      Route="pos"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Settings" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="Settings"
+                      ContentTemplate="{DataTemplate settings:SettingsPage}"
+                      Route="settings"/>
+    </FlyoutItem>
+
+    <!-- Sidebar Footer -->
+    <Shell.FlyoutFooter>
+        <StackLayout BackgroundColor="#1A1D2E" Padding="20,12" Spacing="0">
+            <BoxView HeightRequest="1" BackgroundColor="#212529" Margin="0,0,0,12"/>
+            <Label Text="© 2024 EnterprisePOS" TextColor="#95A5A6" FontSize="11" HorizontalOptions="Center"/>
+        </StackLayout>
+    </Shell.FlyoutFooter>
 
 </Shell>

@@ -42,20 +42,6 @@
                     </DataTrigger>
                 </Label.Triggers>
             </Label>
-            <Label Text="›"
-                   FontSize="16"
-                   FontAttributes="Bold"
-                   TextColor="{StaticResource Gray300}"
-                   VerticalOptions="Center"
-                   IsVisible="{Binding Source={x:Reference Root}, Path=IsSelected}">
-                <Label.Triggers>
-                    <DataTrigger TargetType="Label"
-                                 Binding="{Binding Source={x:Reference Root}, Path=IsSelected}"
-                                 Value="True">
-                        <Setter Property="TextColor" Value="{StaticResource Gray900}" />
-                    </DataTrigger>
-                </Label.Triggers>
-            </Label>
         </HorizontalStackLayout>
         <BoxView HeightRequest="2"
                  Color="{StaticResource Gray900}"

@@ -1,4 +1,4 @@
-using EnterprisePOS.Models;
+using EnterprisePOS.Features.Dashboard.Models;
 
 namespace EnterprisePOS.Interfaces;
 

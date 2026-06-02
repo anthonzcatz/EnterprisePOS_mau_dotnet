@@ -431,4 +431,230 @@
         <Setter Property="SelectedTabColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
     </Style>
 
+    <!-- ===== FALCON ADMIN STYLES ===== -->
+
+    <!-- Primary Button -->
+    <Style TargetType="Button" x:Key="PrimaryButton">
+        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Padding" Value="20,10" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontAttributes" Value="None" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{StaticResource PrimaryDark}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{StaticResource Gray300}" />
+                            <Setter Property="TextColor" Value="{StaticResource Gray500}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!-- Outline Button -->
+    <Style TargetType="Button" x:Key="OutlineButton">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{StaticResource Primary}" />
+        <Setter Property="BorderColor" Value="{StaticResource Primary}" />
+        <Setter Property="BorderWidth" Value="1" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Padding" Value="20,10" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal" />
+                    <VisualState x:Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{StaticResource PrimaryLight}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <!-- Link Button -->
+    <Style TargetType="Button" x:Key="LinkButton">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{StaticResource Primary}" />
+        <Setter Property="BorderWidth" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <!-- Card Frame -->
+    <Style TargetType="Frame" x:Key="CardStyle">
+        <Setter Property="BackgroundColor" Value="{StaticResource BackgroundPrimary}" />
+        <Setter Property="BorderColor" Value="{StaticResource BorderColor}" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="20" />
+        <Setter Property="HasShadow" Value="True" />
+    </Style>
+
+    <!-- Card Header Frame -->
+    <Style TargetType="Frame" x:Key="CardHeaderStyle">
+        <Setter Property="BackgroundColor" Value="{StaticResource BackgroundSecondary}" />
+        <Setter Property="BorderColor" Value="Transparent" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="12" />
+        <Setter Property="HasShadow" Value="False" />
+    </Style>
+
+    <!-- Badge Frame (Success) -->
+    <Style TargetType="Frame" x:Key="BadgeSuccess">
+        <Setter Property="BackgroundColor" Value="{StaticResource Success}" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="12,4" />
+        <Setter Property="HasShadow" Value="False" />
+    </Style>
+
+    <!-- Badge Frame (Warning) -->
+    <Style TargetType="Frame" x:Key="BadgeWarning">
+        <Setter Property="BackgroundColor" Value="{StaticResource Warning}" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="12,4" />
+        <Setter Property="HasShadow" Value="False" />
+    </Style>
+
+    <!-- Badge Frame (Danger) -->
+    <Style TargetType="Frame" x:Key="BadgeDanger">
+        <Setter Property="BackgroundColor" Value="{StaticResource Danger}" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="12,4" />
+        <Setter Property="HasShadow" Value="False" />
+    </Style>
+
+    <!-- Badge Frame (Info) -->
+    <Style TargetType="Frame" x:Key="BadgeInfo">
+        <Setter Property="BackgroundColor" Value="{StaticResource Info}" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="12,4" />
+        <Setter Property="HasShadow" Value="False" />
+    </Style>
+
+    <!-- Badge Text -->
+    <Style TargetType="Label" x:Key="BadgeText">
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+    </Style>
+
+    <!-- Page Title (H1) -->
+    <Style TargetType="Label" x:Key="PageTitle">
+        <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+        <Setter Property="FontSize" Value="32" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
+    <!-- Section Header (H2) -->
+    <Style TargetType="Label" x:Key="SectionHeader">
+        <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
+    <!-- Card Title (H3) -->
+    <Style TargetType="Label" x:Key="CardTitle">
+        <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
+    <!-- Subheader (H4) -->
+    <Style TargetType="Label" x:Key="Subheader">
+        <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
+    <!-- Body Text (H5) -->
+    <Style TargetType="Label" x:Key="BodyText">
+        <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <!-- Small Text (H6) -->
+    <Style TargetType="Label" x:Key="SmallText">
+        <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
+        <Setter Property="FontSize" Value="12" />
+    </Style>
+
+    <!-- Tiny Text (FS-9) -->
+    <Style TargetType="Label" x:Key="TinyText">
+        <Setter Property="TextColor" Value="{StaticResource TextMuted}" />
+        <Setter Property="FontSize" Value="11" />
+    </Style>
+
+    <!-- Stat Value -->
+    <Style TargetType="Label" x:Key="StatValue">
+        <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+        <Setter Property="FontSize" Value="28" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
+    <!-- Stat Label -->
+    <Style TargetType="Label" x:Key="StatLabel">
+        <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
+        <Setter Property="FontSize" Value="13" />
+    </Style>
+
+    <!-- Stat Change (Positive) -->
+    <Style TargetType="Label" x:Key="StatChangePositive">
+        <Setter Property="TextColor" Value="{StaticResource Success}" />
+        <Setter Property="FontSize" Value="12" />
+    </Style>
+
+    <!-- Stat Change (Negative) -->
+    <Style TargetType="Label" x:Key="StatChangeNegative">
+        <Setter Property="TextColor" Value="{StaticResource Danger}" />
+        <Setter Property="FontSize" Value="12" />
+    </Style>
+
+    <!-- Hover Effect Style -->
+    <Style TargetType="Frame" x:Key="CardHoverStyle">
+        <Setter Property="BackgroundColor" Value="{StaticResource CardBackground}"/>
+        <Setter Property="CornerRadius" Value="12"/>
+        <Setter Property="Padding" Value="16"/>
+        <Setter Property="HasShadow" Value="True"/>
+    </Style>
+
+    <!-- Tap Effect Style -->
+    <Style TargetType="Frame" x:Key="CardTapStyle">
+        <Setter Property="BackgroundColor" Value="{StaticResource CardBackground}"/>
+        <Setter Property="CornerRadius" Value="12"/>
+        <Setter Property="Padding" Value="16"/>
+        <Setter Property="HasShadow" Value="True"/>
+    </Style>
+
+    <!-- Chart Container Style -->
+    <Style TargetType="Frame" x:Key="ChartContainerStyle">
+        <Setter Property="BackgroundColor" Value="{StaticResource CardBackground}"/>
+        <Setter Property="CornerRadius" Value="12"/>
+        <Setter Property="Padding" Value="16"/>
+        <Setter Property="HasShadow" Value="True"/>
+    </Style>
+
+    <!-- Analytics Metric Card Style -->
+    <Style TargetType="Frame" x:Key="MetricCardStyle">
+        <Setter Property="BackgroundColor" Value="{StaticResource CardBackground}"/>
+        <Setter Property="CornerRadius" Value="12"/>
+        <Setter Property="Padding" Value="16"/>
+        <Setter Property="HasShadow" Value="True"/>
+    </Style>
+
 </ResourceDictionary>

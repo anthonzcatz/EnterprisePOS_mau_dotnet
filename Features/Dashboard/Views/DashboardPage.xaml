@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
+             x:Class="EnterprisePOS.Features.Dashboard.Views.DashboardPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F9FAFD">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="16">
+
+            <!-- Page Title Row -->
+            <Grid ColumnDefinitions="*,Auto">
+                <VerticalStackLayout Grid.Column="0" Spacing="4">
+                    <Label Text="Dashboard"
+                           Style="{StaticResource PageTitle}"/>
+                    <Label Text="Welcome back! Here's your business overview."
+                           Style="{StaticResource BodyText}"/>
+                </VerticalStackLayout>
+                <Button Grid.Column="1"
+                        Text="+ New Sale"
+                        Style="{StaticResource PrimaryButton}"
+                        VerticalOptions="Center"/>
+            </Grid>
+
+            <!-- KPI Stat Cards - Responsive FlexLayout -->
+            <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="SpaceBetween" AlignItems="Start">
+
+                <!-- Today's Sales -->
+                <Frame Style="{StaticResource MetricCardStyle}" FlexLayout.Basis="48%" Margin="0,0,0,0">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"/>
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Grid.Column="0" Text="Today's Sales" Style="{StaticResource StatLabel}"/>
+                            <Frame Grid.Column="1" BackgroundColor="{StaticResource PrimaryLight}" Padding="6,4" CornerRadius="6" HasShadow="False">
+                                <Label Text="↑" FontSize="12" TextColor="{StaticResource Primary}" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Frame>
+                        </Grid>
+                        <Label Text="₱12,450" Style="{StaticResource StatValue}"/>
+                        <Label Text="+15% from yesterday" Style="{StaticResource StatChangePositive}"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Total Orders -->
+                <Frame Style="{StaticResource MetricCardStyle}" FlexLayout.Basis="48%" Margin="0,0,0,0">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"/>
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Grid.Column="0" Text="Total Orders" Style="{StaticResource StatLabel}"/>
+                            <Frame Grid.Column="1" BackgroundColor="{StaticResource SuccessLight}" Padding="6,4" CornerRadius="6" HasShadow="False">
+                                <Label Text="↑" FontSize="12" TextColor="{StaticResource Success}" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Frame>
+                        </Grid>
+                        <Label Text="48" Style="{StaticResource StatValue}"/>
+                        <Label Text="+12% from yesterday" Style="{StaticResource StatChangePositive}"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Revenue -->
+                <Frame Style="{StaticResource MetricCardStyle}" FlexLayout.Basis="48%" Margin="0,12,0,0">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"/>
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Grid.Column="0" Text="Revenue" Style="{StaticResource StatLabel}"/>
+                            <Frame Grid.Column="1" BackgroundColor="{StaticResource WarningLight}" Padding="6,4" CornerRadius="6" HasShadow="False">
+                                <Label Text="↑" FontSize="12" TextColor="{StaticResource Warning}" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Frame>
+                        </Grid>
+                        <Label Text="₱15,890" Style="{StaticResource StatValue}"/>
+                        <Label Text="+8% from yesterday" Style="{StaticResource StatChangePositive}"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Customers -->
+                <Frame Style="{StaticResource MetricCardStyle}" FlexLayout.Basis="48%" Margin="0,12,0,0">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"/>
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Grid.Column="0" Text="Customers" Style="{StaticResource StatLabel}"/>
+                            <Frame Grid.Column="1" BackgroundColor="{StaticResource DangerLight}" Padding="6,4" CornerRadius="6" HasShadow="False">
+                                <Label Text="↑" FontSize="12" TextColor="{StaticResource Danger}" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Frame>
+                        </Grid>
+                        <Label Text="23" Style="{StaticResource StatValue}"/>
+                        <Label Text="+5% from yesterday" Style="{StaticResource StatChangePositive}"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Low Stock Alert -->
+                <Frame Style="{StaticResource MetricCardStyle}" FlexLayout.Basis="48%" Margin="0,12,0,0">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"/>
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Grid.Column="0" Text="Low Stock" Style="{StaticResource StatLabel}"/>
+                            <Frame Grid.Column="1" BackgroundColor="{StaticResource DangerLight}" Padding="6,4" CornerRadius="6" HasShadow="False">
+                                <Label Text="!" FontSize="12" TextColor="{StaticResource Danger}" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Frame>
+                        </Grid>
+                        <Label Text="{Binding LowStockCount}" Style="{StaticResource StatValue}"/>
+                        <Label Text="Products need restock" Style="{StaticResource StatChangeNegative}"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Pending Orders -->
+                <Frame Style="{StaticResource MetricCardStyle}" FlexLayout.Basis="48%" Margin="0,12,0,0">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"/>
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Grid.Column="0" Text="Pending" Style="{StaticResource StatLabel}"/>
+                            <Frame Grid.Column="1" BackgroundColor="{StaticResource WarningLight}" Padding="6,4" CornerRadius="6" HasShadow="False">
+                                <Label Text="⏱" FontSize="12" TextColor="{StaticResource Warning}" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Frame>
+                        </Grid>
+                        <Label Text="{Binding PendingOrders}" Style="{StaticResource StatValue}"/>
+                        <Label Text="Orders awaiting completion" Style="{StaticResource SmallText}"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Active Terminals -->
+                <Frame Style="{StaticResource MetricCardStyle}" FlexLayout.Basis="48%" Margin="0,12,0,0">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"/>
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Grid.Column="0" Text="Active Terminals" Style="{StaticResource StatLabel}"/>
+                            <Frame Grid.Column="1" BackgroundColor="{StaticResource PrimaryLight}" Padding="6,4" CornerRadius="6" HasShadow="False">
+                                <Label Text="🖥" FontSize="12" TextColor="{StaticResource Primary}" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Frame>
+                        </Grid>
+                        <Label Text="{Binding ActiveTerminals}" Style="{StaticResource StatValue}"/>
+                        <Label Text="POS terminals online" Style="{StaticResource SmallText}"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Total Products -->
+                <Frame Style="{StaticResource MetricCardStyle}" FlexLayout.Basis="48%" Margin="0,12,0,0">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"/>
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Grid.Column="0" Text="Total Products" Style="{StaticResource StatLabel}"/>
+                            <Frame Grid.Column="1" BackgroundColor="{StaticResource SuccessLight}" Padding="6,4" CornerRadius="6" HasShadow="False">
+                                <Label Text="📦" FontSize="12" TextColor="{StaticResource Success}" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            </Frame>
+                        </Grid>
+                        <Label Text="{Binding TotalProducts}" Style="{StaticResource StatValue}"/>
+                        <Label Text="Products in catalog" Style="{StaticResource SmallText}"/>
+                    </VerticalStackLayout>
+                </Frame>
+
+            </FlexLayout>
+
+            <!-- Charts Row - Responsive FlexLayout -->
+            <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="SpaceBetween" AlignItems="Start">
+
+                <!-- Sales Trend Chart Card -->
+                <Frame Style="{StaticResource ChartContainerStyle}" FlexLayout.Basis="48%">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"/>
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout Grid.Column="0">
+                                <Label Text="Total Sales" Style="{StaticResource CardTitle}"/>
+                                <Label Text="Last 7 days performance" Style="{StaticResource SmallText}"/>
+                            </VerticalStackLayout>
+                            <Frame Grid.Column="1" BackgroundColor="{StaticResource BackgroundTertiary}" Padding="8,4" CornerRadius="6" HasShadow="False">
+                                <Label Text="Last 7 days" Style="{StaticResource SmallText}"/>
+                            </Frame>
+                        </Grid>
+
+                        <!-- LiveChartsCore Line Chart -->
+                        <lvc:CartesianChart
+                            Series="{Binding SalesChartSeries}"
+                            HeightRequest="200"
+                            HorizontalOptions="Fill"/>
+
+                        <!-- Legend -->
+                        <HorizontalStackLayout Spacing="16">
+                            <HorizontalStackLayout Spacing="6">
+                                <BoxView WidthRequest="12" HeightRequest="12" BackgroundColor="{StaticResource ChartBlue}" CornerRadius="2" VerticalOptions="Center"/>
+                                <Label Text="This Week" Style="{StaticResource SmallText}" VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="6">
+                                <BoxView WidthRequest="12" HeightRequest="12" BackgroundColor="{StaticResource ChartYellow}" CornerRadius="2" VerticalOptions="Center"/>
+                                <Label Text="Peak Day" Style="{StaticResource SmallText}" VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Payment Methods Chart Card -->
+                <Frame Style="{StaticResource ChartContainerStyle}" FlexLayout.Basis="48%">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"/>
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="16">
+                        <Label Text="Payment Methods" Style="{StaticResource CardTitle}"/>
+                        <Label Text="Distribution" Style="{StaticResource SmallText}"/>
+
+                        <!-- LiveChartsCore Pie Chart -->
+                        <lvc:PieChart
+                            Series="{Binding PaymentMethodSeries}"
+                            HeightRequest="200"
+                            HorizontalOptions="Center"/>
+
+                        <!-- Legend -->
+                        <VerticalStackLayout Spacing="8">
+                            <HorizontalStackLayout Spacing="6">
+                                <BoxView WidthRequest="10" HeightRequest="10" BackgroundColor="{StaticResource ChartBlue}" CornerRadius="5" VerticalOptions="Center"/>
+                                <Label Text="Cash (45%)" Style="{StaticResource SmallText}" VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="6">
+                                <BoxView WidthRequest="10" HeightRequest="10" BackgroundColor="{StaticResource ChartGreen}" CornerRadius="5" VerticalOptions="Center"/>
+                                <Label Text="Card (35%)" Style="{StaticResource SmallText}" VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="6">
+                                <BoxView WidthRequest="10" HeightRequest="10" BackgroundColor="{StaticResource ChartYellow}" CornerRadius="5" VerticalOptions="Center"/>
+                                <Label Text="GCash (20%)" Style="{StaticResource SmallText}" VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+            </FlexLayout>
+
+            <!-- Additional Charts Row - Responsive FlexLayout -->
+            <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="SpaceBetween" AlignItems="Start">
+
+                <!-- Sales by Branch Chart Card -->
+                <Frame Style="{StaticResource ChartContainerStyle}" FlexLayout.Basis="48%">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"/>
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="16">
+                        <Label Text="Sales by Branch" Style="{StaticResource CardTitle}"/>
+                        <Label Text="Performance per location" Style="{StaticResource SmallText}"/>
+
+                        <!-- LiveChartsCore Column Chart -->
+                        <lvc:CartesianChart
+                            Series="{Binding SalesByBranchSeries}"
+                            HeightRequest="200"
+                            HorizontalOptions="Fill"/>
+
+                        <!-- Legend -->
+                        <VerticalStackLayout Spacing="8">
+                            <HorizontalStackLayout Spacing="6">
+                                <BoxView WidthRequest="10" HeightRequest="10" BackgroundColor="#EC4899" CornerRadius="5" VerticalOptions="Center"/>
+                                <Label Text="Main Branch" Style="{StaticResource SmallText}" VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="6">
+                                <BoxView WidthRequest="10" HeightRequest="10" BackgroundColor="#DB2777" CornerRadius="5" VerticalOptions="Center"/>
+                                <Label Text="Branch 2" Style="{StaticResource SmallText}" VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="6">
+                                <BoxView WidthRequest="10" HeightRequest="10" BackgroundColor="#BE185D" CornerRadius="5" VerticalOptions="Center"/>
+                                <Label Text="Branch 3" Style="{StaticResource SmallText}" VerticalOptions="Center"/>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Top Products Chart Card -->
+                <Frame Style="{StaticResource ChartContainerStyle}" FlexLayout.Basis="48%">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"/>
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="16">
+                        <Label Text="Top Products" Style="{StaticResource CardTitle}"/>
+                        <Label Text="Best sellers this week" Style="{StaticResource SmallText}"/>
+
+                        <!-- LiveChartsCore Cartesian Chart -->
+                        <lvc:CartesianChart
+                            Series="{Binding TopProductsSeries}"
+                            HeightRequest="200"
+                            HorizontalOptions="Center"/>
+
+                        <!-- Legend -->
+                        <VerticalStackLayout Spacing="8">
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+                                <Label Grid.Column="0" Text="Coffee" Style="{StaticResource BodyText}"/>
+                                <BoxView Grid.Column="1" HeightRequest="4" BackgroundColor="{StaticResource BorderColor}" VerticalOptions="Center"/>
+                                <Label Grid.Column="2" Text="120" Style="{StaticResource Subheader}"/>
+                            </Grid>
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+                                <Label Grid.Column="0" Text="Burger" Style="{StaticResource BodyText}"/>
+                                <BoxView Grid.Column="1" HeightRequest="4" BackgroundColor="{StaticResource BorderColor}" VerticalOptions="Center"/>
+                                <Label Grid.Column="2" Text="95" Style="{StaticResource Subheader}"/>
+                            </Grid>
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+                                <Label Grid.Column="0" Text="Fries" Style="{StaticResource BodyText}"/>
+                                <BoxView Grid.Column="1" HeightRequest="4" BackgroundColor="{StaticResource BorderColor}" VerticalOptions="Center"/>
+                                <Label Grid.Column="2" Text="80" Style="{StaticResource Subheader}"/>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+            </FlexLayout>
+
+            <!-- Bottom Row: Product Categories + Recent Orders - Responsive FlexLayout -->
+            <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="SpaceBetween" AlignItems="Start">
+
+                <!-- Product Categories -->
+                <Frame Style="{StaticResource ChartContainerStyle}" FlexLayout.Basis="48%">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"/>
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="16">
+                        <Label Text="Product Categories" Style="{StaticResource CardTitle}"/>
+                        <Label Text="Top 5 by sales" Style="{StaticResource SmallText}"/>
+
+                        <!-- LiveChartsCore Cartesian Chart -->
+                        <lvc:CartesianChart
+                            Series="{Binding ProductCategorySeries}"
+                            HeightRequest="200"
+                            HorizontalOptions="Center"/>
+
+                        <!-- Category Labels -->
+                        <VerticalStackLayout Spacing="8">
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+                                <Label Grid.Column="0" Text="Beverages" Style="{StaticResource BodyText}"/>
+                                <BoxView Grid.Column="1" HeightRequest="4" BackgroundColor="{StaticResource BorderColor}" VerticalOptions="Center"/>
+                                <Label Grid.Column="2" Text="85" Style="{StaticResource Subheader}"/>
+                            </Grid>
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+                                <Label Grid.Column="0" Text="Food" Style="{StaticResource BodyText}"/>
+                                <BoxView Grid.Column="1" HeightRequest="4" BackgroundColor="{StaticResource BorderColor}" VerticalOptions="Center"/>
+                                <Label Grid.Column="2" Text="65" Style="{StaticResource Subheader}"/>
+                            </Grid>
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+                                <Label Grid.Column="0" Text="Snacks" Style="{StaticResource BodyText}"/>
+                                <BoxView Grid.Column="1" HeightRequest="4" BackgroundColor="{StaticResource BorderColor}" VerticalOptions="Center"/>
+                                <Label Grid.Column="2" Text="45" Style="{StaticResource Subheader}"/>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Recent Orders -->
+                <Frame Style="{StaticResource ChartContainerStyle}" FlexLayout.Basis="48%">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1"/>
+                    </Frame.GestureRecognizers>
+                    <VerticalStackLayout Spacing="16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Grid.Column="0" Text="Recent Orders" Style="{StaticResource CardTitle}"/>
+                            <Label Grid.Column="1" Text="View All" TextColor="{StaticResource Primary}" FontSize="13"/>
+                        </Grid>
+                        <VerticalStackLayout Spacing="12">
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                <Frame Grid.Column="0" BackgroundColor="{StaticResource PrimaryLight}" WidthRequest="38" HeightRequest="38" CornerRadius="19" Padding="0" HasShadow="False">
+                                    <Label Text="JD" TextColor="{StaticResource Primary}" FontAttributes="Bold" FontSize="13" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Frame>
+                                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                    <Label Text="John Doe" Style="{StaticResource Subheader}"/>
+                                    <Label Text="3 items · ₱450" Style="{StaticResource SmallText}"/>
+                                </VerticalStackLayout>
+                                <Frame Grid.Column="2" Style="{StaticResource BadgeSuccess}" VerticalOptions="Center">
+                                    <Label Text="Paid" Style="{StaticResource BadgeText}"/>
+                                </Frame>
+                            </Grid>
+                            <BoxView HeightRequest="1" BackgroundColor="{StaticResource BorderColor}"/>
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                <Frame Grid.Column="0" BackgroundColor="{StaticResource WarningLight}" WidthRequest="38" HeightRequest="38" CornerRadius="19" Padding="0" HasShadow="False">
+                                    <Label Text="MA" TextColor="{StaticResource Warning}" FontAttributes="Bold" FontSize="13" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Frame>
+                                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                    <Label Text="Maria A." Style="{StaticResource Subheader}"/>
+                                    <Label Text="1 item · ₱125" Style="{StaticResource SmallText}"/>
+                                </VerticalStackLayout>
+                                <Frame Grid.Column="2" Style="{StaticResource BadgeWarning}" VerticalOptions="Center">
+                                    <Label Text="Pending" Style="{StaticResource BadgeText}"/>
+                                </Frame>
+                            </Grid>
+                            <BoxView HeightRequest="1" BackgroundColor="{StaticResource BorderColor}"/>
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                <Frame Grid.Column="0" BackgroundColor="{StaticResource DangerLight}" WidthRequest="38" HeightRequest="38" CornerRadius="19" Padding="0" HasShadow="False">
+                                    <Label Text="RP" TextColor="{StaticResource Danger}" FontAttributes="Bold" FontSize="13" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                </Frame>
+                                <VerticalStackLayout Grid.Column="1" Spacing="2" VerticalOptions="Center">
+                                    <Label Text="Ramon P." Style="{StaticResource Subheader}"/>
+                                    <Label Text="5 items · ₱890" Style="{StaticResource SmallText}"/>
+                                </VerticalStackLayout>
+                                <Frame Grid.Column="2" Style="{StaticResource BadgeDanger}" VerticalOptions="Center">
+                                    <Label Text="Refund" Style="{StaticResource BadgeText}"/>
+                                </Frame>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+
+            </FlexLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -4,6 +4,8 @@ namespace EnterprisePOS.Helpers;
 
 public static class ServiceHelper
 {
+	public static IServiceProvider? ServiceProvider => IPlatformApplication.Current?.Services;
+
 	public static T GetRequiredService<T>() where T : notnull
 	{
 		var services = IPlatformApplication.Current?.Services

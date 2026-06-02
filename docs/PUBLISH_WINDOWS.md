@@ -6,14 +6,14 @@ How to run Enterprise POS during development, publish a portable folder, or gene
 
 | Item | Path |
 |------|------|
-| **MSIX installer** | `c:\xampp\htdocs\EnterprisePOS\bin\Release\net10.0-windows10.0.19041.0\win-x64\AppPackages\EnterprisePOS_1.0.0.0_Test\EnterprisePOS_1.0.0.0_x64.msix` |
-| **Sideload folder** | `c:\xampp\htdocs\EnterprisePOS\bin\Release\net10.0-windows10.0.19041.0\win-x64\AppPackages\EnterprisePOS_1.0.0.0_Test\` |
+| **MSIX installer** | `c:\xampp\htdocs\EnterprisePOS\bin\Release\net10.0-windows10.0.19041.0\win-x64\AppPackages\EnterprisePOS_1.0.0.1_Test\EnterprisePOS_1.0.0.1_x64.msix` |
+| **Sideload folder** | `c:\xampp\htdocs\EnterprisePOS\bin\Release\net10.0-windows10.0.19041.0\win-x64\AppPackages\EnterprisePOS_1.0.0.1_Test\` |
 | **Signing cert (dev)** | `c:\xampp\htdocs\EnterprisePOS\certs\EnterprisePOS.cer` |
 
 Open the sideload folder in Explorer:
 
 ```powershell
-explorer "c:\xampp\htdocs\EnterprisePOS\bin\Release\net10.0-windows10.0.19041.0\win-x64\AppPackages\EnterprisePOS_1.0.0.0_Test"
+explorer "c:\xampp\htdocs\EnterprisePOS\bin\Release\net10.0-windows10.0.19041.0\win-x64\AppPackages\EnterprisePOS_1.0.0.1_Test"
 ```
 
 After `.\publish-msix.ps1`, the console prints the exact `.msix` path (version folder may change when you bump `$displayVersion`).
@@ -26,7 +26,7 @@ MSIX does **not** install into your project `bin` folder. Windows copies the app
 
 | What | Path |
 |------|------|
-| **Installed app (program files)** | `C:\Program Files\WindowsApps\EnterprisePOS_1.0.0.0_x64__5rf86ty3rfgc4\` |
+| **Installed app (program files)** | `C:\Program Files\WindowsApps\EnterprisePOS_1.0.0.1_x64__5rf86ty3rfgc4\` |
 | **Per-user app data** | `%LOCALAPPDATA%\Packages\EnterprisePOS_5rf86ty3rfgc4\` |
 | **Desktop shortcut** | `%USERPROFILE%\Desktop\Enterprise POS.lnk` |
 | **Start menu** | Search **Enterprise POS** |
@@ -35,7 +35,7 @@ The `WindowsApps` folder is protected — do not edit or run `.exe` from there d
 
 **Installer source (unchanged after install)** — your built `.msix` stays in the repo:
 
-`c:\xampp\htdocs\EnterprisePOS\bin\Release\net10.0-windows10.0.19041.0\win-x64\AppPackages\EnterprisePOS_1.0.0.0_Test\EnterprisePOS_1.0.0.0_x64.msix`
+`c:\xampp\htdocs\EnterprisePOS\bin\Release\net10.0-windows10.0.19041.0\win-x64\AppPackages\EnterprisePOS_1.0.0.1_Test\EnterprisePOS_1.0.0.1_x64.msix`
 
 Check install location anytime:
 
@@ -77,6 +77,24 @@ dotnet workload list
 | **Test real installer** | MSIX (slow loop) | `.\publish-msix.ps1` then `.\install-msix.ps1` |
 
 **Important:** Live preview uses the **unpackaged Debug** app (`bin\Debug\...`), **not** the MSIX on Desktop. After MSIX install, code changes do **not** appear until you publish and install again.
+
+### Virtual device / screen-size preview
+
+This app now includes a built-in **responsive preview bar** on the POS screen. It lets you switch between common device sizes (phone, tablet, laptop, desktop) and immediately resizes the Windows window so you can inspect the responsive layout in place.
+
+Landscape tablets are treated as a wide layout so they behave like a laptop-sized dashboard.
+
+1. Start the live dev loop:
+
+```powershell
+.\watch.ps1
+```
+
+2. Open the POS page and use the preview selector at the top of the screen.
+3. Change size → the window resizes live, so CSS/XAML layout changes are easy to inspect immediately.
+4. Save `.xaml` or `.cs` files to trigger rebuilds.
+
+Use this when you want a quick “virtual device” check without manually resizing the window.
 
 ### Recommended daily loop (Cursor / terminal)
 
@@ -171,10 +189,10 @@ The script:
 
 ### Where the MSIX file is
 
-Default signed installer (version `1.0.0.0`):
+Default signed installer (version `1.0.0.1`):
 
 ```
-c:\xampp\htdocs\EnterprisePOS\bin\Release\net10.0-windows10.0.19041.0\win-x64\AppPackages\EnterprisePOS_1.0.0.0_Test\EnterprisePOS_1.0.0.0_x64.msix
+c:\xampp\htdocs\EnterprisePOS\bin\Release\net10.0-windows10.0.19041.0\win-x64\AppPackages\EnterprisePOS_1.0.0.1_Test\EnterprisePOS_1.0.0.1_x64.msix
 ```
 
 Parent folder also contains `Install.ps1`, `EnterprisePOS.cer`, and `Dependencies\` for sideloading.
@@ -199,7 +217,7 @@ Parent folder also contains `Install.ps1`, `EnterprisePOS.cer`, and `Dependencie
 Optional — specific test folder:
 
 ```powershell
-.\install-msix.ps1 -TestFolder "bin\Release\net10.0-windows10.0.19041.0\win-x64\AppPackages\EnterprisePOS_1.0.0.0_Test"
+.\install-msix.ps1 -TestFolder "bin\Release\net10.0-windows10.0.19041.0\win-x64\AppPackages\EnterprisePOS_1.0.0.1_Test"
 ```
 
 **Do not** double-click the `.msix` alone on a self-signed build — you may get **0x800B010A**. Use `install-msix.ps1` instead.
@@ -209,7 +227,7 @@ Optional — specific test folder:
 MSIX does **not** copy a loose `.exe` to Desktop automatically. The real program file is:
 
 ```
-C:\Program Files\WindowsApps\EnterprisePOS_1.0.0.0_x64__5rf86ty3rfgc4\EnterprisePOS.exe
+C:\Program Files\WindowsApps\EnterprisePOS_1.0.0.1_x64__5rf86ty3rfgc4\EnterprisePOS.exe
 ```
 
 (That folder is protected — use a shortcut, not a manual copy.)

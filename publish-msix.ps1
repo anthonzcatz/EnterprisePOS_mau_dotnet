@@ -14,13 +14,13 @@ Get-Process EnterprisePOS -ErrorAction SilentlyContinue | Stop-Process -Force
 
 $framework = 'net10.0-windows10.0.19041.0'
 # Default output paths (after publish-msix.ps1)
-$script:DefaultMsixPath = Join-Path $PSScriptRoot "bin\Release\$framework\win-x64\AppPackages\EnterprisePOS_1.0.0.0_Test\EnterprisePOS_1.0.0.0_x64.msix"
-$script:DefaultSideloadFolder = Join-Path $PSScriptRoot "bin\Release\$framework\win-x64\AppPackages\EnterprisePOS_1.0.0.0_Test"
+$script:DefaultMsixPath = Join-Path $PSScriptRoot "bin\Release\$framework\win-x64\AppPackages\EnterprisePOS_1.0.0.1_Test\EnterprisePOS_1.0.0.1_x64.msix"
+$script:DefaultSideloadFolder = Join-Path $PSScriptRoot "bin\Release\$framework\win-x64\AppPackages\EnterprisePOS_1.0.0.1_Test"
 $certDir = Join-Path $PSScriptRoot 'certs'
 $certPath = Join-Path $certDir 'EnterprisePOS.pfx'
 $certPassword = 'EnterprisePOS-Dev'
 $certSubject = 'CN=EnterprisePOS'
-$displayVersion = '1.0.0'
+$displayVersion = '1.0.1'
 
 if (-not (Test-Path $certDir)) {
     New-Item -ItemType Directory -Path $certDir | Out-Null
