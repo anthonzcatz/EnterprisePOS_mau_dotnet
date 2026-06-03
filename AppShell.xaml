@@ -5,46 +5,95 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:pos="clr-namespace:EnterprisePOS.Features.POS.Views"
     xmlns:dashboard="clr-namespace:EnterprisePOS.Features.Dashboard.Views"
+    xmlns:sales="clr-namespace:EnterprisePOS.Features.Sales.Views"
+    xmlns:products="clr-namespace:EnterprisePOS.Features.Products.Views"
+    xmlns:inventory="clr-namespace:EnterprisePOS.Features.Inventory.Views"
+    xmlns:customers="clr-namespace:EnterprisePOS.Features.Customers.Views"
+    xmlns:reports="clr-namespace:EnterprisePOS.Features.Reports.Views"
+    xmlns:users="clr-namespace:EnterprisePOS.Features.Users.Views"
     xmlns:settings="clr-namespace:EnterprisePOS.Features.Settings.Views"
     Shell.FlyoutBehavior="Flyout"
     Shell.NavBarIsVisible="False"
-    FlyoutBackgroundColor="#1A1D2E"
+    FlyoutBackgroundColor="{StaticResource SidebarBackgroundStart}"
+    BackgroundColor="{StaticResource BackgroundSecondary}"
     Title="EnterprisePOS">
 
     <!-- Sidebar Header -->
     <Shell.FlyoutHeader>
-        <Grid HeightRequest="70" BackgroundColor="#1A1D2E" Padding="20,0">
+        <Grid HeightRequest="88"
+              BackgroundColor="{StaticResource SidebarBackgroundStart}"
+              Padding="20,18,20,14">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Frame Grid.Column="0" BackgroundColor="#2C7BE5"
-                   WidthRequest="36" HeightRequest="36"
-                   CornerRadius="8" Padding="0" HasShadow="False">
-                <Label Text="EP" TextColor="White" FontSize="13"
-                       FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
-            </Frame>
-            <VerticalStackLayout Grid.Column="1" Margin="12,0,0,0" VerticalOptions="Center">
-                <Label Text="EnterprisePOS" TextColor="White" FontSize="15" FontAttributes="Bold"/>
-                <Label Text="v1.0" TextColor="#95A5A6" FontSize="11"/>
+            <Border Grid.Column="0"
+                    BackgroundColor="{StaticResource Primary}"
+                    WidthRequest="42"
+                    HeightRequest="42"
+                    StrokeThickness="0"
+                    VerticalOptions="Center"
+                    StrokeShape="RoundRectangle 12">
+                <Label Text="EP"
+                       TextColor="{StaticResource OffBlack}"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+            </Border>
+            <VerticalStackLayout Grid.Column="1"
+                                 Margin="12,0,0,0"
+                                 VerticalOptions="Center"
+                                 Spacing="2">
+                <Label Text="EnterprisePOS"
+                       TextColor="White"
+                       FontSize="16"
+                       FontAttributes="Bold"/>
+                <Label Text="Enterprise Retail And Restaurant Suite"
+                       TextColor="{StaticResource SidebarTextMuted}"
+                       FontSize="11"/>
             </VerticalStackLayout>
         </Grid>
     </Shell.FlyoutHeader>
 
     <!-- Navigation -->
-    <FlyoutItem Title="Dashboard" FlyoutDisplayOptions="AsMultipleItems">
+    <FlyoutItem Title="Overview" FlyoutDisplayOptions="AsMultipleItems" Route="overview">
         <ShellContent Title="Dashboard"
                       ContentTemplate="{DataTemplate dashboard:DashboardPage}"
                       Route="dashboard"/>
     </FlyoutItem>
 
-    <FlyoutItem Title="POS" FlyoutDisplayOptions="AsMultipleItems">
+    <FlyoutItem Title="Commerce" FlyoutDisplayOptions="AsMultipleItems" Route="commerce">
         <ShellContent Title="Point of Sale"
                       ContentTemplate="{DataTemplate pos:POSPage}"
                       Route="pos"/>
+        <ShellContent Title="Sales"
+                      ContentTemplate="{DataTemplate sales:SalesPage}"
+                      Route="sales"/>
     </FlyoutItem>
 
-    <FlyoutItem Title="Settings" FlyoutDisplayOptions="AsMultipleItems">
+    <FlyoutItem Title="Operations" FlyoutDisplayOptions="AsMultipleItems" Route="operations">
+        <ShellContent Title="Products"
+                      ContentTemplate="{DataTemplate products:ProductsPage}"
+                      Route="products"/>
+        <ShellContent Title="Inventory"
+                      ContentTemplate="{DataTemplate inventory:InventoryPage}"
+                      Route="inventory"/>
+        <ShellContent Title="Customers"
+                      ContentTemplate="{DataTemplate customers:CustomersPage}"
+                      Route="customers"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Insights" FlyoutDisplayOptions="AsMultipleItems" Route="insights">
+        <ShellContent Title="Reports"
+                      ContentTemplate="{DataTemplate reports:ReportsPage}"
+                      Route="reports"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Administration" FlyoutDisplayOptions="AsMultipleItems" Route="administration">
+        <ShellContent Title="Users"
+                      ContentTemplate="{DataTemplate users:UsersPage}"
+                      Route="users"/>
         <ShellContent Title="Settings"
                       ContentTemplate="{DataTemplate settings:SettingsPage}"
                       Route="settings"/>
@@ -52,9 +101,17 @@
 
     <!-- Sidebar Footer -->
     <Shell.FlyoutFooter>
-        <StackLayout BackgroundColor="#1A1D2E" Padding="20,12" Spacing="0">
-            <BoxView HeightRequest="1" BackgroundColor="#212529" Margin="0,0,0,12"/>
-            <Label Text="© 2024 EnterprisePOS" TextColor="#95A5A6" FontSize="11" HorizontalOptions="Center"/>
+        <StackLayout BackgroundColor="{StaticResource SidebarBackgroundStart}" Padding="20,12" Spacing="0">
+            <BoxView HeightRequest="1" BackgroundColor="{StaticResource Gray800}" Margin="0,0,0,12"/>
+            <Label Text="Cross-platform enterprise workspace"
+                   TextColor="{StaticResource SidebarTextMuted}"
+                   FontSize="11"
+                   HorizontalOptions="Center"/>
+            <Label Text="Windows · macOS · Android · iOS"
+                   TextColor="{StaticResource SidebarTextMuted}"
+                   FontSize="10"
+                   HorizontalOptions="Center"
+                   Margin="0,4,0,0"/>
         </StackLayout>
     </Shell.FlyoutFooter>
 

@@ -4,13 +4,29 @@
              x:Class="EnterprisePOS.Components.PageHeader"
              x:Name="Root">
     <VerticalStackLayout Spacing="4">
+        <Label Text="{Binding Eyebrow, Source={x:Reference Root}}"
+               IsVisible="{Binding HasEyebrow, Source={x:Reference Root}}"
+               FontSize="11"
+               FontAttributes="Bold"
+               CharacterSpacing="1"
+               TextTransform="Uppercase"
+               TextColor="{StaticResource Primary}" />
+
         <Label Text="{Binding Title, Source={x:Reference Root}}"
-               Style="{StaticResource Headline}"
+               FontFamily="OpenSansSemibold"
+               FontSize="{Binding TitleFontSize, Source={x:Reference Root}}"
                HorizontalOptions="Start"
-               HorizontalTextAlignment="Start" />
-        
+               HorizontalTextAlignment="Start"
+               TextColor="{StaticResource TextPrimary}" />
+
         <Label Text="{Binding Description, Source={x:Reference Root}}"
                TextColor="{StaticResource Gray500}"
+               FontSize="14"
                IsVisible="{Binding HasDescription, Source={x:Reference Root}}" />
+
+        <Label Text="{Binding MetaText, Source={x:Reference Root}}"
+               IsVisible="{Binding HasMetaText, Source={x:Reference Root}}"
+               FontSize="12"
+               TextColor="{StaticResource TextMuted}" />
     </VerticalStackLayout>
 </ContentView>

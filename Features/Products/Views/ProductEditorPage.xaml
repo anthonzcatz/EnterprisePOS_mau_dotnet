@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:EnterprisePOS.Components"
+             xmlns:vm="clr-namespace:EnterprisePOS.Features.Products.ViewModels"
+             xmlns:models="clr-namespace:EnterprisePOS.Core.Data.Models"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             x:Class="EnterprisePOS.Features.Products.Views.ProductEditorPage"
+             x:DataType="vm:ProductEditorViewModel"
+             Title="Product Editor"
+             ios:Page.UseSafeArea="True"
+             BackgroundColor="{StaticResource Gray100}">
+
+    <Grid RowDefinitions="Auto,*" RowSpacing="0">
+        <!-- Header -->
+        <Border Grid.Row="0" BackgroundColor="{StaticResource White}" StrokeThickness="0" Padding="24,20">
+            <Grid ColumnDefinitions="*,Auto">
+                <components:PageHeader Grid.Column="0" 
+                                      Title="{Binding EditorTitle}" 
+                                      Description="Fill in the details below to save your product." />
+                
+                <HorizontalStackLayout Grid.Column="1" Spacing="12" VerticalOptions="Center">
+                    <Button Text="Cancel" 
+                            Command="{Binding CancelCommand}"
+                            BackgroundColor="{StaticResource Gray200}"
+                            TextColor="{StaticResource TextPrimary}"
+                            CornerRadius="8"
+                            Padding="16,10" />
+                    <Button Text="Save Product" 
+                            Command="{Binding SaveCommand}"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White"
+                            CornerRadius="8"
+                            Padding="16,10" />
+                </HorizontalStackLayout>
+            </Grid>
+        </Border>
+
+        <!-- Form Content -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="24" Spacing="24" MaxWidthRequest="800" HorizontalOptions="Center">
+                
+                <!-- General Info Section -->
+                <Border BackgroundColor="{StaticResource White}" Padding="24" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                    <VerticalStackLayout Spacing="16">
+                        <Label Text="General Information" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}" />
+                        
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="16" RowDefinitions="Auto,Auto">
+                            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                <Label Text="Product Name" FontSize="12" TextColor="{StaticResource Gray500}" />
+                                <Entry Text="{Binding Name}" Placeholder="e.g. Brewed Coffee" BackgroundColor="{StaticResource Gray100}" />
+                            </VerticalStackLayout>
+                            
+                            <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                <Label Text="SKU / Product Code" FontSize="12" TextColor="{StaticResource Gray500}" />
+                                <Entry Text="{Binding Code}" Placeholder="e.g. COF-001" BackgroundColor="{StaticResource Gray100}" />
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Row="1" Grid.ColumnSpan="2" Spacing="4" Margin="0,12,0,0">
+                                <Label Text="Description" FontSize="12" TextColor="{StaticResource Gray500}" />
+                                <Editor Text="{Binding Description}" Placeholder="Provide a brief description..." AutoSize="TextChanges" MinimumHeightRequest="80" BackgroundColor="{StaticResource Gray100}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Pricing and Category -->
+                <Border BackgroundColor="{StaticResource White}" Padding="24" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                    <VerticalStackLayout Spacing="16">
+                        <Label Text="Pricing and Category" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}" />
+                        
+                        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="16">
+                            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                <Label Text="Cost Price" FontSize="12" TextColor="{StaticResource Gray500}" />
+                                <Entry Text="{Binding CostPrice}" Keyboard="Numeric" Placeholder="0.00" BackgroundColor="{StaticResource Gray100}" />
+                            </VerticalStackLayout>
+                            
+                            <VerticalStackLayout Grid.Column="1" Spacing="4">
+                                <Label Text="Selling Price" FontSize="12" TextColor="{StaticResource Gray500}" />
+                                <Entry Text="{Binding SellingPrice}" Keyboard="Numeric" Placeholder="0.00" BackgroundColor="{StaticResource Gray100}" />
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="2" Spacing="4">
+                                <Label Text="Category" FontSize="12" TextColor="{StaticResource Gray500}" />
+                                <Picker ItemsSource="{Binding Categories}" 
+                                        ItemDisplayBinding="{Binding Name}"
+                                        SelectedItem="{Binding SelectedCategory}"
+                                        BackgroundColor="{StaticResource Gray100}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Status and Tax -->
+                <Border BackgroundColor="{StaticResource White}" Padding="24" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="24">
+                        <HorizontalStackLayout Grid.Column="0" Spacing="12" VerticalOptions="Center">
+                            <Switch IsToggled="{Binding IsActive}" />
+                            <VerticalStackLayout Spacing="0">
+                                <Label Text="Product Active" FontAttributes="Bold" />
+                                <Label Text="Shown in POS and catalogs" FontSize="12" TextColor="{StaticResource Gray500}" />
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout Grid.Column="1" Spacing="12" VerticalOptions="Center">
+                            <Switch IsToggled="{Binding IsTaxable}" />
+                            <VerticalStackLayout Spacing="0">
+                                <Label Text="Taxable Item" FontAttributes="Bold" />
+                                <Label Text="Apply standard tax rates" FontSize="12" TextColor="{StaticResource Gray500}" />
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

@@ -1,9 +1,13 @@
-namespace EnterprisePOS.Features.Inventory.Views;
+using EnterprisePOS.Features.Inventory.ViewModels;
 
-public partial class InventoryPage : ContentPage
+namespace EnterprisePOS.Features.Inventory.Views
 {
-	public InventoryPage()
+	public partial class InventoryPage : ContentPage
 	{
-		InitializeComponent();
+		public InventoryPage(InventoryViewModel viewModel)
+		{
+			InitializeComponent();
+			BindingContext = viewModel;
+		}
 	}
 }

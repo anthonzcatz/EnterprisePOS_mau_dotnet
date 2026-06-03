@@ -1,30 +1,158 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:EnterprisePOS.Components"
+             xmlns:vm="clr-namespace:EnterprisePOS.Features.Users.ViewModels"
+             xmlns:models="clr-namespace:EnterprisePOS.Features.Users.Models"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="EnterprisePOS.Features.Users.Views.UsersPage"
-             Title="Users">
-    <Grid RowDefinitions="Auto,Auto,*">
-        <!-- Header -->
-        <Frame Grid.Row="0" BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" 
-               Padding="20" Margin="0">
-            <Label Text="Users" FontSize="28" FontAttributes="Bold" TextColor="White"/>
-        </Frame>
+             x:DataType="vm:UsersViewModel"
+             Title="Users"
+             ios:Page.UseSafeArea="True"
+             BackgroundColor="{StaticResource Gray100}">
 
-        <!-- Search and Actions -->
-        <Grid Grid.Row="1" Padding="15" ColumnDefinitions="*,Auto">
-            <Entry Grid.Column="0" Placeholder="Search users..." Margin="0,0,10,0"/>
-            <Button Grid.Column="1" Text="Add User" WidthRequest="150"/>
-        </Grid>
+    <Grid RowDefinitions="Auto,Auto,*" RowSpacing="0">
+        <Border Grid.Row="0" BackgroundColor="{StaticResource White}" StrokeThickness="0" Padding="24,20">
+            <Grid ColumnDefinitions="*,Auto">
+                <components:PageHeader Grid.Column="0"
+                                       Title="User Access"
+                                       Description="Monitor staff access, roles, and activity across the workspace." />
 
-        <!-- Content -->
-        <ScrollView Grid.Row="2">
-            <StackLayout Padding="15">
-                <Label Text="User management coming soon..." 
-                       HorizontalOptions="Center" 
-                       VerticalOptions="Center"
-                       FontSize="18"
-                       TextColor="Gray"/>
-            </StackLayout>
-        </ScrollView>
+                <Button Grid.Column="1"
+                        Text="+ Add User"
+                        Command="{Binding AddUserCommand}"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White"
+                        CornerRadius="8"
+                        Padding="16,10"
+                        VerticalOptions="Center" />
+            </Grid>
+        </Border>
+
+        <VerticalStackLayout Grid.Row="1" Padding="24,16" Spacing="16">
+            <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="16">
+                <components:MetricCardView Grid.Column="0" Title="Team Members" Value="{Binding TotalUsersText}" Icon="USR" Delta="Current roster" />
+                <components:MetricCardView Grid.Column="1" Title="Online Now" Value="{Binding ActiveUsersText}" Icon="ON" Delta="Active sessions" />
+                <components:MetricCardView Grid.Column="2" Title="Admins" Value="{Binding AdminUsersText}" Icon="ADM" Delta="Elevated access" />
+                <components:MetricCardView Grid.Column="3" Title="2FA Enabled" Value="{Binding TwoFactorUsersText}" Icon="2FA" Delta="Protected accounts" />
+            </Grid>
+
+            <Border BackgroundColor="{StaticResource White}" Padding="8" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                    <SearchBar Grid.Column="0"
+                               Placeholder="Search by name, role, email, or location..."
+                               Text="{Binding SearchQuery}"
+                               BackgroundColor="Transparent" />
+
+                    <Button Grid.Column="1"
+                            Text="Refresh"
+                            Command="{Binding RefreshCommand}"
+                            BackgroundColor="{StaticResource Gray100}"
+                            TextColor="{StaticResource TextPrimary}"
+                            WidthRequest="110" />
+                </Grid>
+            </Border>
+        </VerticalStackLayout>
+
+        <RefreshView Grid.Row="2" Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
+            <CollectionView ItemsSource="{Binding Users}" Margin="24,0,24,24">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="3" HorizontalItemSpacing="16" VerticalItemSpacing="16" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:UserListItem">
+                        <Border Padding="16" BackgroundColor="{StaticResource White}" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                            <VerticalStackLayout Spacing="12">
+                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                    <Border Grid.Column="0"
+                                            WidthRequest="48"
+                                            HeightRequest="48"
+                                            BackgroundColor="{StaticResource Gray100}"
+                                            StrokeThickness="0"
+                                            StrokeShape="RoundRectangle 24">
+                                        <Label Text="{Binding Initials}"
+                                               FontAttributes="Bold"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center"
+                                               TextColor="{StaticResource TextPrimary}" />
+                                    </Border>
+
+                                    <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                        <Label Text="{Binding FullName}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}" />
+                                        <Label Text="{Binding Email}" FontSize="12" TextColor="{StaticResource Gray500}" />
+                                    </VerticalStackLayout>
+
+                                    <Label Grid.Column="2"
+                                           Text="{Binding Status}"
+                                           FontSize="12"
+                                           FontAttributes="Bold"
+                                           VerticalOptions="Start">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsOnline}" Value="True">
+                                                <Setter Property="TextColor" Value="{StaticResource Success}" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Label" Binding="{Binding IsOnline}" Value="False">
+                                                <Setter Property="TextColor" Value="{StaticResource Gray500}" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                </Grid>
+
+                                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="8">
+                                    <VerticalStackLayout Grid.Row="0" Grid.Column="0" Spacing="2">
+                                        <Label Text="Role" FontSize="11" TextColor="{StaticResource Gray500}" />
+                                        <Label Text="{Binding Role}" FontSize="13" TextColor="{StaticResource TextPrimary}" />
+                                    </VerticalStackLayout>
+
+                                    <VerticalStackLayout Grid.Row="0" Grid.Column="1" Spacing="2">
+                                        <Label Text="Location" FontSize="11" TextColor="{StaticResource Gray500}" />
+                                        <Label Text="{Binding Location}" FontSize="13" TextColor="{StaticResource TextPrimary}" />
+                                    </VerticalStackLayout>
+
+                                    <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="2">
+                                        <Label Text="Last Active" FontSize="11" TextColor="{StaticResource Gray500}" />
+                                        <Label Text="{Binding LastActive}" FontSize="13" TextColor="{StaticResource TextPrimary}" />
+                                    </VerticalStackLayout>
+
+                                    <HorizontalStackLayout Grid.Row="1" Grid.Column="1" Spacing="8" VerticalOptions="End">
+                                        <Border BackgroundColor="{StaticResource Gray100}"
+                                                Padding="8,4"
+                                                StrokeThickness="0"
+                                                StrokeShape="RoundRectangle 8"
+                                                IsVisible="{Binding IsAdmin}">
+                                            <Label Text="Admin" FontSize="11" TextColor="{StaticResource TextPrimary}" />
+                                        </Border>
+
+                                        <Border BackgroundColor="{StaticResource Gray100}"
+                                                Padding="8,4"
+                                                StrokeThickness="0"
+                                                StrokeShape="RoundRectangle 8"
+                                                IsVisible="{Binding HasTwoFactor}">
+                                            <Label Text="2FA" FontSize="11" TextColor="{StaticResource TextPrimary}" />
+                                        </Border>
+                                    </HorizontalStackLayout>
+                                </Grid>
+
+                                <Button Text="View Access"
+                                        BackgroundColor="Transparent"
+                                        TextColor="{StaticResource Primary}"
+                                        HorizontalOptions="Start"
+                                        Padding="0"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:UsersViewModel}}, Path=ViewDetailsCommand}"
+                                        CommandParameter="{Binding .}" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+                <CollectionView.EmptyView>
+                    <components:EmptyStateView Title="No users found"
+                                               Message="Try a different search term or clear the current filter."
+                                               ActionText="Clear Search"
+                                               ActionCommand="{Binding ClearSearchCommand}" />
+                </CollectionView.EmptyView>
+            </CollectionView>
+        </RefreshView>
     </Grid>
 </ContentPage>

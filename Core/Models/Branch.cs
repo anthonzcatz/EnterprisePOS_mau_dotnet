@@ -10,5 +10,5 @@ public class Branch : BaseEntity
 
     // Navigation properties
     public ICollection<Sale> Sales { get; set; } = [];
-    public ICollection<Terminal> Terminals { get; set; } = [];
+    public ICollection<PosTerminal> Terminals { get; set; } = [];
 }

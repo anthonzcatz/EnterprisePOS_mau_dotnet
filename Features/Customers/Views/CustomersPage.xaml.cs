@@ -1,9 +1,13 @@
-namespace EnterprisePOS.Features.Customers.Views;
+using EnterprisePOS.Features.Customers.ViewModels;
 
-public partial class CustomersPage : ContentPage
+namespace EnterprisePOS.Features.Customers.Views
 {
-	public CustomersPage()
+	public partial class CustomersPage : ContentPage
 	{
-		InitializeComponent();
+		public CustomersPage(CustomersViewModel viewModel)
+		{
+			InitializeComponent();
+			BindingContext = viewModel;
+		}
 	}
 }

@@ -48,8 +48,8 @@ public class SaleTests : TestBase
     {
         // Arrange
         var branch = new Branch { Name = "Main", Code = "MAIN" };
-        var terminal = new PosTerminal { Name = "Terminal 1", Code = "T1", Branch = branch };
-        var sale = new Sale { Branch = branch, Terminal = terminal, SaleNumber = "SALE001", TotalAmount = 100.00m };
+        var terminal = new PosTerminal { Name = "T1", Code = "T1", Branch = branch };
+        var sale = new Sale { Branch = branch, Terminal = terminal, SaleNumber = "S1", TotalAmount = 100 };
         
         Context.Branches.Add(branch);
         Context.PosTerminals.Add(terminal);

@@ -1,9 +1,13 @@
-namespace EnterprisePOS.Features.Products.Views;
+using EnterprisePOS.Features.Products.ViewModels;
 
-public partial class ProductsPage : ContentPage
+namespace EnterprisePOS.Features.Products.Views
 {
-	public ProductsPage()
+	public partial class ProductsPage : ContentPage
 	{
-		InitializeComponent();
+		public ProductsPage(ProductsViewModel viewModel)
+		{
+			InitializeComponent();
+			BindingContext = viewModel;
+		}
 	}
 }

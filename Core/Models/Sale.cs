@@ -15,7 +15,7 @@ public class Sale : BaseEntity
 
     // Navigation properties
     public Branch? Branch { get; set; }
-    public Terminal? Terminal { get; set; }
+    public PosTerminal? Terminal { get; set; }
     public Customer? Customer { get; set; }
     public ICollection<SaleItem> SaleItems { get; set; } = [];
     public ICollection<SalePayment> SalePayments { get; set; } = [];

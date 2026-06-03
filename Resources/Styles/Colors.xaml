@@ -1,87 +1,104 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <!-- ===== PRIMARY COLORS (Falcon Admin) ===== -->
-    <Color x:Key="Primary">#2C7BE5</Color>
-    <Color x:Key="PrimaryDark">#1A5CBE</Color>
-    <Color x:Key="PrimaryLight">#4A90E2</Color>
+    <!-- ===== PRIMARY COLORS (Professional Enterprise Palette) ===== -->
+    <Color x:Key="Primary">#356AE6</Color>
+    <Color x:Key="PrimaryDark">#2F63B8</Color>
+    <Color x:Key="PrimaryLight">#EAF1FF</Color>
     <Color x:Key="PrimaryDarkText">#FFFFFF</Color>
 
     <!-- ===== SEMANTIC COLORS ===== -->
-    <Color x:Key="Success">#00D97E</Color>
-    <Color x:Key="SuccessLight">#E6FFF4</Color>
-    <Color x:Key="Warning">#F6C343</Color>
-    <Color x:Key="WarningLight">#FFF8E6</Color>
-    <Color x:Key="Danger">#E63757</Color>
-    <Color x:Key="DangerLight">#FFE6EC</Color>
-    <Color x:Key="Info">#39ADF0</Color>
-    <Color x:Key="InfoLight">#E6F7FF</Color>
+    <Color x:Key="Success">#1FA66A</Color>
+    <Color x:Key="SuccessLight">#E6F6EF</Color>
+    <Color x:Key="Warning">#C88A24</Color>
+    <Color x:Key="WarningLight">#FFF4E2</Color>
+    <Color x:Key="Danger">#D95364</Color>
+    <Color x:Key="DangerLight">#FCECEF</Color>
+    <Color x:Key="Info">#6E56CF</Color>
+    <Color x:Key="InfoLight">#F1EBFF</Color>
 
     <!-- ===== NEUTRAL COLORS ===== -->
     <Color x:Key="BackgroundPrimary">#FFFFFF</Color>
-    <Color x:Key="BackgroundSecondary">#F9FAFD</Color>
-    <Color x:Key="BackgroundTertiary">#E9ECEF</Color>
-    <Color x:Key="TextPrimary">#344050</Color>
-    <Color x:Key="TextSecondary">#6C757D</Color>
-    <Color x:Key="TextMuted">#95A5A6</Color>
-    <Color x:Key="BorderColor">#E9ECEF</Color>
+    <Color x:Key="BackgroundSecondary">#F4F7FC</Color>
+    <Color x:Key="BackgroundTertiary">#EEF3FB</Color>
+    <Color x:Key="TextPrimary">#1F2A3D</Color>
+    <Color x:Key="TextSecondary">#4B5B74</Color>
+    <Color x:Key="TextMuted">#73819A</Color>
+    <Color x:Key="BorderColor">#D7E1F0</Color>
 
-    <!-- ===== SIDEBAR COLORS ===== -->
-    <Color x:Key="SidebarBackgroundStart">#1A1D2E</Color>
-    <Color x:Key="SidebarBackgroundEnd">#252A40</Color>
-    <Color x:Key="SidebarActiveItem">#2C7BE5</Color>
-    <Color x:Key="SidebarHoverItem">#2E3550</Color>
+    <!-- ===== SIDEBAR / HEADER COLORS ===== -->
+    <Color x:Key="SidebarBackgroundStart">#1F3353</Color>
+    <Color x:Key="SidebarBackgroundEnd">#2F63B8</Color>
+    <Color x:Key="SidebarActiveItem">#356AE6</Color>
+    <Color x:Key="SidebarHoverItem">#2A456C</Color>
     <Color x:Key="SidebarText">#FFFFFF</Color>
-    <Color x:Key="SidebarTextMuted">#95A5A6</Color>
+    <Color x:Key="SidebarTextMuted">#C9D5E7</Color>
 
     <!-- ===== CHART ACCENT COLORS ===== -->
-    <Color x:Key="ChartBlue">#2C7BE5</Color>
-    <Color x:Key="ChartGreen">#00D97E</Color>
-    <Color x:Key="ChartYellow">#F6C343</Color>
-    <Color x:Key="ChartRed">#E63757</Color>
-    <Color x:Key="ChartPurple">#8B5CF6</Color>
-    <Color x:Key="ChartTeal">#39ADF0</Color>
+    <Color x:Key="ChartBlue">#356AE6</Color>
+    <Color x:Key="ChartGreen">#1FA66A</Color>
+    <Color x:Key="ChartYellow">#C88A24</Color>
+    <Color x:Key="ChartRed">#D95364</Color>
+    <Color x:Key="ChartPurple">#6E56CF</Color>
+    <Color x:Key="ChartTeal">#3A7BD5</Color>
 
     <!-- ===== GRADIENTS ===== -->
-    <Color x:Key="ChartGradientStart">#2C7BE5</Color>
-    <Color x:Key="ChartGradientEnd">#00D97E</Color>
+    <Color x:Key="ChartGradientStart">#2F63B8</Color>
+    <Color x:Key="ChartGradientEnd">#3A7BD5</Color>
 
     <!-- ===== BASE COLORS ===== -->
     <Color x:Key="White">#FFFFFF</Color>
     <Color x:Key="Black">#000000</Color>
-    <Color x:Key="OffBlack">#1A1D2E</Color>
-    <Color x:Key="Magenta">#2C7BE5</Color>
-    <Color x:Key="MidnightBlue">#344050</Color>
+    <Color x:Key="OffBlack">#121820</Color>
+    <Color x:Key="Magenta">#356AE6</Color>
+    <Color x:Key="MidnightBlue">#1F3353</Color>
 
     <!-- ===== LEGACY COMPAT (referenced by default Styles.xaml) ===== -->
-    <Color x:Key="Secondary">#6C757D</Color>
-    <Color x:Key="SecondaryDark">#495057</Color>
+    <Color x:Key="Secondary">#6E56CF</Color>
+    <Color x:Key="SecondaryDark">#5A44B8</Color>
     <Color x:Key="SecondaryDarkText">#FFFFFF</Color>
-    <Color x:Key="SecondaryLight">#F9FAFD</Color>
+    <Color x:Key="SecondaryLight">#F1EBFF</Color>
 
     <!-- ===== GRAY SCALE ===== -->
-    <Color x:Key="Gray50">#F9FAFD</Color>
-    <Color x:Key="Gray100">#E9ECEF</Color>
-    <Color x:Key="Gray200">#DEE2E6</Color>
-    <Color x:Key="Gray300">#CED4DA</Color>
-    <Color x:Key="Gray400">#ADB5BD</Color>
-    <Color x:Key="Gray500">#6C757D</Color>
-    <Color x:Key="Gray600">#495057</Color>
-    <Color x:Key="Gray700">#344050</Color>
-    <Color x:Key="Gray800">#212529</Color>
-    <Color x:Key="Gray900">#1A1D2E</Color>
-    <Color x:Key="Gray950">#0D1117</Color>
+    <Color x:Key="Gray50">#F8FAFD</Color>
+    <Color x:Key="Gray100">#EEF3FB</Color>
+    <Color x:Key="Gray200">#D7E1F0</Color>
+    <Color x:Key="Gray300">#C5D2E5</Color>
+    <Color x:Key="Gray400">#A5B4C8</Color>
+    <Color x:Key="Gray500">#73819A</Color>
+    <Color x:Key="Gray600">#5F6E86</Color>
+    <Color x:Key="Gray700">#4B5B74</Color>
+    <Color x:Key="Gray800">#2F3D52</Color>
+    <Color x:Key="Gray900">#1F2A3D</Color>
+    <Color x:Key="Gray950">#121820</Color>
 
     <!-- ===== POS LAYOUT TOKENS (backward compat) ===== -->
-    <Color x:Key="PosSidebar">#1A1D2E</Color>
-    <Color x:Key="PosNavActive">#2C7BE5</Color>
-    <Color x:Key="PosCanvas">#F9FAFD</Color>
+    <Color x:Key="PosSidebar">#1F3353</Color>
+    <Color x:Key="PosNavActive">#356AE6</Color>
+    <Color x:Key="PosCanvas">#F4F7FC</Color>
     <Color x:Key="PosCard">#FFFFFF</Color>
-    <Color x:Key="PosBorder">#E9ECEF</Color>
-    <Color x:Key="PosTextMuted">#95A5A6</Color>
-    <Color x:Key="PosStockBadge">#1A1D2E</Color>
+    <Color x:Key="PosBorder">#D7E1F0</Color>
+    <Color x:Key="PosTextMuted">#73819A</Color>
+    <Color x:Key="PosStockBadge">#1F3353</Color>
+
+    <!-- ===== CARD COLORS ===== -->
+    <Color x:Key="CardBackground">#FFFFFF</Color>
+
+    <!-- ===== POS-SPECIFIC COLORS ===== -->
+    <Color x:Key="PosAccentGreen">#1FA66A</Color>
+    <Color x:Key="PosDangerRed">#D95364</Color>
+    <Color x:Key="PosOverlayDark">#66000000</Color>
+    <Color x:Key="PosOverlayMedium">#80000000</Color>
+    <Color x:Key="PosSidebarAccent">#6AA5FF</Color>
+    <Color x:Key="PosCartBackground">#F2F6FD</Color>
+    <Color x:Key="PosDarkGray">#202C3C</Color>
+
+    <!-- ===== CHART LEGEND COLORS ===== -->
+    <Color x:Key="ChartLegend1">#356AE6</Color>
+    <Color x:Key="ChartLegend2">#6E56CF</Color>
+    <Color x:Key="ChartLegend3">#1FA66A</Color>
 
     <!-- ===== BRUSHES ===== -->
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}" />

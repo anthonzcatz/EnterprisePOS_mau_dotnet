@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Windows.Input;
 using EnterprisePOS.Helpers;
 using EnterprisePOS.Interfaces;
@@ -52,16 +54,10 @@ public sealed class POSViewModel : BaseViewModel
 		ToggleMobileCartCommand = new Command(ToggleMobileCart);
 		ToggleMobileCheckoutCommand = new Command(ToggleMobileCheckout);
 
-		CartItems.CollectionChanged += (_, _) =>
-		{
-			CartItemCount = CartItems.Sum(item => item.Quantity);
-			OnPropertyChanged(nameof(SubTotal));
-			OnPropertyChanged(nameof(TaxAmount));
-			OnPropertyChanged(nameof(DiscountAmount));
-			OnPropertyChanged(nameof(TotalPayment));
-		};
+		Products.CollectionChanged += OnProductsCollectionChanged;
+		CartItems.CollectionChanged += OnCartItemsCollectionChanged;
 
-		CartItemCount = CartItems.Sum(item => item.Quantity);
+		NotifyCartStateChanged();
 	}
 
 	public ObservableCollection<Product> Products { get; } = [];
@@ -96,7 +92,11 @@ public sealed class POSViewModel : BaseViewModel
 
 	public string CashierName { get; } = "Antonella";
 	public string CashierRole { get; } = "Cashier";
-	public string CashierImageUrl { get; } = "https://picsum.photos/seed/cashier/80/80";
+	public string CashierInitials =>
+		string.Concat(CashierName
+			.Split(' ', StringSplitOptions.RemoveEmptyEntries)
+			.Select(part => char.ToUpperInvariant(part[0])))
+		[..Math.Min(2, CashierName.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length)];
 
 	public string PaymentMethodLabel => PaymentMethods[paymentMethodIndex].Label;
 	public string PaymentMethodIcon => PaymentMethods[paymentMethodIndex].Icon;
@@ -158,10 +158,76 @@ public sealed class POSViewModel : BaseViewModel
 	{
 		get
 		{
-			if (availableWidth < 600) return 1;
-			if (availableWidth < 900) return 2;
-			if (availableWidth < 1200) return 3;
+			var catalogWidth = GetCatalogWidthEstimate();
+			if (catalogWidth < 360) return 1;
+			if (catalogWidth < 700) return 2;
+			if (catalogWidth < 980) return 3;
 			return 4;
+		}
+	}
+
+	public double CartColumnWidth
+	{
+		get
+		{
+			if (availableWidth < 1100) return 320;
+			if (availableWidth < 1400) return 344;
+			return 380;
+		}
+	}
+
+	public double DesktopIdentityWidth
+	{
+		get
+		{
+			if (availableWidth < 1180) return 150;
+			if (availableWidth < 1380) return 180;
+			return 220;
+		}
+	}
+
+	public bool ShowDesktopUtilityActions => availableWidth >= 1180;
+
+	public int MobileProductGridSpan => availableWidth > 0 && availableWidth < 430 ? 1 : 2;
+
+	public double MobileProductListHeight
+	{
+		get
+		{
+			if (Products.Count == 0)
+			{
+				return 0;
+			}
+
+			var rows = (int)Math.Ceiling(Products.Count / (double)MobileProductGridSpan);
+			var rowHeight = MobileProductGridSpan == 1 ? 246 : 228;
+			return rows * rowHeight + Math.Max(0, rows - 1) * 10;
+		}
+	}
+
+	public double MobileCartListHeight
+	{
+		get
+		{
+			if (CartItems.Count == 0)
+			{
+				return 0;
+			}
+
+			return CartItems.Count * 92 + Math.Max(0, CartItems.Count - 1) * 8;
+		}
+	}
+
+	public double CheckoutModalWidth
+	{
+		get
+		{
+			if (availableWidth <= 0)
+			{
+				return 380;
+			}
+
+			return Math.Clamp(availableWidth - 24, 280, 420);
 		}
 	}
 
@@ -169,6 +235,13 @@ public sealed class POSViewModel : BaseViewModel
 	{
 		availableWidth = width;
 		OnPropertyChanged(nameof(ProductGridSpan));
+		OnPropertyChanged(nameof(CartColumnWidth));
+		OnPropertyChanged(nameof(DesktopIdentityWidth));
+		OnPropertyChanged(nameof(ShowDesktopUtilityActions));
+		OnPropertyChanged(nameof(MobileProductGridSpan));
+		OnPropertyChanged(nameof(MobileProductListHeight));
+		OnPropertyChanged(nameof(MobileCartListHeight));
+		OnPropertyChanged(nameof(CheckoutModalWidth));
 		OnPropertyChanged(nameof(MobileSidebarWidth));
 	}
 
@@ -223,12 +296,12 @@ public sealed class POSViewModel : BaseViewModel
 	private void LoadNavItems()
 	{
 		NavItems.Clear();
-		NavItems.Add(new PosNavItem { Key = "home", Title = "Home", Glyph = "\uE80F" });
-		NavItems.Add(new PosNavItem { Key = "pos", Title = "Register", Glyph = "\uE719", IsActive = true });
-		NavItems.Add(new PosNavItem { Key = "orders", Title = "Orders", Glyph = "\uE7BF" });
-		NavItems.Add(new PosNavItem { Key = "kitchen", Title = "Kitchen", Glyph = "\uE790" });
-		NavItems.Add(new PosNavItem { Key = "customers", Title = "Guests", Glyph = "\uE77B" });
-		NavItems.Add(new PosNavItem { Key = "reports", Title = "Reports", Glyph = "\uE9D2" });
+		NavItems.Add(new PosNavItem { Key = "home", Title = "Home", Glyph = "⌂" });
+		NavItems.Add(new PosNavItem { Key = "pos", Title = "Register", Glyph = "⊞", IsActive = true });
+		NavItems.Add(new PosNavItem { Key = "orders", Title = "Orders", Glyph = "🧾" });
+		NavItems.Add(new PosNavItem { Key = "kitchen", Title = "Kitchen", Glyph = "🍳" });
+		NavItems.Add(new PosNavItem { Key = "customers", Title = "Guests", Glyph = "👥" });
+		NavItems.Add(new PosNavItem { Key = "reports", Title = "Reports", Glyph = "📊" });
 	}
 
 	private void LoadProfileMenuItems()
@@ -358,6 +431,70 @@ public sealed class POSViewModel : BaseViewModel
 		{
 			Products.Add(product);
 		}
+	}
+
+	private void OnProductsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+	{
+		OnPropertyChanged(nameof(MobileProductListHeight));
+	}
+
+	private void OnCartItemsCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+	{
+		if (e.OldItems is not null)
+		{
+			foreach (CartItem item in e.OldItems)
+			{
+				item.PropertyChanged -= OnCartItemPropertyChanged;
+			}
+		}
+
+		if (e.NewItems is not null)
+		{
+			foreach (CartItem item in e.NewItems)
+			{
+				item.PropertyChanged += OnCartItemPropertyChanged;
+			}
+		}
+
+		NotifyCartStateChanged();
+	}
+
+	private void OnCartItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
+	{
+		if (e.PropertyName is nameof(CartItem.Quantity) or nameof(CartItem.LineTotal))
+		{
+			NotifyCartStateChanged();
+		}
+	}
+
+	private void NotifyCartStateChanged()
+	{
+		CartItemCount = CartItems.Sum(item => item.Quantity);
+		OnPropertyChanged(nameof(SubTotal));
+		OnPropertyChanged(nameof(TaxAmount));
+		OnPropertyChanged(nameof(DiscountAmount));
+		OnPropertyChanged(nameof(TotalPayment));
+		OnPropertyChanged(nameof(MobileCartListHeight));
+	}
+
+	private double GetCatalogWidthEstimate()
+	{
+		if (availableWidth <= 0)
+		{
+			return 720;
+		}
+
+		if (availableWidth >= LayoutBreakpoints.DesktopMin)
+		{
+			return Math.Max(
+				320,
+				availableWidth -
+				(IsSidebarCollapsed ? SidebarCollapsedWidth : SidebarExpandedWidth) -
+				CartColumnWidth -
+				40);
+		}
+
+		return availableWidth - 24;
 	}
 
 	private void AddToCart(Product? product)

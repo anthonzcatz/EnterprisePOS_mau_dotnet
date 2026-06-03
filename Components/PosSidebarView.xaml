@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="EnterprisePOS.Components.PosSidebarView"
@@ -15,7 +15,7 @@
             <HorizontalStackLayout Spacing="10"
                                    HorizontalOptions="{Binding Source={x:Reference Root}, Path=HeaderHorizontalOptions}"
                                    VerticalOptions="Center">
-                <Border BackgroundColor="#C9FA6A"
+                <Border BackgroundColor="{StaticResource PosSidebarAccent}"
                         WidthRequest="40"
                         HeightRequest="40"
                         StrokeThickness="0">
@@ -92,7 +92,6 @@
                                         </DataTrigger>
                                     </Border.Triggers>
                                     <Label Text="{Binding Glyph}"
-                                           FontFamily="Segoe MDL2 Assets"
                                            FontSize="17"
                                            HorizontalOptions="Center"
                                            VerticalOptions="Center"
@@ -147,7 +146,6 @@
                                             </DataTrigger>
                                         </Border.Triggers>
                                         <Label Text="{Binding Glyph}"
-                                               FontFamily="Segoe MDL2 Assets"
                                                FontSize="17"
                                                HorizontalOptions="Center"
                                                VerticalOptions="Center"

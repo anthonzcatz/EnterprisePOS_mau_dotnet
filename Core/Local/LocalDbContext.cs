@@ -26,7 +26,7 @@ public class LocalDbContext : DbContext, ILocalDbContext
     public DbSet<Sale> Sales { get; set; } = null!;
     public DbSet<SaleItem> SaleItems { get; set; } = null!;
     public DbSet<Branch> Branches { get; set; } = null!;
-    public DbSet<Terminal> Terminals { get; set; } = null!;
+    public DbSet<PosTerminal> PosTerminals { get; set; } = null!;
     public DbSet<Customer> Customers { get; set; } = null!;
     public DbSet<SalePayment> SalePayments { get; set; } = null!;
     public DbSet<PaymentMethod> PaymentMethods { get; set; } = null!;
@@ -101,7 +101,7 @@ public class LocalDbContext : DbContext, ILocalDbContext
             .OnDelete(DeleteBehavior.Restrict);
 
         // Terminal configuration
-        modelBuilder.Entity<Terminal>()
+        modelBuilder.Entity<PosTerminal>()
             .HasOne(t => t.Branch)
             .WithMany(b => b.Terminals)
             .HasForeignKey(t => t.BranchId)

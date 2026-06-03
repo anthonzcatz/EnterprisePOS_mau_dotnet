@@ -51,7 +51,7 @@
                     MaximumWidthRequest="20"
                     MinimumHeightRequest="20"
                     MaximumHeightRequest="20"
-                    BackgroundColor="#DC2626"
+                    BackgroundColor="{StaticResource PosDangerRed}"
                     StrokeThickness="0"
                     VerticalOptions="Start"
                     HorizontalOptions="End">

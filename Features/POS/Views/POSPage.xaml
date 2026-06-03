@@ -1,28 +1,28 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:components="clr-namespace:EnterprisePOS.Components"
              xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="EnterprisePOS.Features.POS.Views.POSPage"
              x:Name="Page"
-             Title="Dos Avenue"
-             BackgroundColor="{StaticResource PosCanvas}"
+             Title="EnterprisePOS"
+             BackgroundColor="#F9FAFD"
              ios:Page.UseSafeArea="True">
 
     <Grid x:Name="LayoutRoot">
 
         <!-- Content Container -->
-        <Grid IsVisible="{Binding IsContentVisible}">
+        <Grid >
             <!-- Tablet / laptop â€” navbar row 0; catalog + cart split row 1 -->
             <Grid x:Name="WideLayout"
-                  IsVisible="False"
+                  IsVisible="True"
                   ColumnSpacing="0"
                   RowDefinitions="Auto,*"
                   RowSpacing="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="{Binding SidebarGridLength}" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="380" />
+                <ColumnDefinition Width="{Binding CartColumnWidth}" />
             </Grid.ColumnDefinitions>
 
             <components:PosSidebarView Grid.RowSpan="2"
@@ -48,7 +48,7 @@
                         <VerticalStackLayout Grid.Column="0"
                                              Spacing="0"
                                              VerticalOptions="Center"
-                                             WidthRequest="200"
+                                             WidthRequest="{Binding DesktopIdentityWidth}"
                                              Margin="0,0,4,0">
                             <Label Text="{Binding StoreName}"
                                    FontSize="17"
@@ -70,6 +70,7 @@
                         <Button Grid.Column="2"
                                 Text="Open Tab"
                                 Style="{StaticResource PosCreateNoteButton}"
+                                IsVisible="{Binding ShowDesktopUtilityActions}"
                                 VerticalOptions="Center" />
                         <!-- Chat icon -->
                         <Border Grid.Column="3"
@@ -78,6 +79,7 @@
                                 Stroke="{StaticResource PosBorder}"
                                 StrokeThickness="1"
                                 BackgroundColor="{StaticResource White}"
+                                IsVisible="{Binding ShowDesktopUtilityActions}"
                                 VerticalOptions="Center">
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="10" />
@@ -96,6 +98,7 @@
                                 Stroke="{StaticResource PosBorder}"
                                 StrokeThickness="1"
                                 BackgroundColor="{StaticResource White}"
+                                IsVisible="{Binding ShowDesktopUtilityActions}"
                                 VerticalOptions="Center">
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="10" />
@@ -117,12 +120,17 @@
                             <Border StrokeThickness="0"
                                     HeightRequest="36"
                                     WidthRequest="36"
+                                    BackgroundColor="{StaticResource Primary}"
                                     VerticalOptions="Center">
                                 <Border.StrokeShape>
                                     <RoundRectangle CornerRadius="18" />
                                 </Border.StrokeShape>
-                                <Image Source="{Binding CashierImageUrl}"
-                                       Aspect="AspectFill" />
+                                <Label Text="{Binding CashierInitials}"
+                                       FontSize="12"
+                                       FontAttributes="Bold"
+                                       TextColor="{StaticResource OffBlack}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
                             </Border>
                             <VerticalStackLayout Spacing="0"
                                                  VerticalOptions="Center">
@@ -149,7 +157,7 @@
                   Grid.Column="1"
                   RowDefinitions="Auto,Auto,Auto,*"
                   RowSpacing="0"
-                  BackgroundColor="{StaticResource PosCanvas}">
+                  BackgroundColor="#F9FAFD">
                 <BoxView Grid.Row="0"
                          HeightRequest="1"
                          Color="{StaticResource PosBorder}"
@@ -209,7 +217,7 @@
             <!-- Cart â€” full height directly under cashier navbar -->
             <Grid Grid.Row="1"
                   Grid.Column="2"
-                  BackgroundColor="{StaticResource PosCanvas}"
+                  BackgroundColor="#F9FAFD"
                   Padding="12,12,18,16"
                   RowDefinitions="*,Auto,Auto,Auto,Auto"
                   RowSpacing="12">
@@ -522,13 +530,18 @@
                                 <Border Grid.Column="0"
                                         WidthRequest="28"
                                         HeightRequest="28"
+                                        BackgroundColor="{StaticResource Primary}"
                                         StrokeThickness="0"
                                         VerticalOptions="Center">
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="14" />
                                     </Border.StrokeShape>
-                                    <Image Source="{Binding CashierImageUrl}"
-                                           Aspect="AspectFill" />
+                                    <Label Text="{Binding CashierInitials}"
+                                           FontSize="10"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource OffBlack}"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
                                 </Border>
                                 <VerticalStackLayout Grid.Column="1"
                                                      Spacing="0"
@@ -669,9 +682,13 @@
 
                     <CollectionView ItemsSource="{Binding Products}"
                                     SelectionMode="None"
-                                    HeightRequest="360">
+                                    HeightRequest="{Binding MobileProductListHeight}"
+                                    VerticalScrollBarVisibility="Never">
                         <CollectionView.ItemsLayout>
-                            <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="10" VerticalItemSpacing="10" />
+                            <GridItemsLayout Orientation="Vertical"
+                                             Span="{Binding MobileProductGridSpan}"
+                                             HorizontalItemSpacing="10"
+                                             VerticalItemSpacing="10" />
                         </CollectionView.ItemsLayout>
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
@@ -694,7 +711,8 @@
                             StrokeShape="RoundRectangle 16">
                         <CollectionView ItemsSource="{Binding CartItems}"
                                         SelectionMode="None"
-                                        HeightRequest="200">
+                                        HeightRequest="{Binding MobileCartListHeight}"
+                                        VerticalScrollBarVisibility="Never">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <components:PosCartLineView Title="{Binding Name}"
@@ -903,7 +921,7 @@
               VerticalOptions="Fill">
             <Border HorizontalOptions="Center"
                     VerticalOptions="Center"
-                    WidthRequest="380"
+                    WidthRequest="{Binding CheckoutModalWidth}"
                     BackgroundColor="{StaticResource White}"
                     StrokeThickness="0"
                     Margin="20"

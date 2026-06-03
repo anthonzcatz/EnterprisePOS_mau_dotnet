@@ -1,6 +1,6 @@
 namespace EnterprisePOS.Core.Data.Models;
 
-public class Terminal : BaseEntity
+public class PosTerminal : BaseEntity
 {
     public string Name { get; set; } = string.Empty;
     public int BranchId { get; set; }

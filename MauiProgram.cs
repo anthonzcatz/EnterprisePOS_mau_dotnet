@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using EnterprisePOS.Interfaces;
 using EnterprisePOS.Services;
 using EnterprisePOS.Features.POS.ViewModels;
@@ -10,12 +10,18 @@ using EnterprisePOS.Features.Dashboard.Services;
 using EnterprisePOS.Features.Settings.ViewModels;
 using EnterprisePOS.Features.Settings.Views;
 using EnterprisePOS.Features.Customers.Views;
+using EnterprisePOS.Features.Customers.ViewModels;
 using EnterprisePOS.Features.Sales.Views;
+using EnterprisePOS.Features.Sales.ViewModels;
 using EnterprisePOS.Features.Reports.Views;
 using EnterprisePOS.Features.Users.Views;
+using EnterprisePOS.Features.Users.ViewModels;
 using EnterprisePOS.Features.Products.Views;
+using EnterprisePOS.Features.Products.ViewModels;
 using EnterprisePOS.Features.Inventory.Views;
+using EnterprisePOS.Features.Inventory.ViewModels;
 using EnterprisePOS.Core.Data.Local;
+using EnterprisePOS.Core.Data.Repositories;
 using EnterprisePOS.Core.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,9 +47,16 @@ public static class MauiProgram
 		// Core Services
 		builder.Services.AddSingleton<IImageService, ImageService>();
 
+		// Repositories
+		builder.Services.AddScoped<ProductRepository>();
+		builder.Services.AddScoped<ProductCategoryRepository>();
+		builder.Services.AddScoped<ProductStockRepository>();
+		builder.Services.AddScoped<SaleRepository>();
+		builder.Services.AddScoped<CustomerRepository>();
+
 		// Services
 		builder.Services.AddSingleton<ThemeService>();
-		builder.Services.AddSingleton<IPosService, PosServiceAdapter>();
+		builder.Services.AddSingleton<IPosService, MockPosService>();
 		builder.Services.AddSingleton<ILoggingService, LoggingService>();
 		builder.Services.AddSingleton<IDashboardService, MockDashboardService>();
 
@@ -55,11 +68,18 @@ public static class MauiProgram
 		builder.Services.AddTransient<DashboardHomePage>();
 		builder.Services.AddTransient<SettingsViewModel>();
 		builder.Services.AddTransient<SettingsPage>();
+		builder.Services.AddTransient<CustomersViewModel>();
 		builder.Services.AddTransient<CustomersPage>();
+		builder.Services.AddTransient<SalesViewModel>();
 		builder.Services.AddTransient<SalesPage>();
 		builder.Services.AddTransient<ReportsPage>();
+		builder.Services.AddTransient<UsersViewModel>();
 		builder.Services.AddTransient<UsersPage>();
+		builder.Services.AddTransient<ProductsViewModel>();
+		builder.Services.AddTransient<ProductEditorViewModel>();
 		builder.Services.AddTransient<ProductsPage>();
+		builder.Services.AddTransient<ProductEditorPage>();
+		builder.Services.AddTransient<InventoryViewModel>();
 		builder.Services.AddTransient<InventoryPage>();
 
 #if DEBUG

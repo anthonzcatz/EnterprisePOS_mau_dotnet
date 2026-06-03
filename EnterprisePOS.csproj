@@ -26,7 +26,7 @@
 
 
 
-		<ApplicationTitle>Dos Avenue</ApplicationTitle>
+		<ApplicationTitle>EnterprisePOS</ApplicationTitle>
 
 		<ApplicationId>com.companyname.enterprisepos</ApplicationId>
 
@@ -36,8 +36,8 @@
 
 
 
-		<!-- Use MSIX for installer -->
-		<WindowsPackageType Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">MSIX</WindowsPackageType>
+		<!-- Use None for regular exe without MSIX packaging -->
+		<WindowsPackageType Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">None</WindowsPackageType>
 
 		<!-- Embed WinAppSDK runtime so the .exe runs on any machine without system registration -->
 		<WindowsAppSDKSelfContained Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">false</WindowsAppSDKSelfContained>
@@ -71,9 +71,11 @@
 
 	<ItemGroup>
 
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg"
+		          ForegroundFile="Resources\AppIcon\appiconfg.svg"
+		          Color="#1D4ED8" />
 
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#FFFFFF" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\splash.png" Color="#FFFFFF" BaseSize="512,512" />
 
 		<MauiImage Include="Resources\Images\*" />
 

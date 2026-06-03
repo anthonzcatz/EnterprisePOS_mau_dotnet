@@ -1,30 +1,106 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:EnterprisePOS.Components"
+             xmlns:vm="clr-namespace:EnterprisePOS.Features.Sales.ViewModels"
+             xmlns:models="clr-namespace:EnterprisePOS.Core.Data.Models"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="EnterprisePOS.Features.Sales.Views.SalesPage"
-             Title="Sales">
-    <Grid RowDefinitions="Auto,Auto,*">
-        <!-- Header -->
-        <Frame Grid.Row="0" BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" 
-               Padding="20" Margin="0">
-            <Label Text="Sales" FontSize="28" FontAttributes="Bold" TextColor="White"/>
-        </Frame>
+             x:DataType="vm:SalesViewModel"
+             Title="Sales History"
+             ios:Page.UseSafeArea="True"
+             BackgroundColor="{StaticResource Gray100}">
 
-        <!-- Search and Actions -->
-        <Grid Grid.Row="1" Padding="15" ColumnDefinitions="*,Auto">
-            <Entry Grid.Column="0" Placeholder="Search sales..." Margin="0,0,10,0"/>
-            <Button Grid.Column="1" Text="New Sale" WidthRequest="150"/>
-        </Grid>
+    <Grid RowDefinitions="Auto,Auto,*" RowSpacing="0">
+        <!-- Header Section -->
+        <Border Grid.Row="0" BackgroundColor="{StaticResource White}" StrokeThickness="0" Padding="24,20">
+            <Grid ColumnDefinitions="*,Auto">
+                <components:PageHeader Grid.Column="0" 
+                                      Title="Sales History" 
+                                      Description="Review transactions, inspect details, and export reports." />
+                
+                <HorizontalStackLayout Grid.Column="1" Spacing="12" VerticalOptions="Center">
+                    <Button Text="Export CSV" 
+                            BackgroundColor="{StaticResource Gray100}"
+                            TextColor="{StaticResource TextPrimary}"
+                            CornerRadius="8"
+                            Padding="16,10" />
+                    <Button Text="New Sale" 
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White"
+                            CornerRadius="8"
+                            Padding="16,10" />
+                </HorizontalStackLayout>
+            </Grid>
+        </Border>
 
-        <!-- Content -->
-        <ScrollView Grid.Row="2">
-            <StackLayout Padding="15">
-                <Label Text="Sales management coming soon..." 
-                       HorizontalOptions="Center" 
-                       VerticalOptions="Center"
-                       FontSize="18"
-                       TextColor="Gray"/>
-            </StackLayout>
-        </ScrollView>
+        <!-- KPI Strip and Filters -->
+        <VerticalStackLayout Grid.Row="1" Padding="24,16" Spacing="16">
+            <!-- Stats Strip -->
+            <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="16">
+                <components:MetricCardView Grid.Column="0" Title="Total Revenue" Value="{Binding TotalSales, StringFormat='₱{0:N2}'}" Icon="💰" />
+                <components:MetricCardView Grid.Column="1" Title="Transactions" Value="{Binding TransactionCount, StringFormat='{0}'}" Icon="🧾" />
+                <components:MetricCardView Grid.Column="2" Title="Refunds" Value="0" Icon="🔄" IsPositive="False" />
+                <components:MetricCardView Grid.Column="3" Title="Average Value" Value="₱0.00" Icon="📊" />
+            </Grid>
+
+            <!-- Search and Filter Bar -->
+            <Border BackgroundColor="{StaticResource White}" Padding="8" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                    <SearchBar Grid.Column="0" 
+                               Placeholder="Search by sale # or customer..." 
+                               Text="{Binding SearchQuery}"
+                               BackgroundColor="Transparent" />
+                    
+                    <Button Grid.Column="1" 
+                            Text="Advanced Filters" 
+                            BackgroundColor="{StaticResource Gray100}"
+                            TextColor="{StaticResource TextPrimary}" />
+                </Grid>
+            </Border>
+        </VerticalStackLayout>
+
+        <!-- Sales List -->
+        <RefreshView Grid.Row="2" Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
+            <Border Margin="24,0,24,24" BackgroundColor="{StaticResource White}" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                <CollectionView ItemsSource="{Binding Sales}">
+                    <CollectionView.Header>
+                        <Grid ColumnDefinitions="*,*,*,*,Auto" Padding="16" BackgroundColor="{StaticResource Gray50}">
+                            <Label Grid.Column="0" Text="Sale #" FontAttributes="Bold" TextColor="{StaticResource Gray600}" />
+                            <Label Grid.Column="1" Text="Date" FontAttributes="Bold" TextColor="{StaticResource Gray600}" />
+                            <Label Grid.Column="2" Text="Customer" FontAttributes="Bold" TextColor="{StaticResource Gray600}" />
+                            <Label Grid.Column="3" Text="Total" FontAttributes="Bold" TextColor="{StaticResource Gray600}" HorizontalTextAlignment="End" />
+                            <Label Grid.Column="4" Text="Actions" FontAttributes="Bold" TextColor="{StaticResource Gray600}" Margin="0,0,16,0" />
+                        </Grid>
+                    </CollectionView.Header>
+                    
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Sale">
+                            <Grid ColumnDefinitions="*,*,*,*,Auto" Padding="16">
+                                <Label Grid.Column="0" Text="{Binding SaleNumber}" FontAttributes="Bold" VerticalOptions="Center" />
+                                <Label Grid.Column="1" Text="{Binding SaleDate, StringFormat='{0:MMM dd, yyyy HH:mm}'}" VerticalOptions="Center" TextColor="{StaticResource Gray700}" />
+                                <Label Grid.Column="2" Text="{Binding Customer.Name, FallbackValue='Walk-in'}" VerticalOptions="Center" TextColor="{StaticResource Gray700}" />
+                                <Label Grid.Column="3" Text="{Binding TotalAmount, StringFormat='₱{0:N2}'}" FontAttributes="Bold" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{StaticResource Primary}" />
+                                
+                                <Button Grid.Column="4" 
+                                        Text="View" 
+                                        FontSize="12"
+                                        Padding="12,4"
+                                        MinimumHeightRequest="32"
+                                        BackgroundColor="{StaticResource Gray100}"
+                                        TextColor="{StaticResource Primary}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:SalesViewModel}}, Path=ViewDetailsCommand}"
+                                        CommandParameter="{Binding .}" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    
+                    <CollectionView.EmptyView>
+                        <components:EmptyStateView Title="No transactions found" 
+                                                  Message="Try adjusting your date range or filters." />
+                    </CollectionView.EmptyView>
+                </CollectionView>
+            </Border>
+        </RefreshView>
     </Grid>
 </ContentPage>

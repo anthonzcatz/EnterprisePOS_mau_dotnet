@@ -3,28 +3,28 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
     <!-- Brand -->
-    <Color x:Key="Color.Brand.Primary">#66A3FF</Color>
-    <Color x:Key="Color.Brand.Secondary">#18223A</Color>
+    <Color x:Key="Color.Brand.Primary">#6AA5FF</Color>
+    <Color x:Key="Color.Brand.Secondary">#202C3C</Color>
 
     <!-- Surfaces -->
-    <Color x:Key="Color.Surface.App">#0B1220</Color>
-    <Color x:Key="Color.Surface.Card">#0F1A2E</Color>
-    <Color x:Key="Color.Surface.Elevated">#13213A</Color>
+    <Color x:Key="Color.Surface.App">#121820</Color>
+    <Color x:Key="Color.Surface.Card">#1A2330</Color>
+    <Color x:Key="Color.Surface.Elevated">#202C3C</Color>
 
     <!-- Text -->
-    <Color x:Key="Color.Text.Primary">#E5E7EB</Color>
-    <Color x:Key="Color.Text.Secondary">#B7C0D1</Color>
-    <Color x:Key="Color.Text.Muted">#97A6C0</Color>
-    <Color x:Key="Color.Text.OnBrand">#06101F</Color>
+    <Color x:Key="Color.Text.Primary">#E8EEF8</Color>
+    <Color x:Key="Color.Text.Secondary">#C4CFDF</Color>
+    <Color x:Key="Color.Text.Muted">#93A3B8</Color>
+    <Color x:Key="Color.Text.OnBrand">#0E1624</Color>
 
     <!-- Borders -->
-    <Color x:Key="Color.Border.Subtle">#22314F</Color>
-    <Color x:Key="Color.Border.Strong">#2D3E61</Color>
+    <Color x:Key="Color.Border.Subtle">#2A3749</Color>
+    <Color x:Key="Color.Border.Strong">#36465D</Color>
 
     <!-- Status -->
-    <Color x:Key="Color.Success">#22C55E</Color>
-    <Color x:Key="Color.Warning">#FBBF24</Color>
-    <Color x:Key="Color.Danger">#F87171</Color>
+    <Color x:Key="Color.Success">#39D98A</Color>
+    <Color x:Key="Color.Warning">#E2A23C</Color>
+    <Color x:Key="Color.Danger">#FF7D8F</Color>
 
     <!-- Brushes -->
     <SolidColorBrush x:Key="Brush.Brand.Primary" Color="{DynamicResource Color.Brand.Primary}" />
