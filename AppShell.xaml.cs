@@ -23,6 +23,6 @@ public partial class AppShell : Shell
 		}
 
 		hasNavigatedToStartPage = true;
-		_ = GoToAsync("//dashboard");
+		_ = GoToAsync("//dashboard/dashboard-main");
 	}
 }

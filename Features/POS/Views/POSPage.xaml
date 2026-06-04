@@ -6,7 +6,7 @@
              x:Class="EnterprisePOS.Features.POS.Views.POSPage"
              x:Name="Page"
              Title="EnterprisePOS"
-             BackgroundColor="#F9FAFD"
+             BackgroundColor="{StaticResource BackgroundSecondary}"
              ios:Page.UseSafeArea="True">
 
     <Grid x:Name="LayoutRoot">
@@ -29,6 +29,7 @@
                                        Grid.Column="0"
                                        NavItems="{Binding NavItems}"
                                        IsCollapsed="{Binding IsSidebarCollapsed}"
+                                       IsVisible="{Binding ShowSidebar}"
                                        ToggleCommand="{Binding ToggleSidebarCommand}"
                                        NavigateCommand="{Binding NavigateCommand}" />
 
@@ -120,15 +121,15 @@
                             <Border StrokeThickness="0"
                                     HeightRequest="36"
                                     WidthRequest="36"
-                                    BackgroundColor="{StaticResource Primary}"
+                                    BackgroundColor="{StaticResource ButtonPrimary}"
                                     VerticalOptions="Center">
                                 <Border.StrokeShape>
-                                    <RoundRectangle CornerRadius="18" />
+                                    <RoundRectangle CornerRadius="16" />
                                 </Border.StrokeShape>
                                 <Label Text="{Binding CashierInitials}"
                                        FontSize="12"
                                        FontAttributes="Bold"
-                                       TextColor="{StaticResource OffBlack}"
+                                       TextColor="{StaticResource ButtonPrimaryText}"
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center" />
                             </Border>
@@ -157,7 +158,7 @@
                   Grid.Column="1"
                   RowDefinitions="Auto,Auto,Auto,*"
                   RowSpacing="0"
-                  BackgroundColor="#F9FAFD">
+                  BackgroundColor="{StaticResource BackgroundSecondary}">
                 <BoxView Grid.Row="0"
                          HeightRequest="1"
                          Color="{StaticResource PosBorder}"
@@ -217,7 +218,7 @@
             <!-- Cart â€” full height directly under cashier navbar -->
             <Grid Grid.Row="1"
                   Grid.Column="2"
-                  BackgroundColor="#F9FAFD"
+                  BackgroundColor="{StaticResource BackgroundSecondary}"
                   Padding="12,12,18,16"
                   RowDefinitions="*,Auto,Auto,Auto,Auto"
                   RowSpacing="12">
@@ -317,8 +318,8 @@
                         </VerticalStackLayout>
                         <Button Grid.Column="2"
                                 Text="Change Promo"
-                                BackgroundColor="#C4F57A"
-                                TextColor="{StaticResource Gray900}"
+                                BackgroundColor="{StaticResource ButtonPrimary}"
+                                TextColor="{StaticResource ButtonPrimaryText}"
                                 Padding="10,4"
                                 FontSize="11"
                                 HeightRequest="34"
@@ -369,7 +370,7 @@
                           ColumnSpacing="8">
                         <Border WidthRequest="34"
                                 HeightRequest="34"
-                                BackgroundColor="#F3F6F1"
+                                BackgroundColor="{StaticResource SuccessLight}"
                                 StrokeThickness="0"
                                 VerticalOptions="Center">
                             <Border.StrokeShape>
@@ -408,8 +409,8 @@
 
                 <Button Grid.Row="4"
                         Text="&#x1F6CD; Place Order"
-                        BackgroundColor="#C4F57A"
-                        TextColor="{StaticResource Gray900}"
+                        BackgroundColor="{StaticResource ButtonPrimary}"
+                        TextColor="{StaticResource ButtonPrimaryText}"
                         FontAttributes="Bold"
                         FontSize="15"
                         CornerRadius="24"
@@ -440,7 +441,7 @@
                     StrokeThickness="1"
                     Padding="10">
                 <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="18" />
+                    <RoundRectangle CornerRadius="16" />
                 </Border.StrokeShape>
                 <VerticalStackLayout Spacing="6">
                     <Label Text="Cashier quick actions"
@@ -519,7 +520,7 @@
                                 Padding="8,6"
                                 VerticalOptions="Center">
                             <Border.StrokeShape>
-                                <RoundRectangle CornerRadius="18" />
+                                <RoundRectangle CornerRadius="16" />
                             </Border.StrokeShape>
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding ToggleProfileMenuCommand}" />
@@ -530,7 +531,7 @@
                                 <Border Grid.Column="0"
                                         WidthRequest="28"
                                         HeightRequest="28"
-                                        BackgroundColor="{StaticResource Primary}"
+                                        BackgroundColor="{StaticResource ButtonPrimary}"
                                         StrokeThickness="0"
                                         VerticalOptions="Center">
                                     <Border.StrokeShape>
@@ -539,7 +540,7 @@
                                     <Label Text="{Binding CashierInitials}"
                                            FontSize="10"
                                            FontAttributes="Bold"
-                                           TextColor="{StaticResource OffBlack}"
+                                           TextColor="{StaticResource ButtonPrimaryText}"
                                            HorizontalOptions="Center"
                                            VerticalOptions="Center" />
                                 </Border>
@@ -590,7 +591,7 @@
 
                         <!-- Cart Toggle Button -->
                         <Border Grid.Column="1"
-                                BackgroundColor="#C4F57A"
+                                BackgroundColor="{StaticResource ButtonPrimary}"
                                 StrokeThickness="0"
                                 VerticalOptions="Center"
                                 Padding="8,0"
@@ -603,7 +604,7 @@
                             </Border.GestureRecognizers>
                             <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
                                 <Label Text="🛒" FontSize="18" VerticalOptions="Center" />
-                                <Border BackgroundColor="#FF6B6B"
+                                <Border BackgroundColor="{StaticResource Danger}"
                                         StrokeThickness="2"
                                         Stroke="White"
                                         Padding="6,2"
@@ -751,7 +752,7 @@
                         StrokeThickness="1"
                         Padding="10">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="18" />
+                        <RoundRectangle CornerRadius="16" />
                     </Border.StrokeShape>
                     <VerticalStackLayout Spacing="6">
                         <Label Text="Cashier quick actions"
@@ -803,30 +804,30 @@
                 <Border HorizontalOptions="Start"
                         VerticalOptions="Fill"
                         WidthRequest="{Binding MobileSidebarWidth}"
-                        BackgroundColor="{StaticResource PosSidebar}"
+                        BackgroundColor="{StaticResource BackgroundSecondary}"
                         StrokeThickness="0"
                         Padding="0">
                     <Grid RowDefinitions="Auto,*">
                         <Grid Grid.Row="0"
                               Padding="16,16,16,10"
                               ColumnDefinitions="*,Auto"
-                              BackgroundColor="{StaticResource PosSidebar}">
+                              BackgroundColor="{StaticResource BackgroundSecondary}">
                             <VerticalStackLayout Grid.Column="0"
                                                  Spacing="1"
                                                  VerticalOptions="Center">
                                 <Label Text="POS Navigation"
                                        FontSize="12"
                                        FontAttributes="Bold"
-                                       TextColor="{StaticResource White}" />
+                                       TextColor="{StaticResource Gray900}" />
                                 <Label Text="Select a workspace"
                                        FontSize="10"
-                                       TextColor="{StaticResource Gray300}" />
+                                       TextColor="{StaticResource Gray500}" />
                             </VerticalStackLayout>
                             <Border Grid.Column="1"
                                     WidthRequest="32"
                                     HeightRequest="32"
                                     StrokeThickness="0"
-                                    BackgroundColor="#2D2D2D"
+                                    BackgroundColor="{StaticResource Gray100}"
                                     VerticalOptions="Center">
                                 <Border.StrokeShape>
                                     <RoundRectangle CornerRadius="16" />
@@ -836,7 +837,7 @@
                                 </Border.GestureRecognizers>
                                 <Label Text="✕"
                                        FontSize="12"
-                                       TextColor="{StaticResource White}"
+                                       TextColor="{StaticResource Gray700}"
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center" />
                             </Border>
@@ -872,7 +873,7 @@
                             <Label Text="{Binding CartItemCount, StringFormat='{0} items'}" FontSize="12" TextColor="{StaticResource PosTextMuted}" />
                         </VerticalStackLayout>
                         <Border Grid.Column="1" WidthRequest="36" HeightRequest="36" BackgroundColor="{StaticResource Gray100}" StrokeThickness="0">
-                            <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
+                            <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding ToggleMobileCartCommand}" />
                             </Border.GestureRecognizers>
@@ -905,7 +906,7 @@
                                 <Label Text="Total Payment" FontAttributes="Bold" FontSize="15" />
                                 <Label Grid.Column="1" Text="{Binding TotalPayment, StringFormat='₱{0:F2}'}" FontAttributes="Bold" FontSize="17" TextColor="{StaticResource Gray900}" />
                             </Grid>
-                            <Button Text="🛒 Place Order" BackgroundColor="#C4F57A" TextColor="{StaticResource Gray900}" FontAttributes="Bold" FontSize="15" CornerRadius="24" HeightRequest="48" Padding="0" Command="{Binding ToggleMobileCheckoutCommand}" />
+                            <Button Text="🛒 Place Order" BackgroundColor="{StaticResource ButtonPrimary}" TextColor="{StaticResource ButtonPrimaryText}" FontAttributes="Bold" FontSize="15" CornerRadius="24" HeightRequest="48" Padding="0" Command="{Binding ToggleMobileCheckoutCommand}" />
                         </VerticalStackLayout>
                     </Border>
                 </Grid>
@@ -933,7 +934,7 @@
                             <Label Text="Complete your order" FontSize="13" TextColor="{StaticResource PosTextMuted}" />
                         </VerticalStackLayout>
                         <Border Grid.Column="1" WidthRequest="36" HeightRequest="36" BackgroundColor="{StaticResource Gray100}" StrokeThickness="0">
-                            <Border.StrokeShape><RoundRectangle CornerRadius="18" /></Border.StrokeShape>
+                            <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding ToggleMobileCheckoutCommand}" />
                             </Border.GestureRecognizers>
@@ -985,7 +986,7 @@
                         </VerticalStackLayout>
                     </ScrollView>
                     <Border Grid.Row="3" Padding="20" BackgroundColor="{StaticResource White}" Stroke="{StaticResource PosBorder}" StrokeThickness="1">
-                        <Button Text="✓ Confirm Order" BackgroundColor="#C4F57A" TextColor="{StaticResource Gray900}" FontAttributes="Bold" FontSize="16" CornerRadius="24" HeightRequest="52" Padding="0" Command="{Binding ContinueCommand}" />
+                        <Button Text="✓ Confirm Order" BackgroundColor="{StaticResource ButtonPrimary}" TextColor="{StaticResource ButtonPrimaryText}" FontAttributes="Bold" FontSize="16" CornerRadius="24" HeightRequest="52" Padding="0" Command="{Binding ContinueCommand}" />
                     </Border>
                 </Grid>
             </Border>

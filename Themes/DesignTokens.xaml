@@ -2,7 +2,10 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <!-- Spacing -->
+    <!-- ===== RESPONSIVE DESIGN TOKENS ===== -->
+    <!-- Use these with OnIdiom markup extension for adaptive UI -->
+
+    <!-- Responsive Spacing -->
     <x:Double x:Key="Space_2">2</x:Double>
     <x:Double x:Key="Space_4">4</x:Double>
     <x:Double x:Key="Space_6">6</x:Double>
@@ -14,16 +17,79 @@
     <x:Double x:Key="Space_20">20</x:Double>
     <x:Double x:Key="Space_24">24</x:Double>
 
-    <!-- Radius -->
-    <x:Double x:Key="Radius_10">10</x:Double>
-    <x:Double x:Key="Radius_14">14</x:Double>
-    <x:Double x:Key="Radius_18">18</x:Double>
+    <!-- Responsive Padding -->
+    <x:Double x:Key="Pad_Phone">12</x:Double>
+    <x:Double x:Key="Pad_Tablet">16</x:Double>
+    <x:Double x:Key="Pad_Desktop">24</x:Double>
 
-    <!-- Typography -->
+    <!-- Responsive Radius -->
+    <x:Double x:Key="Radius_10">10</x:Double>
+    <x:Double x:Key="Radius_12">12</x:Double>
+    <x:Double x:Key="Radius_14">14</x:Double>
+    <x:Double x:Key="Radius_16">16</x:Double>
+    <x:Double x:Key="Radius_18">18</x:Double>
+    <x:Double x:Key="Radius_20">20</x:Double>
+
+    <!-- Responsive Typography - H1 (Page Title) -->
+    <x:Double x:Key="Font_H1_Phone">24</x:Double>
+    <x:Double x:Key="Font_H1_Tablet">28</x:Double>
+    <x:Double x:Key="Font_H1_Desktop">32</x:Double>
+
+    <!-- Responsive Typography - H2 (Section Header) -->
+    <x:Double x:Key="Font_H2_Phone">20</x:Double>
+    <x:Double x:Key="Font_H2_Tablet">22</x:Double>
+    <x:Double x:Key="Font_H2_Desktop">24</x:Double>
+
+    <!-- Responsive Typography - H3 (Card Title) -->
+    <x:Double x:Key="Font_H3_Phone">16</x:Double>
+    <x:Double x:Key="Font_H3_Tablet">18</x:Double>
+    <x:Double x:Key="Font_H3_Desktop">20</x:Double>
+
+    <!-- Responsive Typography - Body -->
+    <x:Double x:Key="Font_Body_Phone">13</x:Double>
+    <x:Double x:Key="Font_Body_Tablet">14</x:Double>
+    <x:Double x:Key="Font_Body_Desktop">15</x:Double>
+
+    <!-- Responsive Typography - Caption/Small -->
+    <x:Double x:Key="Font_Caption_Phone">11</x:Double>
+    <x:Double x:Key="Font_Caption_Tablet">12</x:Double>
+    <x:Double x:Key="Font_Caption_Desktop">13</x:Double>
+
+    <!-- Responsive Typography - Tiny -->
+    <x:Double x:Key="Font_Tiny_Phone">10</x:Double>
+    <x:Double x:Key="Font_Tiny_Tablet">11</x:Double>
+    <x:Double x:Key="Font_Tiny_Desktop">12</x:Double>
+
+    <!-- Legacy Typography (for backward compatibility) -->
     <x:Double x:Key="Font_12">12</x:Double>
     <x:Double x:Key="Font_14">14</x:Double>
     <x:Double x:Key="Font_16">16</x:Double>
     <x:Double x:Key="Font_20">20</x:Double>
     <x:Double x:Key="Font_28">28</x:Double>
+
+    <!-- Responsive Button Heights -->
+    <x:Double x:Key="BtnHeight_Phone">44</x:Double>
+    <x:Double x:Key="BtnHeight_Tablet">48</x:Double>
+    <x:Double x:Key="BtnHeight_Desktop">52</x:Double>
+
+    <!-- Responsive Small Button Heights -->
+    <x:Double x:Key="BtnSmallHeight_Phone">36</x:Double>
+    <x:Double x:Key="BtnSmallHeight_Tablet">40</x:Double>
+    <x:Double x:Key="BtnSmallHeight_Desktop">44</x:Double>
+
+    <!-- Responsive Input Heights -->
+    <x:Double x:Key="InputHeight_Phone">40</x:Double>
+    <x:Double x:Key="InputHeight_Tablet">44</x:Double>
+    <x:Double x:Key="InputHeight_Desktop">48</x:Double>
+
+    <!-- Responsive Card Heights -->
+    <x:Double x:Key="CardHeight_Phone">120</x:Double>
+    <x:Double x:Key="CardHeight_Tablet">148</x:Double>
+    <x:Double x:Key="CardHeight_Desktop">160</x:Double>
+
+    <!-- Responsive Icon Sizes -->
+    <x:Double x:Key="IconSize_Phone">32</x:Double>
+    <x:Double x:Key="IconSize_Tablet">36</x:Double>
+    <x:Double x:Key="IconSize_Desktop">40</x:Double>
 
 </ResourceDictionary>

@@ -1,3 +1,6 @@
+using LiveChartsCore.SkiaSharpView.Maui;
+using SkiaSharp;
+using SkiaSharp.Views.Maui.Controls.Hosting;
 using Microsoft.Extensions.Logging;
 using EnterprisePOS.Interfaces;
 using EnterprisePOS.Services;
@@ -23,6 +26,7 @@ using EnterprisePOS.Features.Inventory.ViewModels;
 using EnterprisePOS.Core.Data.Local;
 using EnterprisePOS.Core.Data.Repositories;
 using EnterprisePOS.Core.Services;
+using EnterprisePOS.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace EnterprisePOS;
@@ -33,12 +37,13 @@ public static class MauiProgram
 	{
 		var builder = MauiApp.CreateBuilder();
 		builder
-			.UseMauiApp<App>()
-			.ConfigureFonts(fonts =>
-			{
-				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-			});
+				.UseSkiaSharp()
+				.UseMauiApp<App>()
+				.ConfigureFonts(fonts =>
+				{
+					fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+					fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+				});
 
 		// Database Services
 		builder.Services.AddDbContext<LocalDbContext>(options =>
@@ -59,6 +64,7 @@ public static class MauiProgram
 		builder.Services.AddSingleton<IPosService, MockPosService>();
 		builder.Services.AddSingleton<ILoggingService, LoggingService>();
 		builder.Services.AddSingleton<IDashboardService, MockDashboardService>();
+		builder.Services.AddSingleton<AppShellViewModel>();
 
 		// ViewModels + Views
 		builder.Services.AddTransient<POSViewModel>();

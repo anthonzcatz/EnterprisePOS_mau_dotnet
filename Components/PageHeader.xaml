@@ -3,10 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="EnterprisePOS.Components.PageHeader"
              x:Name="Root">
-    <VerticalStackLayout Spacing="4">
+    <VerticalStackLayout Spacing="{OnIdiom Phone=2, Tablet=4, Desktop=4}">
         <Label Text="{Binding Eyebrow, Source={x:Reference Root}}"
                IsVisible="{Binding HasEyebrow, Source={x:Reference Root}}"
-               FontSize="11"
+               FontSize="{OnIdiom Phone=10, Tablet=11, Desktop=12}"
                FontAttributes="Bold"
                CharacterSpacing="1"
                TextTransform="Uppercase"
@@ -21,12 +21,12 @@
 
         <Label Text="{Binding Description, Source={x:Reference Root}}"
                TextColor="{StaticResource Gray500}"
-               FontSize="14"
+               FontSize="{OnIdiom Phone=13, Tablet=14, Desktop=15}"
                IsVisible="{Binding HasDescription, Source={x:Reference Root}}" />
 
         <Label Text="{Binding MetaText, Source={x:Reference Root}}"
                IsVisible="{Binding HasMetaText, Source={x:Reference Root}}"
-               FontSize="12"
+               FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}"
                TextColor="{StaticResource TextMuted}" />
     </VerticalStackLayout>
 </ContentView>

@@ -1,31 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:EnterprisePOS.Components"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="EnterprisePOS.Features.Reports.Views.ReportsPage"
-             Title="Reports">
-    <Grid RowDefinitions="Auto,Auto,*">
+             Title="Reports"
+             ios:Page.UseSafeArea="True"
+             BackgroundColor="{StaticResource BackgroundSecondary}">
+    <Grid ColumnSpacing="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{Binding ShellVm.SidebarGridLength, Source={x:Reference SidebarLayout}}" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <components:AppShellLayout x:Name="SidebarLayout" Grid.Column="0" ActiveKey="reports" />
+        <Grid Grid.Column="1" RowDefinitions="Auto,Auto,*" RowSpacing="0">
         <!-- Header -->
-        <Frame Grid.Row="0" BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" 
-               Padding="20" Margin="0">
-            <Label Text="Reports" FontSize="28" FontAttributes="Bold" TextColor="White"/>
-        </Frame>
+        <Border Grid.Row="0" BackgroundColor="{StaticResource White}" StrokeThickness="0" Padding="{OnIdiom Phone='16,14', Tablet='20,18', Desktop='24,20'}">
+            <Grid ColumnDefinitions="*,Auto">
+                <components:PageHeader Grid.Column="0"
+                                       Title="Reports"
+                                       Description="Generate and export business analytics and performance summaries." />
+                <Button Grid.Column="1"
+                        Text="Generate Report"
+                        Style="{StaticResource PrimaryButton}"
+                        VerticalOptions="Center" />
+            </Grid>
+        </Border>
 
         <!-- Report Type Selection -->
-        <Grid Grid.Row="1" Padding="15" ColumnDefinitions="*,*,*">
-            <Button Grid.Column="0" Text="Sales Report" Margin="5"/>
-            <Button Grid.Column="1" Text="Inventory Report" Margin="5"/>
-            <Button Grid.Column="2" Text="Revenue Report" Margin="5"/>
-        </Grid>
+        <HorizontalStackLayout Grid.Row="1" Padding="{OnIdiom Phone='16,12', Tablet='20,14', Desktop='24,16'}" Spacing="{OnIdiom Phone=8, Tablet=10, Desktop=12}">
+            <Button Text="Sales Report" Style="{StaticResource PrimaryButton}" />
+            <Button Text="Inventory Report" Style="{StaticResource OutlineButton}" />
+            <Button Text="Revenue Report" Style="{StaticResource OutlineButton}" />
+        </HorizontalStackLayout>
 
         <!-- Content -->
-        <ScrollView Grid.Row="2">
-            <StackLayout Padding="15">
-                <Label Text="Reports and analytics coming soon..." 
-                       HorizontalOptions="Center" 
-                       VerticalOptions="Center"
-                       FontSize="18"
-                       TextColor="Gray"/>
-            </StackLayout>
+        <ScrollView Grid.Row="2" Padding="{OnIdiom Phone=16, Tablet=20, Desktop=24}">
+            <Border BackgroundColor="{StaticResource White}"
+                    Stroke="{StaticResource BorderColor}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 16"
+                    Padding="{OnIdiom Phone=20, Tablet=28, Desktop=40}">
+                <VerticalStackLayout Spacing="12" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="📊"
+                           FontSize="{OnIdiom Phone=36, Tablet=44, Desktop=48}"
+                           HorizontalOptions="Center" />
+                    <Label Text="Reports &amp; Analytics"
+                           FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Gray900}"
+                           HorizontalOptions="Center" />
+                    <Label Text="Detailed reports and analytics will be available here. Select a report type above to get started."
+                           FontSize="{OnIdiom Phone=13, Tablet=14, Desktop=15}"
+                           TextColor="{StaticResource Gray500}"
+                           HorizontalTextAlignment="Center"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+            </Border>
         </ScrollView>
+        </Grid>
     </Grid>
 </ContentPage>

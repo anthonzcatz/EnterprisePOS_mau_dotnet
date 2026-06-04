@@ -6,25 +6,25 @@
     <!-- ── Primary / lime-green button (Continue, Place Order) ── -->
     <Style x:Key="PosPrimaryButton" TargetType="Button">
         <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
-        <Setter Property="TextColor" Value="{StaticResource OffBlack}" />
+        <Setter Property="TextColor" Value="{StaticResource White}" />
         <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="FontSize" Value="15" />
-        <Setter Property="CornerRadius" Value="26" />
-        <Setter Property="Padding" Value="18,12" />
+        <Setter Property="FontSize" Value="{OnIdiom Phone=14, Tablet=15, Desktop=16}" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="{OnIdiom Phone='16,10', Tablet='18,12', Desktop='20,14'}" />
         <Setter Property="BorderWidth" Value="0" />
-        <Setter Property="MinimumHeightRequest" Value="48" />
+        <Setter Property="MinimumHeightRequest" Value="{OnIdiom Phone=44, Tablet=48, Desktop=52}" />
     </Style>
 
     <!-- ── Outline button (Add to Cart — small, pill) ── -->
     <Style x:Key="PosOutlineButton" TargetType="Button">
         <Setter Property="BackgroundColor" Value="{StaticResource White}" />
         <Setter Property="TextColor" Value="{StaticResource Gray900}" />
-        <Setter Property="BorderColor" Value="{StaticResource PosBorder}" />
+        <Setter Property="BorderColor" Value="{StaticResource BorderColor}" />
         <Setter Property="BorderWidth" Value="1" />
         <Setter Property="CornerRadius" Value="20" />
-        <Setter Property="FontSize" Value="13" />
-        <Setter Property="Padding" Value="10,6" />
-        <Setter Property="MinimumHeightRequest" Value="36" />
+        <Setter Property="FontSize" Value="{OnIdiom Phone=12, Tablet=13, Desktop=14}" />
+        <Setter Property="Padding" Value="{OnIdiom Phone='10,6', Tablet='12,8', Desktop='14,10'}" />
+        <Setter Property="MinimumHeightRequest" Value="{OnIdiom Phone=36, Tablet=40, Desktop=44}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup Name="CommonStates">
@@ -46,43 +46,43 @@
 
     <!-- ── Section headers ── -->
     <Style x:Key="PosSectionTitle" TargetType="Label">
-        <Setter Property="FontSize" Value="17" />
+        <Setter Property="FontSize" Value="{OnIdiom Phone=15, Tablet=17, Desktop=19}" />
         <Setter Property="FontAttributes" Value="Bold" />
         <Setter Property="TextColor" Value="{StaticResource Gray900}" />
     </Style>
 
     <!-- ── Category tab label (active) ── -->
     <Style x:Key="PosCategoryActive" TargetType="Label">
-        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontSize" Value="{OnIdiom Phone=12, Tablet=13, Desktop=14}" />
         <Setter Property="FontAttributes" Value="Bold" />
         <Setter Property="TextColor" Value="{StaticResource Gray900}" />
     </Style>
 
     <!-- ── Category tab label (inactive) ── -->
     <Style x:Key="PosCategoryInactive" TargetType="Label">
-        <Setter Property="FontSize" Value="13" />
+        <Setter Property="FontSize" Value="{OnIdiom Phone=12, Tablet=13, Desktop=14}" />
         <Setter Property="TextColor" Value="{StaticResource Gray500}" />
     </Style>
 
     <!-- ── Compact navbar: Create a Note pill ── -->
     <Style x:Key="PosCreateNoteButton" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
-        <Setter Property="TextColor" Value="{StaticResource OffBlack}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource ButtonPrimary}" />
+        <Setter Property="TextColor" Value="{StaticResource ButtonPrimaryText}" />
         <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="FontSize" Value="12" />
-        <Setter Property="CornerRadius" Value="18" />
-        <Setter Property="Padding" Value="14,6" />
+        <Setter Property="FontSize" Value="{OnIdiom Phone=11, Tablet=12, Desktop=13}" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="{OnIdiom Phone='12,6', Tablet='14,6', Desktop='16,8'}" />
         <Setter Property="BorderWidth" Value="0" />
-        <Setter Property="MinimumHeightRequest" Value="36" />
-        <Setter Property="HeightRequest" Value="36" />
+        <Setter Property="MinimumHeightRequest" Value="{OnIdiom Phone=34, Tablet=36, Desktop=38}" />
+        <Setter Property="HeightRequest" Value="{OnIdiom Phone=34, Tablet=36, Desktop=38}" />
     </Style>
 
     <!-- ── Compact toolbar / icon chips ── -->
     <Style x:Key="PosIconButton" TargetType="Border">
         <Setter Property="BackgroundColor" Value="{StaticResource White}" />
-        <Setter Property="Stroke" Value="{StaticResource PosBorder}" />
+        <Setter Property="Stroke" Value="{StaticResource BorderColor}" />
         <Setter Property="StrokeThickness" Value="1" />
-        <Setter Property="Padding" Value="10,8" />
+        <Setter Property="Padding" Value="{OnIdiom Phone='8,6', Tablet='10,8', Desktop='12,10'}" />
         <Setter Property="VerticalOptions" Value="Center" />
         <Setter Property="StrokeShape">
             <RoundRectangle CornerRadius="12" />
@@ -94,9 +94,9 @@
         <Setter Property="BackgroundColor" Value="{StaticResource Gray100}" />
         <Setter Property="PlaceholderColor" Value="{StaticResource PosTextMuted}" />
         <Setter Property="TextColor" Value="{StaticResource Gray900}" />
-        <Setter Property="MinimumHeightRequest" Value="38" />
-        <Setter Property="HeightRequest" Value="38" />
-        <Setter Property="FontSize" Value="13" />
+        <Setter Property="MinimumHeightRequest" Value="{OnIdiom Phone=36, Tablet=38, Desktop=40}" />
+        <Setter Property="HeightRequest" Value="{OnIdiom Phone=36, Tablet=38, Desktop=40}" />
+        <Setter Property="FontSize" Value="{OnIdiom Phone=12, Tablet=13, Desktop=14}" />
     </Style>
 
     <!-- ── Search bar ── -->
@@ -104,7 +104,8 @@
         <Setter Property="BackgroundColor" Value="{StaticResource White}" />
         <Setter Property="PlaceholderColor" Value="{StaticResource PosTextMuted}" />
         <Setter Property="TextColor" Value="{StaticResource Gray900}" />
-        <Setter Property="MinimumHeightRequest" Value="44" />
+        <Setter Property="MinimumHeightRequest" Value="{OnIdiom Phone=40, Tablet=44, Desktop=48}" />
+        <Setter Property="FontSize" Value="{OnIdiom Phone=13, Tablet=14, Desktop=15}" />
     </Style>
 
 </ResourceDictionary>

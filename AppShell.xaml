@@ -12,16 +12,16 @@
     xmlns:reports="clr-namespace:EnterprisePOS.Features.Reports.Views"
     xmlns:users="clr-namespace:EnterprisePOS.Features.Users.Views"
     xmlns:settings="clr-namespace:EnterprisePOS.Features.Settings.Views"
-    Shell.FlyoutBehavior="Flyout"
+    Shell.FlyoutBehavior="Disabled"
     Shell.NavBarIsVisible="False"
-    FlyoutBackgroundColor="{StaticResource SidebarBackgroundStart}"
+    FlyoutBackgroundColor="Transparent"
     BackgroundColor="{StaticResource BackgroundSecondary}"
     Title="EnterprisePOS">
 
     <!-- Sidebar Header -->
     <Shell.FlyoutHeader>
         <Grid HeightRequest="88"
-              BackgroundColor="{StaticResource SidebarBackgroundStart}"
+              BackgroundColor="Transparent"
               Padding="20,18,20,14">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -35,7 +35,7 @@
                     VerticalOptions="Center"
                     StrokeShape="RoundRectangle 12">
                 <Label Text="EP"
-                       TextColor="{StaticResource OffBlack}"
+                       TextColor="{StaticResource White}"
                        FontSize="14"
                        FontAttributes="Bold"
                        HorizontalOptions="Center"
@@ -46,69 +46,81 @@
                                  VerticalOptions="Center"
                                  Spacing="2">
                 <Label Text="EnterprisePOS"
-                       TextColor="White"
+                       TextColor="{StaticResource Gray900}"
                        FontSize="16"
                        FontAttributes="Bold"/>
                 <Label Text="Enterprise Retail And Restaurant Suite"
-                       TextColor="{StaticResource SidebarTextMuted}"
+                       TextColor="{StaticResource Gray500}"
                        FontSize="11"/>
             </VerticalStackLayout>
         </Grid>
     </Shell.FlyoutHeader>
 
     <!-- Navigation -->
-    <FlyoutItem Title="Overview" FlyoutDisplayOptions="AsMultipleItems" Route="overview">
+    <FlyoutItem Title="Dashboard" Route="dashboard">
         <ShellContent Title="Dashboard"
                       ContentTemplate="{DataTemplate dashboard:DashboardPage}"
-                      Route="dashboard"/>
+                      Route="dashboard-main"/>
     </FlyoutItem>
 
-    <FlyoutItem Title="Commerce" FlyoutDisplayOptions="AsMultipleItems" Route="commerce">
+    <FlyoutItem Title="Point of Sale" Route="pos">
         <ShellContent Title="Point of Sale"
                       ContentTemplate="{DataTemplate pos:POSPage}"
-                      Route="pos"/>
+                      Route="pos-main"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Sales" Route="sales">
         <ShellContent Title="Sales"
                       ContentTemplate="{DataTemplate sales:SalesPage}"
-                      Route="sales"/>
+                      Route="sales-main"/>
     </FlyoutItem>
 
-    <FlyoutItem Title="Operations" FlyoutDisplayOptions="AsMultipleItems" Route="operations">
+    <FlyoutItem Title="Products" Route="products">
         <ShellContent Title="Products"
                       ContentTemplate="{DataTemplate products:ProductsPage}"
-                      Route="products"/>
+                      Route="products-main"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Inventory" Route="inventory">
         <ShellContent Title="Inventory"
                       ContentTemplate="{DataTemplate inventory:InventoryPage}"
-                      Route="inventory"/>
+                      Route="inventory-main"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Customers" Route="customers">
         <ShellContent Title="Customers"
                       ContentTemplate="{DataTemplate customers:CustomersPage}"
-                      Route="customers"/>
+                      Route="customers-main"/>
     </FlyoutItem>
 
-    <FlyoutItem Title="Insights" FlyoutDisplayOptions="AsMultipleItems" Route="insights">
+    <FlyoutItem Title="Reports" Route="reports">
         <ShellContent Title="Reports"
                       ContentTemplate="{DataTemplate reports:ReportsPage}"
-                      Route="reports"/>
+                      Route="reports-main"/>
     </FlyoutItem>
 
-    <FlyoutItem Title="Administration" FlyoutDisplayOptions="AsMultipleItems" Route="administration">
+    <FlyoutItem Title="Users" Route="users">
         <ShellContent Title="Users"
                       ContentTemplate="{DataTemplate users:UsersPage}"
-                      Route="users"/>
+                      Route="users-main"/>
+    </FlyoutItem>
+
+    <FlyoutItem Title="Settings" Route="settings">
         <ShellContent Title="Settings"
                       ContentTemplate="{DataTemplate settings:SettingsPage}"
-                      Route="settings"/>
+                      Route="settings-main"/>
     </FlyoutItem>
 
     <!-- Sidebar Footer -->
     <Shell.FlyoutFooter>
-        <StackLayout BackgroundColor="{StaticResource SidebarBackgroundStart}" Padding="20,12" Spacing="0">
+        <StackLayout BackgroundColor="Transparent" Padding="20,12" Spacing="0">
             <BoxView HeightRequest="1" BackgroundColor="{StaticResource Gray800}" Margin="0,0,0,12"/>
             <Label Text="Cross-platform enterprise workspace"
-                   TextColor="{StaticResource SidebarTextMuted}"
+                   TextColor="{StaticResource Gray500}"
                    FontSize="11"
                    HorizontalOptions="Center"/>
             <Label Text="Windows · macOS · Android · iOS"
-                   TextColor="{StaticResource SidebarTextMuted}"
+                   TextColor="{StaticResource Gray500}"
                    FontSize="10"
                    HorizontalOptions="Center"
                    Margin="0,4,0,0"/>

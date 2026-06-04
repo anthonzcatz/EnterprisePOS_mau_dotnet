@@ -44,7 +44,7 @@
             </Label>
         </HorizontalStackLayout>
         <BoxView HeightRequest="2"
-                 Color="{StaticResource Gray900}"
+                 Color="{StaticResource ButtonPrimary}"
                  HorizontalOptions="Fill"
                  IsVisible="{Binding Source={x:Reference Root}, Path=IsSelected}" />
     </VerticalStackLayout>

@@ -1,3 +1,46 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 456 456" version="1.1">
-  <rect width="456" height="456" rx="96" fill="#1D4ED8" />
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0066FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1E40AF;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="lightBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00D9FF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0096FF;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="512" height="512" fill="#F8FBFF"/>
+  
+  <!-- Main Arrow/Swoosh Shape -->
+  <g>
+    <!-- Dark blue outer curve -->
+    <path d="M 100 300 Q 140 220 220 200 Q 300 180 360 220 L 440 100 Q 380 40 280 20 Q 120 -10 60 140 Z" 
+          fill="url(#blueGradient)" opacity="0.95"/>
+    
+    <!-- Light blue inner highlight -->
+    <path d="M 130 280 Q 160 210 230 195 Q 300 185 350 215 L 410 120 Q 360 70 270 55 Q 140 30 100 160 Z" 
+          fill="url(#lightBlue)" opacity="0.85"/>
+    
+    <!-- Center white accent stripe -->
+    <path d="M 120 270 Q 150 200 220 185 Q 280 175 330 210 L 380 140 Q 340 95 260 80 Q 130 50 90 170 Z" 
+          fill="#FFFFFF" opacity="0.4"/>
+  </g>
+  
+  <!-- Speed Lines / Motion dots on the right -->
+  <g opacity="0.8">
+    <rect x="420" y="80" width="60" height="12" rx="6" fill="#00D9FF"/>
+    <rect x="430" y="120" width="50" height="10" rx="5" fill="#0096FF"/>
+    <rect x="440" y="160" width="45" height="10" rx="5" fill="#00D9FF"/>
+    <rect x="425" y="200" width="55" height="12" rx="6" fill="#0066FF"/>
+  </g>
+  
+  <!-- Decorative dots -->
+  <g fill="#00D9FF" opacity="0.6">
+    <circle cx="460" cy="70" r="6"/>
+    <circle cx="480" cy="100" r="5"/>
+    <circle cx="470" cy="140" r="4"/>
+    <circle cx="485" cy="170" r="5"/>
+  </g>
 </svg>

@@ -1,3 +1,5 @@
+using System.Windows.Input;
+
 namespace EnterprisePOS.Features.Dashboard.Models;
 
 public class DashboardMetric
@@ -7,4 +9,5 @@ public class DashboardMetric
     public string Icon { get; set; } = string.Empty;
     public string Delta { get; set; } = string.Empty;
     public bool IsPositive { get; set; } = true;
+    public ICommand? Command { get; set; }
 }

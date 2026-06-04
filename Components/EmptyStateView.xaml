@@ -5,20 +5,21 @@
              x:Name="Root">
     <VerticalStackLayout VerticalOptions="Center" 
                         HorizontalOptions="Center"
-                        Spacing="12"
-                        Padding="40">
+                        Spacing="{OnIdiom Phone=8, Tablet=12, Desktop=16}"
+                        Padding="{OnIdiom Phone=24, Tablet=32, Desktop=40}">
         <Label Text="{Binding Icon, Source={x:Reference Root}}"
-               FontSize="48"
+               FontSize="{OnIdiom Phone=48, Tablet=64, Desktop=80}"
                HorizontalOptions="Center" />
         
         <Label Text="{Binding Title, Source={x:Reference Root}}"
-               FontSize="18"
+               FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=20}"
                FontAttributes="Bold"
                TextColor="{StaticResource Gray900}"
                HorizontalOptions="Center" />
         
         <Label Text="{Binding Message, Source={x:Reference Root}}"
                TextColor="{StaticResource Gray500}"
+               FontSize="{OnIdiom Phone=13, Tablet=14, Desktop=15}"
                HorizontalOptions="Center"
                HorizontalTextAlignment="Center" />
         

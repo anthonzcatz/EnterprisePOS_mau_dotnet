@@ -13,7 +13,7 @@
     <!-- Dashboard Primary Button (overrides generic PrimaryButton) -->
     <Style x:Key="DashboardPrimaryButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
         <Setter Property="FontAttributes" Value="Bold"/>
-        <Setter Property="CornerRadius" Value="14"/>
+        <Setter Property="CornerRadius" Value="12"/>
         <Setter Property="Padding" Value="18,10"/>
     </Style>
 
@@ -34,7 +34,7 @@
         <Setter Property="StrokeThickness" Value="1"/>
         <Setter Property="Padding" Value="18"/>
         <Setter Property="StrokeShape">
-            <RoundRectangle CornerRadius="18" />
+            <RoundRectangle CornerRadius="16" />
         </Setter>
     </Style>
 

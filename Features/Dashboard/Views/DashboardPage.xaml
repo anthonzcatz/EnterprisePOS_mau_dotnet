@@ -6,7 +6,13 @@
              Shell.NavBarIsVisible="False"
              BackgroundColor="{StaticResource BackgroundSecondary}">
 
-    <ScrollView>
+    <Grid ColumnSpacing="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{Binding ShellVm.SidebarGridLength, Source={x:Reference SidebarLayout}}" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <components:AppShellLayout x:Name="SidebarLayout" Grid.Column="0" ActiveKey="home" />
+        <ScrollView Grid.Column="1">
         <VerticalStackLayout Padding="24,20,24,28" Spacing="20">
             <Grid ColumnDefinitions="*,Auto"
                   ColumnSpacing="16">
@@ -88,6 +94,7 @@
                                                    Delta="{Binding Delta}"
                                                    Icon="{Binding Icon}"
                                                    IsPositive="{Binding IsPositive}"
+                                                   Command="{Binding Command}"
                                                    FlexLayout.Basis="{OnIdiom Phone='100%', Tablet='48%', Desktop='31%'}"
                                                    Margin="0,0,0,14" />
                     </DataTemplate>
@@ -127,16 +134,43 @@
                             </Border>
                         </Grid>
 
-                        <Border BackgroundColor="{StaticResource Gray100}"
+                        <Border BackgroundColor="White"
                                 HeightRequest="220"
                                 StrokeThickness="0"
                                 StrokeShape="RoundRectangle 16">
-                            <Label Text="Sales chart preview is temporarily disabled on Windows startup."
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"
-                                   HorizontalTextAlignment="Center"
-                                   TextColor="{StaticResource Gray500}"
-                                   Margin="16" />
+                            <Grid HeightRequest="200" ColumnDefinitions="*,*,*,*,*,*,*" RowDefinitions="Auto,*" Padding="16">
+                                <!-- Y-axis labels -->
+                                <VerticalStackLayout Grid.Column="0" Grid.RowSpan="2" VerticalOptions="Center" Margin="0,0,8,0">
+                                    <Label Text="30k" FontSize="10" TextColor="{StaticResource Gray500}" HorizontalOptions="End"/>
+                                    <Label Text="15k" FontSize="10" TextColor="{StaticResource Gray500}" HorizontalOptions="End"/>
+                                    <Label Text="0" FontSize="10" TextColor="{StaticResource Gray500}" HorizontalOptions="End"/>
+                                </VerticalStackLayout>
+                                <!-- Bars -->
+                                <VerticalStackLayout Grid.Column="1" Grid.Row="1" VerticalOptions="End" Spacing="4">
+                                    <BoxView HeightRequest="120" WidthRequest="20" BackgroundColor="{StaticResource ChartBlue}" CornerRadius="4" HorizontalOptions="Center"/>
+                                    <Label Text="Mon" FontSize="10" TextColor="{StaticResource Gray500}" HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="2" Grid.Row="1" VerticalOptions="End" Spacing="4">
+                                    <BoxView HeightRequest="90" WidthRequest="20" BackgroundColor="{StaticResource ChartBlue}" CornerRadius="4" HorizontalOptions="Center"/>
+                                    <Label Text="Tue" FontSize="10" TextColor="{StaticResource Gray500}" HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="3" Grid.Row="1" VerticalOptions="End" Spacing="4">
+                                    <BoxView HeightRequest="150" WidthRequest="20" BackgroundColor="{StaticResource ChartGreen}" CornerRadius="4" HorizontalOptions="Center"/>
+                                    <Label Text="Wed" FontSize="10" TextColor="{StaticResource Gray500}" HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="4" Grid.Row="1" VerticalOptions="End" Spacing="4">
+                                    <BoxView HeightRequest="110" WidthRequest="20" BackgroundColor="{StaticResource ChartBlue}" CornerRadius="4" HorizontalOptions="Center"/>
+                                    <Label Text="Thu" FontSize="10" TextColor="{StaticResource Gray500}" HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="5" Grid.Row="1" VerticalOptions="End" Spacing="4">
+                                    <BoxView HeightRequest="130" WidthRequest="20" BackgroundColor="{StaticResource ChartBlue}" CornerRadius="4" HorizontalOptions="Center"/>
+                                    <Label Text="Fri" FontSize="10" TextColor="{StaticResource Gray500}" HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="6" Grid.Row="1" VerticalOptions="End" Spacing="4">
+                                    <BoxView HeightRequest="80" WidthRequest="20" BackgroundColor="{StaticResource ChartBlue}" CornerRadius="4" HorizontalOptions="Center"/>
+                                    <Label Text="Sat" FontSize="10" TextColor="{StaticResource Gray500}" HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Grid>
                         </Border>
 
                         <HorizontalStackLayout Spacing="14">
@@ -193,16 +227,29 @@
                             </Border>
                         </Grid>
 
-                        <Border BackgroundColor="{StaticResource Gray100}"
+                        <Border BackgroundColor="White"
                                 HeightRequest="220"
                                 StrokeThickness="0"
                                 StrokeShape="RoundRectangle 16">
-                            <Label Text="Payment mix chart preview is temporarily disabled on Windows startup."
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"
-                                   HorizontalTextAlignment="Center"
-                                   TextColor="{StaticResource Gray500}"
-                                   Margin="16" />
+                            <Grid HeightRequest="200" Padding="16">
+                                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="12">
+                                    <!-- Cash 45% -->
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <BoxView HeightRequest="24" BackgroundColor="{StaticResource ChartBlue}" CornerRadius="4" HorizontalOptions="Fill"/>
+                                        <Label Grid.Column="1" Text="45%" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Gray900}" Margin="8,0,0,0" VerticalOptions="Center"/>
+                                    </Grid>
+                                    <!-- Card 35% -->
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <BoxView HeightRequest="24" BackgroundColor="{StaticResource ChartGreen}" CornerRadius="4" HorizontalOptions="Fill" WidthRequest="155"/>
+                                        <Label Grid.Column="1" Text="35%" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Gray900}" Margin="8,0,0,0" VerticalOptions="Center"/>
+                                    </Grid>
+                                    <!-- GCash 20% -->
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <BoxView HeightRequest="24" BackgroundColor="{StaticResource ChartYellow}" CornerRadius="4" HorizontalOptions="Fill" WidthRequest="88"/>
+                                        <Label Grid.Column="1" Text="20%" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Gray900}" Margin="8,0,0,0" VerticalOptions="Center"/>
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </Grid>
                         </Border>
 
                         <VerticalStackLayout Spacing="8">
@@ -424,16 +471,24 @@
                                FontSize="17"
                                FontAttributes="Bold"
                                TextColor="{StaticResource Gray900}" />
-                        <Border BackgroundColor="{StaticResource Gray100}"
+                        <Border BackgroundColor="White"
                                 HeightRequest="200"
                                 StrokeThickness="0"
                                 StrokeShape="RoundRectangle 16">
-                            <Label Text="Branch sales chart preview is temporarily disabled."
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"
-                                   HorizontalTextAlignment="Center"
-                                   TextColor="{StaticResource Gray500}"
-                                   Margin="16" />
+                            <Grid HeightRequest="180" ColumnDefinitions="*,*,*,*" RowDefinitions="Auto,*" Padding="16">
+                                <VerticalStackLayout Grid.Column="1" Grid.Row="1" VerticalOptions="End" Spacing="4">
+                                    <BoxView HeightRequest="160" WidthRequest="30" BackgroundColor="{StaticResource ChartBlue}" CornerRadius="4" HorizontalOptions="Center"/>
+                                    <Label Text="Main" FontSize="10" TextColor="{StaticResource Gray500}" HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="2" Grid.Row="1" VerticalOptions="End" Spacing="4">
+                                    <BoxView HeightRequest="120" WidthRequest="30" BackgroundColor="{StaticResource ChartGreen}" CornerRadius="4" HorizontalOptions="Center"/>
+                                    <Label Text="North" FontSize="10" TextColor="{StaticResource Gray500}" HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="3" Grid.Row="1" VerticalOptions="End" Spacing="4">
+                                    <BoxView HeightRequest="90" WidthRequest="30" BackgroundColor="{StaticResource ChartYellow}" CornerRadius="4" HorizontalOptions="Center"/>
+                                    <Label Text="South" FontSize="10" TextColor="{StaticResource Gray500}" HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Grid>
                         </Border>
                     </VerticalStackLayout>
                 </Border>
@@ -450,31 +505,54 @@
                                FontSize="17"
                                FontAttributes="Bold"
                                TextColor="{StaticResource Gray900}" />
-                        <Border BackgroundColor="{StaticResource Gray100}"
+                        <Border BackgroundColor="White"
                                 HeightRequest="160"
                                 StrokeThickness="0"
                                 StrokeShape="RoundRectangle 16">
-                            <Label Text="Top products chart preview is temporarily disabled."
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"
-                                   HorizontalTextAlignment="Center"
-                                   TextColor="{StaticResource Gray500}"
-                                   Margin="16" />
+                            <Grid HeightRequest="140" RowDefinitions="*,*,*">
+                                <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8" VerticalOptions="Center" Padding="12">
+                                    <Label Grid.Column="0" Text="Coffee" FontSize="11" TextColor="{StaticResource Gray700}" WidthRequest="50"/>
+                                    <BoxView Grid.Column="1" HeightRequest="16" BackgroundColor="{StaticResource ChartBlue}" CornerRadius="3" VerticalOptions="Center" WidthRequest="100"/>
+                                    <Label Grid.Column="2" Text="120" FontSize="11" FontAttributes="Bold" TextColor="{StaticResource Gray900}" VerticalOptions="Center"/>
+                                </Grid>
+                                <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8" VerticalOptions="Center" Padding="12">
+                                    <Label Grid.Column="0" Text="Burger" FontSize="11" TextColor="{StaticResource Gray700}" WidthRequest="50"/>
+                                    <BoxView Grid.Column="1" HeightRequest="16" BackgroundColor="{StaticResource ChartGreen}" CornerRadius="3" VerticalOptions="Center" WidthRequest="80"/>
+                                    <Label Grid.Column="2" Text="95" FontSize="11" FontAttributes="Bold" TextColor="{StaticResource Gray900}" VerticalOptions="Center"/>
+                                </Grid>
+                                <Grid Grid.Row="2" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8" VerticalOptions="Center" Padding="12">
+                                    <Label Grid.Column="0" Text="Fries" FontSize="11" TextColor="{StaticResource Gray700}" WidthRequest="50"/>
+                                    <BoxView Grid.Column="1" HeightRequest="16" BackgroundColor="{StaticResource ChartYellow}" CornerRadius="3" VerticalOptions="Center" WidthRequest="65"/>
+                                    <Label Grid.Column="2" Text="80" FontSize="11" FontAttributes="Bold" TextColor="{StaticResource Gray900}" VerticalOptions="Center"/>
+                                </Grid>
+                            </Grid>
                         </Border>
-                        <Border BackgroundColor="{StaticResource Gray100}"
+                        <Border BackgroundColor="White"
                                 HeightRequest="160"
                                 StrokeThickness="0"
                                 StrokeShape="RoundRectangle 16">
-                            <Label Text="Category chart preview is temporarily disabled."
-                                   HorizontalOptions="Center"
-                                   VerticalOptions="Center"
-                                   HorizontalTextAlignment="Center"
-                                   TextColor="{StaticResource Gray500}"
-                                   Margin="16" />
+                            <Grid HeightRequest="140" RowDefinitions="*,*,*">
+                                <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8" VerticalOptions="Center" Padding="12">
+                                    <Label Grid.Column="0" Text="Beverages" FontSize="11" TextColor="{StaticResource Gray700}" WidthRequest="70"/>
+                                    <BoxView Grid.Column="1" HeightRequest="16" BackgroundColor="{StaticResource ChartBlue}" CornerRadius="3" VerticalOptions="Center" WidthRequest="85"/>
+                                    <Label Grid.Column="2" Text="45" FontSize="11" FontAttributes="Bold" TextColor="{StaticResource Gray900}" VerticalOptions="Center"/>
+                                </Grid>
+                                <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8" VerticalOptions="Center" Padding="12">
+                                    <Label Grid.Column="0" Text="Food" FontSize="11" TextColor="{StaticResource Gray700}" WidthRequest="70"/>
+                                    <BoxView Grid.Column="1" HeightRequest="16" BackgroundColor="{StaticResource ChartGreen}" CornerRadius="3" VerticalOptions="Center" WidthRequest="65"/>
+                                    <Label Grid.Column="2" Text="65" FontSize="11" FontAttributes="Bold" TextColor="{StaticResource Gray900}" VerticalOptions="Center"/>
+                                </Grid>
+                                <Grid Grid.Row="2" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8" VerticalOptions="Center" Padding="12">
+                                    <Label Grid.Column="0" Text="Snacks" FontSize="11" TextColor="{StaticResource Gray700}" WidthRequest="70"/>
+                                    <BoxView Grid.Column="1" HeightRequest="16" BackgroundColor="{StaticResource ChartYellow}" CornerRadius="3" VerticalOptions="Center" WidthRequest="45"/>
+                                    <Label Grid.Column="2" Text="45" FontSize="11" FontAttributes="Bold" TextColor="{StaticResource Gray900}" VerticalOptions="Center"/>
+                                </Grid>
+                            </Grid>
                         </Border>
                     </VerticalStackLayout>
                 </Border>
             </FlexLayout>
         </VerticalStackLayout>
-    </ScrollView>
+        </ScrollView>
+    </Grid>
 </ContentPage>

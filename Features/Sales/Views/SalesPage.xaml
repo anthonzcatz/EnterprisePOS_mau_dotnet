@@ -9,35 +9,35 @@
              x:DataType="vm:SalesViewModel"
              Title="Sales History"
              ios:Page.UseSafeArea="True"
-             BackgroundColor="{StaticResource Gray100}">
+             BackgroundColor="{StaticResource BackgroundSecondary}">
 
-    <Grid RowDefinitions="Auto,Auto,*" RowSpacing="0">
+    <Grid ColumnSpacing="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{Binding ShellVm.SidebarGridLength, Source={x:Reference SidebarLayout}}" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <components:AppShellLayout x:Name="SidebarLayout" Grid.Column="0" ActiveKey="orders" />
+        <Grid Grid.Column="1" RowDefinitions="Auto,Auto,*" RowSpacing="0">
         <!-- Header Section -->
-        <Border Grid.Row="0" BackgroundColor="{StaticResource White}" StrokeThickness="0" Padding="24,20">
+        <Border Grid.Row="0" BackgroundColor="{StaticResource White}" StrokeThickness="0" Padding="{OnIdiom Phone='16,14', Tablet='20,18', Desktop='24,20'}">
             <Grid ColumnDefinitions="*,Auto">
                 <components:PageHeader Grid.Column="0" 
                                       Title="Sales History" 
                                       Description="Review transactions, inspect details, and export reports." />
                 
-                <HorizontalStackLayout Grid.Column="1" Spacing="12" VerticalOptions="Center">
+                <HorizontalStackLayout Grid.Column="1" Spacing="{OnIdiom Phone=8, Tablet=10, Desktop=12}" VerticalOptions="Center">
                     <Button Text="Export CSV" 
-                            BackgroundColor="{StaticResource Gray100}"
-                            TextColor="{StaticResource TextPrimary}"
-                            CornerRadius="8"
-                            Padding="16,10" />
+                            Style="{StaticResource OutlineButton}" />
                     <Button Text="New Sale" 
-                            BackgroundColor="{StaticResource Primary}"
-                            TextColor="White"
-                            CornerRadius="8"
-                            Padding="16,10" />
+                            Style="{StaticResource PrimaryButton}" />
                 </HorizontalStackLayout>
             </Grid>
         </Border>
 
         <!-- KPI Strip and Filters -->
-        <VerticalStackLayout Grid.Row="1" Padding="24,16" Spacing="16">
+        <VerticalStackLayout Grid.Row="1" Padding="{OnIdiom Phone='16,12', Tablet='20,14', Desktop='24,16'}" Spacing="{OnIdiom Phone=12, Tablet=14, Desktop=16}">
             <!-- Stats Strip -->
-            <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="16">
+            <Grid ColumnDefinitions="{OnIdiom Phone='*,*', Tablet='*,*,*,*', Desktop='*,*,*,*'}" ColumnSpacing="{OnIdiom Phone=12, Tablet=14, Desktop=16}">
                 <components:MetricCardView Grid.Column="0" Title="Total Revenue" Value="{Binding TotalSales, StringFormat='₱{0:N2}'}" Icon="💰" />
                 <components:MetricCardView Grid.Column="1" Title="Transactions" Value="{Binding TransactionCount, StringFormat='{0}'}" Icon="🧾" />
                 <components:MetricCardView Grid.Column="2" Title="Refunds" Value="0" Icon="🔄" IsPositive="False" />
@@ -62,7 +62,7 @@
 
         <!-- Sales List -->
         <RefreshView Grid.Row="2" Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
-            <Border Margin="24,0,24,24" BackgroundColor="{StaticResource White}" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+            <Border Margin="{OnIdiom Phone='16,0,16,16', Tablet='20,0,20,20', Desktop='24,0,24,24'}" BackgroundColor="{StaticResource White}" Stroke="{StaticResource BorderColor}" StrokeShape="RoundRectangle 16" StrokeThickness="1">
                 <CollectionView ItemsSource="{Binding Sales}">
                     <CollectionView.Header>
                         <Grid ColumnDefinitions="*,*,*,*,Auto" Padding="16" BackgroundColor="{StaticResource Gray50}">
@@ -80,7 +80,7 @@
                                 <Label Grid.Column="0" Text="{Binding SaleNumber}" FontAttributes="Bold" VerticalOptions="Center" />
                                 <Label Grid.Column="1" Text="{Binding SaleDate, StringFormat='{0:MMM dd, yyyy HH:mm}'}" VerticalOptions="Center" TextColor="{StaticResource Gray700}" />
                                 <Label Grid.Column="2" Text="{Binding Customer.Name, FallbackValue='Walk-in'}" VerticalOptions="Center" TextColor="{StaticResource Gray700}" />
-                                <Label Grid.Column="3" Text="{Binding TotalAmount, StringFormat='₱{0:N2}'}" FontAttributes="Bold" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{StaticResource Primary}" />
+                                <Label Grid.Column="3" Text="{Binding TotalAmount, StringFormat='₱{0:N2}'}" FontAttributes="Bold" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{StaticResource Gray900}" />
                                 
                                 <Button Grid.Column="4" 
                                         Text="View" 
@@ -102,5 +102,6 @@
                 </CollectionView>
             </Border>
         </RefreshView>
+        </Grid>
     </Grid>
 </ContentPage>

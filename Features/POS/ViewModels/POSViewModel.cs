@@ -5,6 +5,7 @@ using System.Windows.Input;
 using EnterprisePOS.Helpers;
 using EnterprisePOS.Interfaces;
 using EnterprisePOS.Features.POS.Models;
+using EnterprisePOS.ViewModels;
 
 namespace EnterprisePOS.Features.POS.ViewModels;
 
@@ -14,6 +15,7 @@ public sealed class POSViewModel : BaseViewModel
 	private const double SidebarCollapsedWidth = 76;
 
 	private readonly IPosService posService;
+	private readonly AppShellViewModel shellVm;
 	private string searchText = string.Empty;
 	private string selectedCategoryKey = "all";
 	private bool isSidebarCollapsed = true;
@@ -32,9 +34,10 @@ public sealed class POSViewModel : BaseViewModel
 		("Credit Card", "💳")
 	];
 
-	public POSViewModel(IPosService posService)
+	public POSViewModel(IPosService posService, AppShellViewModel shellVm)
 	{
 		this.posService = posService;
+		this.shellVm = shellVm;
 		AddToCartCommand = new Command<Product>(AddToCart);
 		IncreaseQuantityCommand = new Command<CartItem>(IncreaseQuantity);
 		DecreaseQuantityCommand = new Command<CartItem>(DecreaseQuantity);
@@ -63,7 +66,7 @@ public sealed class POSViewModel : BaseViewModel
 	public ObservableCollection<Product> Products { get; } = [];
 	public ObservableCollection<CartItem> CartItems { get; } = [];
 	public ObservableCollection<ProductCategory> Categories { get; } = [];
-	public ObservableCollection<PosNavItem> NavItems { get; } = [];
+	public ObservableCollection<PosNavItem> NavItems => shellVm.NavItems;
 	public ObservableCollection<PosNavItem> ProfileMenuItems { get; } = [];
 
 	public Command<Product> AddToCartCommand { get; }
@@ -188,6 +191,8 @@ public sealed class POSViewModel : BaseViewModel
 
 	public bool ShowDesktopUtilityActions => availableWidth >= 1180;
 
+	public bool ShowSidebar => availableWidth >= LayoutBreakpoints.SidebarVisibleMin;
+
 	public int MobileProductGridSpan => availableWidth > 0 && availableWidth < 430 ? 1 : 2;
 
 	public double MobileProductListHeight
@@ -238,6 +243,7 @@ public sealed class POSViewModel : BaseViewModel
 		OnPropertyChanged(nameof(CartColumnWidth));
 		OnPropertyChanged(nameof(DesktopIdentityWidth));
 		OnPropertyChanged(nameof(ShowDesktopUtilityActions));
+		OnPropertyChanged(nameof(ShowSidebar));
 		OnPropertyChanged(nameof(MobileProductGridSpan));
 		OnPropertyChanged(nameof(MobileProductListHeight));
 		OnPropertyChanged(nameof(MobileCartListHeight));
@@ -278,7 +284,7 @@ public sealed class POSViewModel : BaseViewModel
 		IsBusy = true;
 		try
 		{
-			LoadNavItems();
+			shellVm.SetActiveRoute("pos");
 			LoadProfileMenuItems();
 			LoadCategories();
 
@@ -292,17 +298,6 @@ public sealed class POSViewModel : BaseViewModel
 	}
 
 	private List<Product> allProducts = [];
-
-	private void LoadNavItems()
-	{
-		NavItems.Clear();
-		NavItems.Add(new PosNavItem { Key = "home", Title = "Home", Glyph = "⌂" });
-		NavItems.Add(new PosNavItem { Key = "pos", Title = "Register", Glyph = "⊞", IsActive = true });
-		NavItems.Add(new PosNavItem { Key = "orders", Title = "Orders", Glyph = "🧾" });
-		NavItems.Add(new PosNavItem { Key = "kitchen", Title = "Kitchen", Glyph = "🍳" });
-		NavItems.Add(new PosNavItem { Key = "customers", Title = "Guests", Glyph = "👥" });
-		NavItems.Add(new PosNavItem { Key = "reports", Title = "Reports", Glyph = "📊" });
-	}
 
 	private void LoadProfileMenuItems()
 	{
@@ -373,13 +368,11 @@ public sealed class POSViewModel : BaseViewModel
 			return;
 		}
 
-		foreach (var nav in NavItems)
-		{
-			nav.IsActive = nav.Key == item.Key;
-		}
-
 		IsProfileMenuOpen = false;
 		IsMobileSidebarOpen = false;
+
+		// Use shellVm for navigation - single source of truth
+		shellVm.NavigateCommand.Execute(item);
 	}
 
 	private void ToggleMobileCart()

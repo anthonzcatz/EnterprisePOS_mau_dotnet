@@ -11,9 +11,15 @@
              ios:Page.UseSafeArea="True"
              BackgroundColor="{StaticResource Gray100}">
 
-    <Grid RowDefinitions="Auto,Auto,*" RowSpacing="0">
+    <Grid ColumnSpacing="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{Binding ShellVm.SidebarGridLength, Source={x:Reference SidebarLayout}}" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <components:AppShellLayout x:Name="SidebarLayout" Grid.Column="0" ActiveKey="inventory" />
+        <Grid Grid.Column="1" RowDefinitions="Auto,Auto,*" RowSpacing="0">
         <!-- Header Section -->
-        <Border Grid.Row="0" BackgroundColor="{StaticResource White}" StrokeThickness="0" Padding="24,20">
+        <Border Grid.Row="0" BackgroundColor="{StaticResource White}" StrokeThickness="0" Padding="{OnIdiom Phone=16, Tablet=20, Desktop=24}">
             <Grid ColumnDefinitions="*,Auto">
                 <components:PageHeader Grid.Column="0" 
                                       Title="Inventory Overview" 
@@ -35,9 +41,9 @@
         </Border>
 
         <!-- KPI Strip and Filters -->
-        <VerticalStackLayout Grid.Row="1" Padding="24,16" Spacing="16">
+        <VerticalStackLayout Grid.Row="1" Padding="{OnIdiom Phone=16, Tablet=20, Desktop=24}" Spacing="{OnIdiom Phone=12, Tablet=16, Desktop=20}">
             <!-- Stats Strip -->
-            <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="16">
+            <Grid ColumnDefinitions="{OnIdiom Phone='*', Tablet='*,*', Desktop='*,*,*,*'}" ColumnSpacing="{OnIdiom Phone=8, Tablet=12, Desktop=16}">
                 <components:MetricCardView Grid.Column="0" Title="Inventory Value" Value="{Binding TotalValuation, StringFormat='₱{0:N2}'}" Icon="💰" />
                 <components:MetricCardView Grid.Column="1" Title="Low Stock Items" Value="{Binding LowStockCount, StringFormat='{0}'}" Icon="⚠️" IsPositive="False" />
                 <components:MetricCardView Grid.Column="2" Title="Out of Stock" Value="{Binding OutOfStockCount, StringFormat='{0}'}" Icon="❌" IsPositive="False" />
@@ -45,8 +51,8 @@
             </Grid>
 
             <!-- Search and Filter Bar -->
-            <Border BackgroundColor="{StaticResource White}" Padding="8" StrokeShape="RoundRectangle 12" StrokeThickness="0">
-                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+            <Border BackgroundColor="{StaticResource White}" Padding="{OnIdiom Phone=6, Tablet=8, Desktop=8}" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="{OnIdiom Phone=8, Tablet=12, Desktop=12}">
                     <SearchBar Grid.Column="0" 
                                Placeholder="Search products in inventory..." 
                                Text="{Binding SearchQuery}"
@@ -62,42 +68,56 @@
 
         <!-- Inventory List -->
         <RefreshView Grid.Row="2" Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
-            <Border Margin="24,0,24,24" BackgroundColor="{StaticResource White}" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+            <Border Margin="{OnIdiom Phone=16, Tablet=20, Desktop=24},0" BackgroundColor="{StaticResource White}" StrokeShape="RoundRectangle 12" StrokeThickness="0">
                 <CollectionView ItemsSource="{Binding Stocks}">
                     <CollectionView.Header>
-                        <Grid ColumnDefinitions="2*,*,*,*,Auto" Padding="16" BackgroundColor="{StaticResource Gray50}">
-                            <Label Grid.Column="0" Text="Product" FontAttributes="Bold" TextColor="{StaticResource Gray600}" />
-                            <Label Grid.Column="1" Text="Category" FontAttributes="Bold" TextColor="{StaticResource Gray600}" />
-                            <Label Grid.Column="2" Text="In Stock" FontAttributes="Bold" TextColor="{StaticResource Gray600}" HorizontalTextAlignment="End" />
-                            <Label Grid.Column="3" Text="Reorder Level" FontAttributes="Bold" TextColor="{StaticResource Gray600}" HorizontalTextAlignment="End" />
-                            <Label Grid.Column="4" Text="Actions" FontAttributes="Bold" TextColor="{StaticResource Gray600}" Margin="0,0,16,0" />
+                        <Grid ColumnDefinitions="{OnIdiom Phone='*,Auto', Tablet='2*,*,*,*', Desktop='2*,*,*,*,*'}" Padding="{OnIdiom Phone=12, Tablet=16, Desktop=16}" BackgroundColor="{StaticResource Gray50}">
+                            <Label Grid.Column="0" Text="Product" FontAttributes="Bold" FontSize="{OnIdiom Phone=12, Tablet=13, Desktop=14}" TextColor="{StaticResource Gray600}" />
+                            <Label Grid.Column="1" Text="Category" FontAttributes="Bold" FontSize="{OnIdiom Phone=12, Tablet=13, Desktop=14}" TextColor="{StaticResource Gray600}" IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}" />
+                            <Label Grid.Column="2" Text="In Stock" FontAttributes="Bold" FontSize="{OnIdiom Phone=12, Tablet=13, Desktop=14}" TextColor="{StaticResource Gray600}" HorizontalTextAlignment="End" IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}" />
+                            <Label Grid.Column="3" Text="Reorder Level" FontAttributes="Bold" FontSize="{OnIdiom Phone=12, Tablet=13, Desktop=14}" TextColor="{StaticResource Gray600}" HorizontalTextAlignment="End" IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}" />
+                            <Label Grid.Column="4" Text="Actions" FontAttributes="Bold" FontSize="{OnIdiom Phone=12, Tablet=13, Desktop=14}" TextColor="{StaticResource Gray600}" Margin="0,0,16,0" IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}" />
                         </Grid>
                     </CollectionView.Header>
                     
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:ProductStock">
-                            <Grid ColumnDefinitions="2*,*,*,*,Auto" Padding="16">
-                                <VerticalStackLayout Grid.Column="0" Spacing="2">
-                                    <Label Text="{Binding Product.Name}" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}" />
-                                    <Label Text="{Binding Product.Code}" FontSize="12" TextColor="{StaticResource Gray500}" />
+                            <Grid ColumnDefinitions="{OnIdiom Phone='*,Auto', Tablet='2*,*,*,*', Desktop='2*,*,*,*,*'}" Padding="{OnIdiom Phone=12, Tablet=16, Desktop=16}">
+                                <VerticalStackLayout Grid.Column="0" Spacing="{OnIdiom Phone=2, Tablet=2, Desktop=4}">
+                                    <Label Text="{Binding Product.Name}" FontAttributes="Bold" FontSize="{OnIdiom Phone=13, Tablet=14, Desktop=15}" TextColor="{StaticResource TextPrimary}" />
+                                    <Label Text="{Binding Product.Code}" FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}" TextColor="{StaticResource Gray500}" />
                                 </VerticalStackLayout>
                                 
-                                <Label Grid.Column="1" Text="{Binding Product.Category.Name}" VerticalOptions="Center" TextColor="{StaticResource Gray700}" />
+                                <Label Grid.Column="1" Text="{Binding Product.Category.Name}" VerticalOptions="Center" FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}" TextColor="{StaticResource Gray700}" IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}" />
                                 
-                                <HorizontalStackLayout Grid.Column="2" HorizontalOptions="End" VerticalOptions="Center" Spacing="4">
-                                    <Label Text="{Binding BaseQuantity, StringFormat='{0:N0}'}" FontAttributes="Bold" FontSize="16" VerticalOptions="Center" />
-                                    <Label Text="{Binding Product.Unit.Abbreviation}" FontSize="12" TextColor="{StaticResource Gray500}" VerticalOptions="Center" />
+                                <HorizontalStackLayout Grid.Column="2" HorizontalOptions="End" VerticalOptions="Center" Spacing="4" IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}">
+                                    <Label Text="{Binding BaseQuantity, StringFormat='{0:N0}'}" FontAttributes="Bold" FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=16}" VerticalOptions="Center" />
+                                    <Label Text="{Binding Product.Unit.Abbreviation}" FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}" TextColor="{StaticResource Gray500}" VerticalOptions="Center" />
                                 </HorizontalStackLayout>
 
-                                <Label Grid.Column="3" Text="{Binding ReorderLevel, StringFormat='{0:N0}'}" HorizontalTextAlignment="End" VerticalOptions="Center" TextColor="{StaticResource Gray700}" />
+                                <Label Grid.Column="3" Text="{Binding ReorderLevel, StringFormat='{0:N0}'}" HorizontalTextAlignment="End" VerticalOptions="Center" FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}" TextColor="{StaticResource Gray700}" IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}" />
 
                                 <Button Grid.Column="4" 
                                         Text="Adjust" 
-                                        FontSize="12"
-                                        Padding="12,4"
-                                        MinimumHeightRequest="32"
+                                        FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}"
+                                        Padding="{OnIdiom Phone='10,4', Tablet='12,4', Desktop='12,4'}"
+                                        MinimumHeightRequest="{OnIdiom Phone=32, Tablet=32, Desktop=36}"
                                         BackgroundColor="{StaticResource Gray100}"
                                         TextColor="{StaticResource Primary}"
+                                        IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:InventoryViewModel}}, Path=AdjustStockCommand}"
+                                        CommandParameter="{Binding .}" />
+                                <!-- Phone: Show adjust button below product info -->
+                                <Button Grid.Column="1" 
+                                        Text="Adjust" 
+                                        FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}"
+                                        Padding="{OnIdiom Phone='10,4', Tablet='12,4', Desktop='12,4'}"
+                                        MinimumHeightRequest="{OnIdiom Phone=32, Tablet=32, Desktop=36}"
+                                        BackgroundColor="{StaticResource Gray100}"
+                                        TextColor="{StaticResource Primary}"
+                                        HorizontalOptions="End"
+                                        VerticalOptions="Center"
+                                        IsVisible="{OnIdiom Phone=True, Tablet=False, Desktop=False}"
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vm:InventoryViewModel}}, Path=AdjustStockCommand}"
                                         CommandParameter="{Binding .}" />
                             </Grid>
@@ -111,5 +131,6 @@
                 </CollectionView>
             </Border>
         </RefreshView>
+        </Grid>
     </Grid>
 </ContentPage>

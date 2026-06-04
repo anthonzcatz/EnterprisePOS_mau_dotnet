@@ -9,6 +9,18 @@
     <Color x:Key="PrimaryLight">#EAF1FF</Color>
     <Color x:Key="PrimaryDarkText">#FFFFFF</Color>
 
+    <!-- ===== BUTTON COLORS (Template for Primary/CTA Actions) ===== -->
+    <Color x:Key="ButtonPrimary">#C2F970</Color>
+    <Color x:Key="ButtonPrimaryText">#1F2A3D</Color>
+    <Color x:Key="ButtonSecondary">#356AE6</Color>
+    <Color x:Key="ButtonSecondaryText">#FFFFFF</Color>
+
+    <!-- ===== NAVIGATION COLORS (Template-based for all nav elements) ===== -->
+    <Color x:Key="NavActive">#356AE6</Color>
+    <Color x:Key="NavBackground">#FFFFFF</Color>
+    <Color x:Key="NavText">#1F2A3D</Color>
+    <Color x:Key="NavTextMuted">#73819A</Color>
+
     <!-- ===== SEMANTIC COLORS ===== -->
     <Color x:Key="Success">#1FA66A</Color>
     <Color x:Key="SuccessLight">#E6F6EF</Color>

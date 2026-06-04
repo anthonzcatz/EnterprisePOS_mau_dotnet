@@ -4,11 +4,11 @@
 
 	<PropertyGroup>
 
-		<TargetFrameworks>net10.0-android</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">net10.0-windows10.0.19041.0</TargetFrameworks>
 
-		<TargetFrameworks Condition="!$([MSBuild]::IsOSPlatform('linux'))">$(TargetFrameworks);net10.0-ios;net10.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks Condition="!$([MSBuild]::IsOSPlatform('windows'))">net10.0-android</TargetFrameworks>
 
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
+		<TargetFrameworks Condition="!$([MSBuild]::IsOSPlatform('linux')) AND !$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net10.0-ios;net10.0-maccatalyst</TargetFrameworks>
 
 
 
@@ -26,9 +26,9 @@
 
 
 
-		<ApplicationTitle>EnterprisePOS</ApplicationTitle>
+		<ApplicationTitle>Enterprise POS</ApplicationTitle>
 
-		<ApplicationId>com.companyname.enterprisepos</ApplicationId>
+		<ApplicationId>com.dosavenue.enterprisepos</ApplicationId>
 
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 
@@ -39,7 +39,7 @@
 		<!-- Use None for regular exe without MSIX packaging -->
 		<WindowsPackageType Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">None</WindowsPackageType>
 
-		<!-- Embed WinAppSDK runtime so the .exe runs on any machine without system registration -->
+		<!-- Use system-installed WinAppSDK runtime -->
 		<WindowsAppSDKSelfContained Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">false</WindowsAppSDKSelfContained>
 
 		<!-- Suppress XamlC warnings and MA002 (explicit PackageReference below handles it) -->

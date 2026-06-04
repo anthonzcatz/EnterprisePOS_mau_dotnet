@@ -14,4 +14,7 @@ public static class LayoutBreakpoints
 
 	/// <summary>Desktop — locked flyout, POS 3-column wide layout.</summary>
 	public const double DesktopMin = 900;
+
+	/// <summary>Minimum width for the persistent sidebar to be visible.</summary>
+	public const double SidebarVisibleMin = 1000;
 }

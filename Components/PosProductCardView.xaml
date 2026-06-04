@@ -14,9 +14,9 @@
     <Border BackgroundColor="{StaticResource PosCard}"
             Stroke="{StaticResource PosBorder}"
             StrokeThickness="1"
-            Padding="12,12,12,14">
+            Padding="{OnIdiom Phone=10, Tablet=12, Desktop=16}">
         <Border.StrokeShape>
-            <RoundRectangle CornerRadius="18" />
+            <RoundRectangle CornerRadius="16" />
         </Border.StrokeShape>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroupList>
@@ -24,18 +24,18 @@
                     <VisualState Name="Normal" />
                     <VisualState Name="PointerOver">
                         <VisualState.Setters>
-                            <Setter Property="Stroke" Value="{StaticResource Primary}" />
-                            <Setter Property="BackgroundColor" Value="#FCFDFB" />
+                            <Setter Property="Stroke" Value="{StaticResource BorderColor}" />
+                            <Setter Property="BackgroundColor" Value="#F9FAFB" />
                             <Setter Property="TranslationY" Value="-1" />
                         </VisualState.Setters>
                     </VisualState>
                 </VisualStateGroup>
             </VisualStateGroupList>
         </VisualStateManager.VisualStateGroups>
-        <VerticalStackLayout Spacing="10">
+        <VerticalStackLayout Spacing="{OnIdiom Phone=8, Tablet=10, Desktop=12}">
 
             <!-- ── Image + stock badge ── -->
-            <Grid HeightRequest="148">
+            <Grid HeightRequest="{OnIdiom Phone=120, Tablet=148, Desktop=160}">
                 <!-- Rounded image area -->
                 <Border StrokeThickness="0"
                         BackgroundColor="{StaticResource Gray100}">
@@ -67,14 +67,14 @@
             <!-- ── Name ── -->
             <Label Text="{Binding Source={x:Reference Root}, Path=Title}"
                    FontAttributes="Bold"
-                   FontSize="14"
+                   FontSize="{OnIdiom Phone=13, Tablet=14, Desktop=15}"
                    TextColor="{StaticResource Gray900}"
                    LineBreakMode="TailTruncation"
                    MaxLines="1" />
 
             <!-- ── Description ── -->
             <Label Text="{Binding Source={x:Reference Root}, Path=Description}"
-                   FontSize="12"
+                   FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}"
                    TextColor="{StaticResource PosTextMuted}"
                    MaxLines="2"
                    LineBreakMode="TailTruncation" />
@@ -82,14 +82,14 @@
             <!-- ── Price ── -->
             <Label Text="{Binding Source={x:Reference Root}, Path=PriceText}"
                    FontAttributes="Bold"
-                   FontSize="15"
+                   FontSize="{OnIdiom Phone=14, Tablet=15, Desktop=16}"
                    TextColor="{StaticResource Gray900}" />
 
             <!-- ── Add to Cart — Border+Tap works reliably on WinUI MSIX ── -->
-            <Border Stroke="{StaticResource Primary}"
+            <Border Stroke="{StaticResource BorderColor}"
                     StrokeThickness="1.5"
                     BackgroundColor="Transparent"
-                    Padding="12,8"
+                    Padding="{OnIdiom Phone='10,6', Tablet='12,8', Desktop='14,10'}"
                     HorizontalOptions="Fill">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="20" />
@@ -99,7 +99,7 @@
                                         CommandParameter="{Binding Source={x:Reference Root}, Path=CommandParameter}" />
                 </Border.GestureRecognizers>
                 <Label Text="+ Add to Cart"
-                       FontSize="13"
+                       FontSize="{OnIdiom Phone=12, Tablet=13, Desktop=14}"
                        FontAttributes="Bold"
                        TextColor="{StaticResource Gray900}"
                        HorizontalOptions="Center"

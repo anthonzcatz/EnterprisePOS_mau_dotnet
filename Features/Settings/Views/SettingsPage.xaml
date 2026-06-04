@@ -1,27 +1,75 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:components="clr-namespace:EnterprisePOS.Components"
              xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="EnterprisePOS.Features.Settings.Views.SettingsPage"
              Title="Settings"
-             Padding="20"
-             ios:Page.UseSafeArea="True">
-    <VerticalStackLayout Spacing="18">
-        <Label Text="Theme"
-               FontSize="20"
-               FontAttributes="Bold" />
+             ios:Page.UseSafeArea="True"
+             BackgroundColor="{StaticResource BackgroundSecondary}">
+    <Grid ColumnSpacing="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{Binding ShellVm.SidebarGridLength, Source={x:Reference SidebarLayout}}" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <components:AppShellLayout x:Name="SidebarLayout" Grid.Column="0" ActiveKey="settings" />
+        <Grid Grid.Column="1" RowDefinitions="Auto,*" RowSpacing="0">
+        <Border Grid.Row="0" BackgroundColor="{StaticResource White}" StrokeThickness="0" Padding="{OnIdiom Phone='16,14', Tablet='20,18', Desktop='24,20'}">
+            <components:PageHeader Title="Settings"
+                                   Description="Manage application preferences, theme, and workspace configuration." />
+        </Border>
 
-        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
-            <Label Grid.Column="0"
-                   Text="{Binding IsDark, StringFormat='Dark mode: {0}'}"
-                   VerticalOptions="Center" />
-            <Switch Grid.Column="1"
-                    IsToggled="{Binding IsDark, Mode=TwoWay}"
-                    VerticalOptions="Center" />
+        <ScrollView Grid.Row="1" Padding="{OnIdiom Phone=16, Tablet=20, Desktop=24}">
+            <VerticalStackLayout Spacing="{OnIdiom Phone=12, Tablet=14, Desktop=16}">
+                <!-- Appearance Card -->
+                <Border BackgroundColor="{StaticResource White}"
+                        Stroke="{StaticResource BorderColor}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 16"
+                        Padding="{OnIdiom Phone=16, Tablet=18, Desktop=20}">
+                    <VerticalStackLayout Spacing="16">
+                        <Label Text="Appearance"
+                               FontSize="{OnIdiom Phone=15, Tablet=16, Desktop=17}"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Gray900}" />
+
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                            <VerticalStackLayout Grid.Column="0" Spacing="2">
+                                <Label Text="Dark Mode"
+                                       FontSize="{OnIdiom Phone=14, Tablet=14, Desktop=15}"
+                                       TextColor="{StaticResource Gray900}" />
+                                <Label Text="Toggle between light and dark theme"
+                                       FontSize="{OnIdiom Phone=12, Tablet=12, Desktop=13}"
+                                       TextColor="{StaticResource Gray500}" />
+                            </VerticalStackLayout>
+                            <Switch Grid.Column="1"
+                                    IsToggled="{Binding IsDark, Mode=TwoWay}"
+                                    VerticalOptions="Center" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- About Card -->
+                <Border BackgroundColor="{StaticResource White}"
+                        Stroke="{StaticResource BorderColor}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 16"
+                        Padding="{OnIdiom Phone=16, Tablet=18, Desktop=20}">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="About"
+                               FontSize="{OnIdiom Phone=15, Tablet=16, Desktop=17}"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Gray900}" />
+                        <Label Text="EnterprisePOS v1.0"
+                               FontSize="{OnIdiom Phone=13, Tablet=14, Desktop=14}"
+                               TextColor="{StaticResource Gray700}" />
+                        <Label Text="Cross-platform enterprise retail and restaurant management suite. Compatible with Windows, macOS, Android, and iOS."
+                               FontSize="{OnIdiom Phone=12, Tablet=13, Desktop=13}"
+                               TextColor="{StaticResource Gray500}" />
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
         </Grid>
-
-        <Label Text="Uses system light/dark app theme."
-               TextColor="{StaticResource Gray500}"
-               FontSize="12" />
-    </VerticalStackLayout>
+    </Grid>
 </ContentPage>
