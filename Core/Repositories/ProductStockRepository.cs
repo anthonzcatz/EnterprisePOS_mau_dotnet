@@ -16,6 +16,7 @@ public class ProductStockRepository
     public async Task<IReadOnlyList<ProductStock>> GetAllWithProductsAsync(CancellationToken cancellationToken = default)
     {
         return await _context.ProductStocks
+            .AsNoTracking()
             .Include(ps => ps.Product)
                 .ThenInclude(p => p.Category)
             .Include(ps => ps.Product)

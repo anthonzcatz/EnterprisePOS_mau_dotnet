@@ -6,13 +6,9 @@
              Shell.NavBarIsVisible="False"
              BackgroundColor="{StaticResource BackgroundSecondary}">
 
-    <Grid ColumnSpacing="0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="{Binding ShellVm.SidebarGridLength, Source={x:Reference SidebarLayout}}" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <components:AppShellLayout x:Name="SidebarLayout" Grid.Column="0" ActiveKey="home" />
-        <ScrollView Grid.Column="1">
+    <components:AppShellLayout ActiveKey="home" PageTitle="Dashboard">
+        <components:AppShellLayout.PageBody>
+            <ScrollView>
         <VerticalStackLayout Padding="24,20,24,28" Spacing="20">
             <Grid ColumnDefinitions="*,Auto"
                   ColumnSpacing="16">
@@ -145,7 +141,7 @@
                                     <Label Text="15k" FontSize="10" TextColor="{StaticResource Gray500}" HorizontalOptions="End"/>
                                     <Label Text="0" FontSize="10" TextColor="{StaticResource Gray500}" HorizontalOptions="End"/>
                                 </VerticalStackLayout>
-                                <!-- Bars -->
+                                <!-- Bars with ToolTip popups -->
                                 <VerticalStackLayout Grid.Column="1" Grid.Row="1" VerticalOptions="End" Spacing="4">
                                     <BoxView HeightRequest="120" WidthRequest="20" BackgroundColor="{StaticResource ChartBlue}" CornerRadius="4" HorizontalOptions="Center"/>
                                     <Label Text="Mon" FontSize="10" TextColor="{StaticResource Gray500}" HorizontalOptions="Center"/>
@@ -553,6 +549,7 @@
                 </Border>
             </FlexLayout>
         </VerticalStackLayout>
-        </ScrollView>
-    </Grid>
+            </ScrollView>
+        </components:AppShellLayout.PageBody>
+    </components:AppShellLayout>
 </ContentPage>

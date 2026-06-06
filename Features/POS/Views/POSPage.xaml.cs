@@ -37,7 +37,7 @@ public partial class POSPage : ContentPage
 
 	private void UpdateLayout(double width, double height)
 	{
-		var isWide = width >= LayoutBreakpoints.SidebarVisibleMin;
+		var isWide = width >= LayoutBreakpoints.WideLayoutMin;
 
 		viewModel.UpdateAvailableWidth(width);
 

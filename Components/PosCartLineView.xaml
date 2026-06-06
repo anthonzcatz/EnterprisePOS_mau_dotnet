@@ -8,136 +8,149 @@
             StrokeThickness="1"
             Padding="10"
             StrokeShape="RoundRectangle 12"
-            Margin="0,0,0,8">
+            Margin="0,0,0,6">
         <Grid ColumnDefinitions="Auto,*,Auto"
               RowDefinitions="Auto,Auto"
               ColumnSpacing="10"
-              RowSpacing="6">
+              RowSpacing="3">
             <Border Grid.RowSpan="2"
                     Grid.Column="0"
-                    WidthRequest="48"
-                    HeightRequest="48"
+                    WidthRequest="44"
+                    HeightRequest="44"
                     StrokeShape="RoundRectangle 10"
                     StrokeThickness="0"
                     BackgroundColor="{StaticResource White}"
-                    VerticalOptions="Start">
+                    VerticalOptions="Center">
                 <Image Source="{Binding Source={x:Reference Root}, Path=ImageSource}"
-                       Aspect="AspectFill"
-                       Margin="4" />
+                       Aspect="AspectFill" />
             </Border>
 
             <VerticalStackLayout Grid.Row="0"
                                  Grid.Column="1"
-                                 Spacing="4">
+                                 Spacing="1">
                 <Label Text="{Binding Source={x:Reference Root}, Path=Title}"
                        FontAttributes="Bold"
-                       FontSize="13"
+                       FontSize="12"
                        TextColor="{StaticResource Gray900}"
                        LineBreakMode="TailTruncation"
                        MaxLines="1" />
                 <Label Text="{Binding Source={x:Reference Root}, Path=Description}"
-                       FontSize="12"
+                       FontSize="10"
                        TextColor="{StaticResource PosTextMuted}"
                        LineBreakMode="TailTruncation"
                        MaxLines="1" />
             </VerticalStackLayout>
 
-            <!-- Delete — fixed 20x20 (WinUI ignores small Button sizes) -->
+            <!-- Delete -->
             <Border Grid.Row="0"
                     Grid.Column="2"
-                    WidthRequest="20"
-                    HeightRequest="20"
-                    MinimumWidthRequest="20"
-                    MaximumWidthRequest="20"
-                    MinimumHeightRequest="20"
-                    MaximumHeightRequest="20"
+                    WidthRequest="22"
+                    HeightRequest="22"
+                    MinimumWidthRequest="22"
+                    MaximumWidthRequest="22"
+                    MinimumHeightRequest="22"
+                    MaximumHeightRequest="22"
                     BackgroundColor="{StaticResource PosDangerRed}"
                     StrokeThickness="0"
                     VerticalOptions="Start"
-                    HorizontalOptions="End">
+                    HorizontalOptions="End"
+                    Padding="0">
                 <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="10" />
+                    <RoundRectangle CornerRadius="11" />
                 </Border.StrokeShape>
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Source={x:Reference Root}, Path=DeleteCommand}"
                                           CommandParameter="{Binding Source={x:Reference Root}, Path=CommandParameter}" />
                 </Border.GestureRecognizers>
                 <Label Text="🗑"
-                       FontSize="9"
+                       FontSize="10"
                        TextColor="{StaticResource White}"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Center"
+                       HorizontalOptions="Fill"
+                       VerticalOptions="Fill"
                        HorizontalTextAlignment="Center"
-                       VerticalTextAlignment="Center" />
+                       VerticalTextAlignment="Center"
+                       Padding="0,-2,0,0" />
             </Border>
 
-            <HorizontalStackLayout Grid.Row="1"
-                                   Grid.Column="1"
-                                   Spacing="6"
-                                   VerticalOptions="Center">
-                <Border WidthRequest="22"
-                        HeightRequest="22"
-                        MinimumWidthRequest="22"
-                        MaximumWidthRequest="22"
-                        MinimumHeightRequest="22"
-                        MaximumHeightRequest="22"
-                        BackgroundColor="{StaticResource White}"
-                        Stroke="{StaticResource PosBorder}"
-                        StrokeThickness="1">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="11" />
-                    </Border.StrokeShape>
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Source={x:Reference Root}, Path=DecreaseCommand}"
-                                              CommandParameter="{Binding Source={x:Reference Root}, Path=CommandParameter}" />
-                    </Border.GestureRecognizers>
-                    <Label Text="−"
-                           FontSize="12"
-                           TextColor="{StaticResource Gray900}"
-                           HorizontalOptions="Center"
+            <!-- Row 1: Qty controls + Total -->
+            <Grid Grid.Row="1"
+                  Grid.Column="1"
+                  Grid.ColumnSpan="2"
+                  ColumnDefinitions="Auto,*"
+                  ColumnSpacing="8"
+                  VerticalOptions="Center">
+                <!-- Qty controls -->
+                <HorizontalStackLayout Grid.Column="0"
+                                       Spacing="5"
+                                       VerticalOptions="Center">
+                    <Border WidthRequest="20"
+                            HeightRequest="20"
+                            MinimumWidthRequest="20"
+                            MaximumWidthRequest="20"
+                            MinimumHeightRequest="20"
+                            MaximumHeightRequest="20"
+                            BackgroundColor="{StaticResource White}"
+                            Stroke="{StaticResource PosBorder}"
+                            StrokeThickness="1"
+                            Padding="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={x:Reference Root}, Path=DecreaseCommand}"
+                                                  CommandParameter="{Binding Source={x:Reference Root}, Path=CommandParameter}" />
+                        </Border.GestureRecognizers>
+                        <Label Text="-"
+                               FontSize="10"
+                               TextColor="{StaticResource Gray900}"
+                               HorizontalOptions="Fill"
+                               VerticalOptions="Fill"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               Padding="0,-2,0,0" />
+                    </Border>
+                    <Label Text="{Binding Source={x:Reference Root}, Path=QuantityText, StringFormat='{0:D2}'}"
                            VerticalOptions="Center"
+                           WidthRequest="20"
                            HorizontalTextAlignment="Center"
-                           VerticalTextAlignment="Center" />
-                </Border>
-                <Label Text="{Binding Source={x:Reference Root}, Path=QuantityText, StringFormat='{0:D2}'}"
-                       VerticalOptions="Center"
-                       WidthRequest="20"
-                       HorizontalTextAlignment="Center"
-                       FontAttributes="Bold"
-                       FontSize="11"
-                       TextColor="{StaticResource Gray900}" />
-                <Border WidthRequest="22"
-                        HeightRequest="22"
-                        MinimumWidthRequest="22"
-                        MaximumWidthRequest="22"
-                        MinimumHeightRequest="22"
-                        MaximumHeightRequest="22"
-                        BackgroundColor="{StaticResource Primary}"
-                        StrokeThickness="0">
-                    <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="11" />
-                    </Border.StrokeShape>
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Source={x:Reference Root}, Path=IncreaseCommand}"
-                                              CommandParameter="{Binding Source={x:Reference Root}, Path=CommandParameter}" />
-                    </Border.GestureRecognizers>
-                    <Label Text="+"
-                           FontSize="12"
-                           TextColor="{StaticResource OffBlack}"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"
-                           HorizontalTextAlignment="Center"
-                           VerticalTextAlignment="Center" />
-                </Border>
-            </HorizontalStackLayout>
+                           FontAttributes="Bold"
+                           FontSize="11"
+                           TextColor="{StaticResource Gray900}" />
+                    <Border WidthRequest="20"
+                            HeightRequest="20"
+                            MinimumWidthRequest="20"
+                            MaximumWidthRequest="20"
+                            MinimumHeightRequest="20"
+                            MaximumHeightRequest="20"
+                            BackgroundColor="{StaticResource Success}"
+                            StrokeThickness="0"
+                            Padding="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="10" />
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={x:Reference Root}, Path=IncreaseCommand}"
+                                                  CommandParameter="{Binding Source={x:Reference Root}, Path=CommandParameter}" />
+                        </Border.GestureRecognizers>
+                        <Label Text="+"
+                               FontSize="10"
+                               TextColor="{StaticResource White}"
+                               HorizontalOptions="Fill"
+                               VerticalOptions="Fill"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center"
+                               Padding="0,-3,0,0" />
+                    </Border>
+                </HorizontalStackLayout>
 
-            <Label Grid.Row="1"
-                   Grid.Column="2"
-                   Text="{Binding Source={x:Reference Root}, Path=TotalText}"
-                   VerticalOptions="Center"
-                   HorizontalOptions="End"
-                   FontSize="11"
-                   TextColor="{StaticResource Gray500}" />
+                <!-- Line Total -->
+                <Label Grid.Column="1"
+                       Text="{Binding Source={x:Reference Root}, Path=TotalText}"
+                       VerticalOptions="Center"
+                       HorizontalOptions="End"
+                       FontSize="11"
+                       TextColor="{StaticResource Gray500}" />
+            </Grid>
         </Grid>
     </Border>
 </ContentView>

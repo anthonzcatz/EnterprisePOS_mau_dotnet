@@ -7,13 +7,9 @@
              Title="Settings"
              ios:Page.UseSafeArea="True"
              BackgroundColor="{StaticResource BackgroundSecondary}">
-    <Grid ColumnSpacing="0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="{Binding ShellVm.SidebarGridLength, Source={x:Reference SidebarLayout}}" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <components:AppShellLayout x:Name="SidebarLayout" Grid.Column="0" ActiveKey="settings" />
-        <Grid Grid.Column="1" RowDefinitions="Auto,*" RowSpacing="0">
+    <components:AppShellLayout ActiveKey="settings" PageTitle="Settings">
+        <components:AppShellLayout.PageBody>
+            <Grid RowDefinitions="Auto,*" RowSpacing="0">
         <Border Grid.Row="0" BackgroundColor="{StaticResource White}" StrokeThickness="0" Padding="{OnIdiom Phone='16,14', Tablet='20,18', Desktop='24,20'}">
             <components:PageHeader Title="Settings"
                                    Description="Manage application preferences, theme, and workspace configuration." />
@@ -70,6 +66,7 @@
                 </Border>
             </VerticalStackLayout>
         </ScrollView>
-        </Grid>
-    </Grid>
+            </Grid>
+        </components:AppShellLayout.PageBody>
+    </components:AppShellLayout>
 </ContentPage>

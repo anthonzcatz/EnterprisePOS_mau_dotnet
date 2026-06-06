@@ -17,5 +17,4 @@ public class Product : BaseEntity
     public ProductCategory? Category { get; set; }
     public Unit? Unit { get; set; }
     public ICollection<ProductVariant> ProductVariants { get; set; } = [];
-    public ICollection<ProductStock> ProductStocks { get; set; } = [];
 }

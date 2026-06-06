@@ -11,13 +11,9 @@
              ios:Page.UseSafeArea="True"
              BackgroundColor="{StaticResource BackgroundSecondary}">
 
-    <Grid ColumnSpacing="0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="{Binding ShellVm.SidebarGridLength, Source={x:Reference SidebarLayout}}" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <components:AppShellLayout x:Name="SidebarLayout" Grid.Column="0" ActiveKey="orders" />
-        <Grid Grid.Column="1" RowDefinitions="Auto,Auto,*" RowSpacing="0">
+    <components:AppShellLayout ActiveKey="orders" PageTitle="Sales History">
+        <components:AppShellLayout.PageBody>
+            <Grid RowDefinitions="Auto,Auto,*" RowSpacing="0">
         <!-- Header Section -->
         <Border Grid.Row="0" BackgroundColor="{StaticResource White}" StrokeThickness="0" Padding="{OnIdiom Phone='16,14', Tablet='20,18', Desktop='24,20'}">
             <Grid ColumnDefinitions="*,Auto">
@@ -89,7 +85,7 @@
                                         MinimumHeightRequest="32"
                                         BackgroundColor="{StaticResource Gray100}"
                                         TextColor="{StaticResource Primary}"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:SalesViewModel}}, Path=ViewDetailsCommand}"
+                                        Command="{Binding ViewDetailsCommand}"
                                         CommandParameter="{Binding .}" />
                             </Grid>
                         </DataTemplate>
@@ -102,6 +98,7 @@
                 </CollectionView>
             </Border>
         </RefreshView>
-        </Grid>
-    </Grid>
+            </Grid>
+        </components:AppShellLayout.PageBody>
+    </components:AppShellLayout>
 </ContentPage>

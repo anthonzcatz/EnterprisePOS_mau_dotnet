@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using EnterprisePOS.Features.Users.Models;
 using EnterprisePOS.Helpers;
+using EnterprisePOS.Navigation;
 using Microsoft.Maui.Controls;
 
 namespace EnterprisePOS.Features.Users.ViewModels;
@@ -83,10 +84,15 @@ public class UsersViewModel : BaseViewModel
 
     private async Task OnAddUserAsync()
     {
-        await Shell.Current.DisplayAlertAsync(
-            "Add User",
-            "User onboarding flow is not connected yet, but the page is ready for real data and commands.",
-            "OK");
+        try
+        {
+            await Shell.Current.GoToAsync(Routes.UserCreate);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Navigation error: {ex}");
+            await Shell.Current.DisplayAlertAsync("Navigation Error", ex.Message, "OK");
+        }
     }
 
     private async Task OnViewDetailsAsync(UserListItem? user)

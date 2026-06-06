@@ -7,13 +7,9 @@
              Title="Reports"
              ios:Page.UseSafeArea="True"
              BackgroundColor="{StaticResource BackgroundSecondary}">
-    <Grid ColumnSpacing="0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="{Binding ShellVm.SidebarGridLength, Source={x:Reference SidebarLayout}}" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <components:AppShellLayout x:Name="SidebarLayout" Grid.Column="0" ActiveKey="reports" />
-        <Grid Grid.Column="1" RowDefinitions="Auto,Auto,*" RowSpacing="0">
+    <components:AppShellLayout ActiveKey="reports" PageTitle="Reports">
+        <components:AppShellLayout.PageBody>
+            <Grid RowDefinitions="Auto,Auto,*" RowSpacing="0">
         <!-- Header -->
         <Border Grid.Row="0" BackgroundColor="{StaticResource White}" StrokeThickness="0" Padding="{OnIdiom Phone='16,14', Tablet='20,18', Desktop='24,20'}">
             <Grid ColumnDefinitions="*,Auto">
@@ -58,6 +54,7 @@
                 </VerticalStackLayout>
             </Border>
         </ScrollView>
-        </Grid>
-    </Grid>
+            </Grid>
+        </components:AppShellLayout.PageBody>
+    </components:AppShellLayout>
 </ContentPage>

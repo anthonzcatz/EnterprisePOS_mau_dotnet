@@ -3,18 +3,49 @@ using EnterprisePOS.ViewModels;
 
 namespace EnterprisePOS.Components;
 
-public partial class AppShellLayout : ContentView
+public partial class AppShellLayout : Grid
 {
 	public static readonly BindableProperty ActiveKeyProperty =
 		BindableProperty.Create(nameof(ActiveKey), typeof(string), typeof(AppShellLayout), string.Empty,
 			propertyChanged: (b, _, n) => ((AppShellLayout)b).ShellVm.SetActiveRoute((string)(n ?? string.Empty)));
+
+	public static readonly BindableProperty PageTitleProperty =
+		BindableProperty.Create(nameof(PageTitle), typeof(string), typeof(AppShellLayout), string.Empty,
+			propertyChanged: (b, _, n) =>
+			{
+				var layout = (AppShellLayout)b;
+				if (layout.NavbarTitle != null)
+					layout.NavbarTitle.Text = (string)(n ?? string.Empty);
+			});
+
+	public static readonly BindableProperty PageBodyProperty =
+		BindableProperty.Create(nameof(PageBody), typeof(View), typeof(AppShellLayout), null,
+			propertyChanged: (b, _, n) =>
+			{
+				var layout = (AppShellLayout)b;
+				if (layout.PageContent != null)
+					layout.PageContent.Content = (View?)n;
+			});
 
 	public AppShellLayout()
 	{
 		ShellVm = ServiceHelper.GetRequiredService<AppShellViewModel>();
 		BindingContext = this;
 		InitializeComponent();
-		SizeChanged += OnSizeChanged;
+
+		NavbarTitle.Text = PageTitle;
+		PageContent.Content = PageBody;
+
+		// Initial responsive setup - default to sidebar visible on desktop
+		DesktopSidebar.IsVisible = true;
+		SidebarColumn.Width = new GridLength(ShellVm.IsSidebarCollapsed ? 76 : 240);
+
+		SizeChanged += (_, _) => UpdateResponsive(Width);
+		ShellVm.PropertyChanged += (_, e) =>
+		{
+			if (e.PropertyName is nameof(ShellVm.IsSidebarCollapsed) or nameof(ShellVm.ShowSidebar))
+				UpdateResponsive(Width);
+		};
 	}
 
 	public AppShellViewModel ShellVm { get; }
@@ -25,38 +56,27 @@ public partial class AppShellLayout : ContentView
 		set => SetValue(ActiveKeyProperty, value);
 	}
 
-	private void OnSizeChanged(object? sender, EventArgs e)
+	public string PageTitle
 	{
-		// Get the page width from the parent
-		var page = this.GetParentOfType<ContentPage>();
-		if (page is not null)
-		{
-			ShellVm.UpdateAvailableWidth(page.Width);
-		}
+		get => (string)GetValue(PageTitleProperty);
+		set => SetValue(PageTitleProperty, value);
 	}
 
-	protected override void OnParentSet()
+	public View? PageBody
 	{
-		base.OnParentSet();
-		// Initial width update
-		var page = this.GetParentOfType<ContentPage>();
-		if (page is not null)
-		{
-			page.SizeChanged += (s, e) => ShellVm.UpdateAvailableWidth(page.Width);
-		}
+		get => (View?)GetValue(PageBodyProperty);
+		set => SetValue(PageBodyProperty, value);
 	}
-}
 
-internal static class ViewExtensions
-{
-	public static T? GetParentOfType<T>(this Element element) where T : Element
+	private void UpdateResponsive(double width)
 	{
-		var parent = element.Parent;
-		while (parent is not null)
-		{
-			if (parent is T typed) return typed;
-			parent = parent.Parent;
-		}
-		return null;
+		if (width <= 0) return;
+		ShellVm.UpdateAvailableWidth(width);
+		var showSidebar = ShellVm.ShowSidebar;
+		DesktopSidebar.IsVisible = showSidebar;
+		MobileNavbar.IsVisible = !showSidebar;
+		SidebarColumn.Width = showSidebar
+			? new GridLength(ShellVm.IsSidebarCollapsed ? 76 : 240)
+			: new GridLength(0);
 	}
 }

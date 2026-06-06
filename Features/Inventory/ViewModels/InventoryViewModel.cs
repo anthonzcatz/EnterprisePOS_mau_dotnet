@@ -55,8 +55,6 @@ public class InventoryViewModel : BaseViewModel
         _stockRepository = stockRepository;
         RefreshCommand = new Command(async () => await LoadInventoryAsync());
         AdjustStockCommand = new Command<ProductStock>(async (stock) => await OnAdjustStock(stock));
-
-        _ = LoadInventoryAsync();
     }
 
     private async Task LoadInventoryAsync()

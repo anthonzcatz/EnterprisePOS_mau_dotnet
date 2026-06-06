@@ -11,13 +11,9 @@
              ios:Page.UseSafeArea="True"
              BackgroundColor="{StaticResource BackgroundSecondary}">
 
-    <Grid ColumnSpacing="0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="{Binding ShellVm.SidebarGridLength, Source={x:Reference SidebarLayout}}" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <components:AppShellLayout x:Name="SidebarLayout" Grid.Column="0" ActiveKey="users" />
-        <Grid Grid.Column="1" RowDefinitions="Auto,Auto,*" RowSpacing="0">
+    <components:AppShellLayout ActiveKey="users" PageTitle="Users">
+        <components:AppShellLayout.PageBody>
+            <Grid RowDefinitions="Auto,Auto,*" RowSpacing="0">
         <Border Grid.Row="0" BackgroundColor="{StaticResource White}" StrokeThickness="0" Padding="{OnIdiom Phone='16,14', Tablet='20,18', Desktop='24,20'}">
             <Grid ColumnDefinitions="*,Auto">
                 <components:PageHeader Grid.Column="0"
@@ -142,7 +138,7 @@
                                         TextColor="{StaticResource Primary}"
                                         HorizontalOptions="Start"
                                         Padding="0"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:UsersViewModel}}, Path=ViewDetailsCommand}"
+                                        Command="{Binding ViewDetailsCommand}"
                                         CommandParameter="{Binding .}" />
                             </VerticalStackLayout>
                         </Border>
@@ -157,6 +153,7 @@
                 </CollectionView.EmptyView>
             </CollectionView>
         </RefreshView>
-        </Grid>
-    </Grid>
+            </Grid>
+        </components:AppShellLayout.PageBody>
+    </components:AppShellLayout>
 </ContentPage>

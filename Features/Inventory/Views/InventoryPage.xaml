@@ -11,13 +11,9 @@
              ios:Page.UseSafeArea="True"
              BackgroundColor="{StaticResource Gray100}">
 
-    <Grid ColumnSpacing="0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="{Binding ShellVm.SidebarGridLength, Source={x:Reference SidebarLayout}}" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <components:AppShellLayout x:Name="SidebarLayout" Grid.Column="0" ActiveKey="inventory" />
-        <Grid Grid.Column="1" RowDefinitions="Auto,Auto,*" RowSpacing="0">
+    <components:AppShellLayout ActiveKey="inventory" PageTitle="Inventory">
+        <components:AppShellLayout.PageBody>
+            <Grid RowDefinitions="Auto,Auto,*" RowSpacing="0">
         <!-- Header Section -->
         <Border Grid.Row="0" BackgroundColor="{StaticResource White}" StrokeThickness="0" Padding="{OnIdiom Phone=16, Tablet=20, Desktop=24}">
             <Grid ColumnDefinitions="*,Auto">
@@ -68,7 +64,7 @@
 
         <!-- Inventory List -->
         <RefreshView Grid.Row="2" Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
-            <Border Margin="{OnIdiom Phone=16, Tablet=20, Desktop=24},0" BackgroundColor="{StaticResource White}" StrokeShape="RoundRectangle 12" StrokeThickness="0">
+            <Border Margin="{OnIdiom Phone=16, Tablet=20, Desktop=24}" BackgroundColor="{StaticResource White}" StrokeShape="RoundRectangle 12" StrokeThickness="0">
                 <CollectionView ItemsSource="{Binding Stocks}">
                     <CollectionView.Header>
                         <Grid ColumnDefinitions="{OnIdiom Phone='*,Auto', Tablet='2*,*,*,*', Desktop='2*,*,*,*,*'}" Padding="{OnIdiom Phone=12, Tablet=16, Desktop=16}" BackgroundColor="{StaticResource Gray50}">
@@ -97,19 +93,19 @@
 
                                 <Label Grid.Column="3" Text="{Binding ReorderLevel, StringFormat='{0:N0}'}" HorizontalTextAlignment="End" VerticalOptions="Center" FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}" TextColor="{StaticResource Gray700}" IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}" />
 
-                                <Button Grid.Column="4" 
-                                        Text="Adjust" 
+                                <Button Grid.Column="4"
+                                        Text="Adjust"
                                         FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}"
                                         Padding="{OnIdiom Phone='10,4', Tablet='12,4', Desktop='12,4'}"
                                         MinimumHeightRequest="{OnIdiom Phone=32, Tablet=32, Desktop=36}"
                                         BackgroundColor="{StaticResource Gray100}"
                                         TextColor="{StaticResource Primary}"
                                         IsVisible="{OnIdiom Phone=False, Tablet=True, Desktop=True}"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:InventoryViewModel}}, Path=AdjustStockCommand}"
+                                        Command="{Binding AdjustStockCommand}"
                                         CommandParameter="{Binding .}" />
                                 <!-- Phone: Show adjust button below product info -->
-                                <Button Grid.Column="1" 
-                                        Text="Adjust" 
+                                <Button Grid.Column="1"
+                                        Text="Adjust"
                                         FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}"
                                         Padding="{OnIdiom Phone='10,4', Tablet='12,4', Desktop='12,4'}"
                                         MinimumHeightRequest="{OnIdiom Phone=32, Tablet=32, Desktop=36}"
@@ -118,7 +114,7 @@
                                         HorizontalOptions="End"
                                         VerticalOptions="Center"
                                         IsVisible="{OnIdiom Phone=True, Tablet=False, Desktop=False}"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:InventoryViewModel}}, Path=AdjustStockCommand}"
+                                        Command="{Binding AdjustStockCommand}"
                                         CommandParameter="{Binding .}" />
                             </Grid>
                         </DataTemplate>
@@ -131,6 +127,7 @@
                 </CollectionView>
             </Border>
         </RefreshView>
-        </Grid>
-    </Grid>
+            </Grid>
+        </components:AppShellLayout.PageBody>
+    </components:AppShellLayout>
 </ContentPage>

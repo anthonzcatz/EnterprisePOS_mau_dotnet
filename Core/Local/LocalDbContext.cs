@@ -106,5 +106,12 @@ public class LocalDbContext : DbContext, ILocalDbContext
             .WithMany(b => b.Terminals)
             .HasForeignKey(t => t.BranchId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // ProductStock configuration
+        modelBuilder.Entity<ProductStock>()
+            .HasOne(ps => ps.Product)
+            .WithMany()
+            .HasForeignKey(ps => ps.ProductId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

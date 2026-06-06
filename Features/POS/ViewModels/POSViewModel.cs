@@ -112,12 +112,16 @@ public sealed class POSViewModel : BaseViewModel
 			if (SetProperty(ref isSidebarCollapsed, value))
 			{
 				OnPropertyChanged(nameof(SidebarGridLength));
+				OnPropertyChanged(nameof(SidebarColumnWidth));
 			}
 		}
 	}
 
 	public GridLength SidebarGridLength =>
 		new(IsSidebarCollapsed ? SidebarCollapsedWidth : SidebarExpandedWidth);
+
+	public GridLength SidebarColumnWidth =>
+		ShowSidebar ? SidebarGridLength : new GridLength(0);
 
 	public bool IsMobileSidebarOpen
 	{
@@ -205,7 +209,7 @@ public sealed class POSViewModel : BaseViewModel
 			}
 
 			var rows = (int)Math.Ceiling(Products.Count / (double)MobileProductGridSpan);
-			var rowHeight = MobileProductGridSpan == 1 ? 246 : 228;
+			var rowHeight = MobileProductGridSpan == 1 ? 226 : 208;
 			return rows * rowHeight + Math.Max(0, rows - 1) * 10;
 		}
 	}
@@ -244,6 +248,7 @@ public sealed class POSViewModel : BaseViewModel
 		OnPropertyChanged(nameof(DesktopIdentityWidth));
 		OnPropertyChanged(nameof(ShowDesktopUtilityActions));
 		OnPropertyChanged(nameof(ShowSidebar));
+		OnPropertyChanged(nameof(SidebarColumnWidth));
 		OnPropertyChanged(nameof(MobileProductGridSpan));
 		OnPropertyChanged(nameof(MobileProductListHeight));
 		OnPropertyChanged(nameof(MobileCartListHeight));

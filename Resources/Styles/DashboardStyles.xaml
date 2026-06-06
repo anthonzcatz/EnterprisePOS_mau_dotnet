@@ -38,4 +38,23 @@
         </Setter>
     </Style>
 
+    <!-- Shadow resources for card hover effects -->
+    <Shadow x:Key="CardShadow"
+            Brush="{StaticResource Gray300}"
+            Offset="0,2"
+            Radius="8"
+            Opacity="0.3" />
+
+    <Shadow x:Key="HoverShadow"
+            Brush="{StaticResource Primary}"
+            Offset="0,4"
+            Radius="12"
+            Opacity="0.2" />
+
+    <Shadow x:Key="ElevatedShadow"
+            Brush="{StaticResource Gray400}"
+            Offset="0,6"
+            Radius="16"
+            Opacity="0.4" />
+
 </ResourceDictionary>

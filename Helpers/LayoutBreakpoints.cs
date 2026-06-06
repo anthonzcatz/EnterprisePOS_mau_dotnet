@@ -16,5 +16,8 @@ public static class LayoutBreakpoints
 	public const double DesktopMin = 900;
 
 	/// <summary>Minimum width for the persistent sidebar to be visible.</summary>
-	public const double SidebarVisibleMin = 1000;
+	public const double SidebarVisibleMin = 1200;
+
+	/// <summary>Minimum width to show the two-column catalog + cart wide layout (tablet and up).</summary>
+	public const double WideLayoutMin = 768;
 }

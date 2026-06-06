@@ -38,7 +38,7 @@
 
         <!-- Form Content -->
         <ScrollView Grid.Row="1">
-            <VerticalStackLayout Padding="24" Spacing="24" MaxWidthRequest="800" HorizontalOptions="Center">
+            <VerticalStackLayout Padding="24" Spacing="24" MaximumWidthRequest="800" HorizontalOptions="Center">
                 
                 <!-- General Info Section -->
                 <Border BackgroundColor="{StaticResource White}" Padding="24" StrokeShape="RoundRectangle 12" StrokeThickness="0">

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:EnterprisePOS.Features.Users.ViewModels"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             x:Class="EnterprisePOS.Features.Users.Views.CreateUserPage"
+             x:DataType="vm:CreateUserViewModel"
+             Title="Create User"
+             ios:Page.UseSafeArea="True"
+             BackgroundColor="{StaticResource BackgroundSecondary}">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="16"
+                             Padding="{OnIdiom Phone='16,12', Tablet='24,16', Desktop='32,24'}">
+            <!-- Header -->
+            <Grid ColumnDefinitions="*,Auto"
+                  Padding="0,0,0,8">
+                <VerticalStackLayout Grid.Column="0" Spacing="2">
+                    <Label Text="Create New Account"
+                           FontSize="{OnIdiom Phone=18, Tablet=20, Desktop=22}"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource Gray900}" />
+                    <Label Text="Fill in the details to create a new user account."
+                           FontSize="{OnIdiom Phone=12, Tablet=13, Desktop=14}"
+                           TextColor="{StaticResource PosTextMuted}" />
+                </VerticalStackLayout>
+                <Button Grid.Column="1"
+                        Text="Cancel"
+                        Command="{Binding CancelCommand}"
+                        BackgroundColor="{StaticResource Gray100}"
+                        TextColor="{StaticResource Gray700}"
+                        VerticalOptions="Center"
+                        Padding="12,6"
+                        CornerRadius="8" />
+            </Grid>
+
+            <Border BackgroundColor="{StaticResource White}"
+                    Stroke="{StaticResource PosBorder}"
+                    StrokeThickness="1"
+                    StrokeShape="RoundRectangle 16"
+                    Padding="24">
+                <VerticalStackLayout Spacing="16">
+
+                    <!-- Full Name -->
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Full Name *"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Gray700}" />
+                        <Entry Text="{Binding FullName}"
+                               Placeholder="Enter full name"
+                               FontSize="14" />
+                        <Label Text="{Binding FullNameError}"
+                               FontSize="11"
+                               TextColor="{StaticResource Danger}"
+                               IsVisible="{Binding HasFullNameError}" />
+                    </VerticalStackLayout>
+
+                    <!-- Username / Email -->
+                    <Grid ColumnDefinitions="{OnIdiom Phone='*', Tablet='*,*', Desktop='*,*'}"
+                          ColumnSpacing="12">
+                        <VerticalStackLayout Grid.Column="0" Spacing="4">
+                            <Label Text="Username *"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Gray700}" />
+                            <Entry Text="{Binding Username}"
+                                   Placeholder="Enter username"
+                                   FontSize="14" />
+                            <Label Text="{Binding UsernameError}"
+                                   FontSize="11"
+                                   TextColor="{StaticResource Danger}"
+                                   IsVisible="{Binding HasUsernameError}" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                            <Label Text="Email *"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Gray700}" />
+                            <Entry Text="{Binding Email}"
+                                   Placeholder="Enter email address"
+                                   FontSize="14"
+                                   Keyboard="Email" />
+                            <Label Text="{Binding EmailError}"
+                                   FontSize="11"
+                                   TextColor="{StaticResource Danger}"
+                                   IsVisible="{Binding HasEmailError}" />
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <!-- Password / Confirm -->
+                    <Grid ColumnDefinitions="{OnIdiom Phone='*', Tablet='*,*', Desktop='*,*'}"
+                          ColumnSpacing="12">
+                        <VerticalStackLayout Grid.Column="0" Spacing="4">
+                            <Label Text="Password *"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Gray700}" />
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Entry Grid.Column="0"
+                                       Text="{Binding Password}"
+                                       Placeholder="Enter password"
+                                       FontSize="14"
+                                       IsPassword="True" />
+                                <Button Grid.Column="1"
+                                        Text="Generate"
+                                        Command="{Binding GeneratePasswordCommand}"
+                                        BackgroundColor="{StaticResource Gray100}"
+                                        TextColor="{StaticResource Gray700}"
+                                        FontSize="11"
+                                        Padding="8,4"
+                                        CornerRadius="8"
+                                        VerticalOptions="Center" />
+                            </Grid>
+                            <Label Text="{Binding PasswordError}"
+                                   FontSize="11"
+                                   TextColor="{StaticResource Danger}"
+                                   IsVisible="{Binding HasPasswordError}" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                            <Label Text="Confirm Password *"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Gray700}" />
+                            <Entry Text="{Binding ConfirmPassword}"
+                                   Placeholder="Confirm password"
+                                   FontSize="14"
+                                   IsPassword="True" />
+                            <Label Text="{Binding ConfirmPasswordError}"
+                                   FontSize="11"
+                                   TextColor="{StaticResource Danger}"
+                                   IsVisible="{Binding HasConfirmPasswordError}" />
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <!-- Role / Branch -->
+                    <Grid ColumnDefinitions="{OnIdiom Phone='*', Tablet='*,*', Desktop='*,*'}"
+                          ColumnSpacing="12">
+                        <VerticalStackLayout Grid.Column="0" Spacing="4">
+                            <Label Text="Role *"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Gray700}" />
+                            <Border Stroke="{StaticResource PosBorder}"
+                                    StrokeThickness="1"
+                                    Padding="12,10"
+                                    StrokeShape="RoundRectangle 10"
+                                    BackgroundColor="{StaticResource White}">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectRoleCommand}" />
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Label Grid.Column="0"
+                                           Text="{Binding SelectedRole, TargetNullValue='Select role'}"
+                                           FontSize="14"
+                                           TextColor="{StaticResource Gray900}"
+                                           VerticalOptions="Center" />
+                                    <Label Grid.Column="1"
+                                           Text="&#x25BC;"
+                                           FontSize="10"
+                                           TextColor="{StaticResource Gray500}"
+                                           VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                            <Label Text="{Binding RoleError}"
+                                   FontSize="11"
+                                   TextColor="{StaticResource Danger}"
+                                   IsVisible="{Binding HasRoleError}" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                            <Label Text="Branch *"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="{StaticResource Gray700}" />
+                            <Border Stroke="{StaticResource PosBorder}"
+                                    StrokeThickness="1"
+                                    Padding="12,10"
+                                    StrokeShape="RoundRectangle 10"
+                                    BackgroundColor="{StaticResource White}">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectBranchCommand}" />
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Label Grid.Column="0"
+                                           Text="{Binding SelectedBranch, TargetNullValue='Select branch'}"
+                                           FontSize="14"
+                                           TextColor="{StaticResource Gray900}"
+                                           VerticalOptions="Center" />
+                                    <Label Grid.Column="1"
+                                           Text="&#x25BC;"
+                                           FontSize="10"
+                                           TextColor="{StaticResource Gray500}"
+                                           VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                            <Label Text="{Binding BranchError}"
+                                   FontSize="11"
+                                   TextColor="{StaticResource Danger}"
+                                   IsVisible="{Binding HasBranchError}" />
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <!-- Toggles -->
+                    <Grid ColumnDefinitions="*,*,*"
+                          ColumnSpacing="16"
+                          Padding="0,8">
+                        <HorizontalStackLayout Grid.Column="0" Spacing="8">
+                            <Switch IsToggled="{Binding IsActive}" />
+                            <Label Text="Active"
+                                   FontSize="13"
+                                   VerticalOptions="Center"
+                                   TextColor="{StaticResource Gray700}" />
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Grid.Column="1" Spacing="8">
+                            <Switch IsToggled="{Binding IsAdmin}" />
+                            <Label Text="Admin"
+                                   FontSize="13"
+                                   VerticalOptions="Center"
+                                   TextColor="{StaticResource Gray700}" />
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Grid.Column="2" Spacing="8">
+                            <Switch IsToggled="{Binding HasTwoFactor}" />
+                            <Label Text="2FA"
+                                   FontSize="13"
+                                   VerticalOptions="Center"
+                                   TextColor="{StaticResource Gray700}" />
+                        </HorizontalStackLayout>
+                    </Grid>
+
+                    <BoxView HeightRequest="1"
+                             Color="{StaticResource PosBorder}"
+                             Margin="0,8" />
+
+                    <Button Text="Create Account"
+                            Command="{Binding SaveCommand}"
+                            BackgroundColor="{StaticResource ButtonPrimary}"
+                            TextColor="{StaticResource ButtonPrimaryText}"
+                            FontAttributes="Bold"
+                            FontSize="15"
+                            HeightRequest="48"
+                            CornerRadius="12"
+                            IsEnabled="{Binding IsNotBusy}" />
+                </VerticalStackLayout>
+            </Border>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,13 +1,81 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:components="clr-namespace:EnterprisePOS.Components"
-             x:Class="EnterprisePOS.Components.AppShellLayout"
-             x:Name="Root">
-    <!-- Shared Sidebar - responsive visibility -->
-    <components:PosSidebarView NavItems="{Binding ShellVm.NavItems, Source={x:Reference Root}}"
+<Grid xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+      xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+      xmlns:components="clr-namespace:EnterprisePOS.Components"
+      x:Class="EnterprisePOS.Components.AppShellLayout"
+      x:Name="Root"
+      ColumnSpacing="0">
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition x:Name="SidebarColumn" Width="76" />
+        <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+
+    <!-- Desktop / tablet persistent sidebar - ensure it's on top -->
+    <components:PosSidebarView x:Name="DesktopSidebar"
+                               Grid.Column="0"
+                               ZIndex="10"
+                               NavItems="{Binding ShellVm.NavItems, Source={x:Reference Root}}"
                                IsCollapsed="{Binding ShellVm.IsSidebarCollapsed, Source={x:Reference Root}}"
-                               IsVisible="{Binding ShellVm.ShowSidebar, Source={x:Reference Root}}"
                                ToggleCommand="{Binding ShellVm.ToggleSidebarCommand, Source={x:Reference Root}}"
                                NavigateCommand="{Binding ShellVm.NavigateCommand, Source={x:Reference Root}}" />
-</ContentView>
+
+    <!-- Content area with mobile top navbar -->
+    <Grid Grid.Column="1" RowDefinitions="Auto,*" RowSpacing="0" HorizontalOptions="FillAndExpand">
+        <!-- Mobile top navbar (burger menu) -->
+        <Border x:Name="MobileNavbar"
+                Grid.Row="0"
+                IsVisible="False"
+                BackgroundColor="{StaticResource White}"
+                StrokeThickness="0"
+                Padding="12,10">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                <Border Grid.Column="0"
+                        WidthRequest="42"
+                        HeightRequest="42"
+                        StrokeThickness="0"
+                        BackgroundColor="{StaticResource Gray100}"
+                        StrokeShape="RoundRectangle 12"
+                        VerticalOptions="Center">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ShellVm.OpenMobileDrawerCommand, Source={x:Reference Root}}" />
+                    </Border.GestureRecognizers>
+                    <Label Text="☰"
+                           FontSize="18"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           TextColor="{StaticResource Gray900}" />
+                </Border>
+                <Label x:Name="NavbarTitle"
+                       Grid.Column="1"
+                       FontSize="17"
+                       FontAttributes="Bold"
+                       VerticalOptions="Center"
+                       TextColor="{StaticResource Gray900}" />
+            </Grid>
+        </Border>
+
+        <!-- Page content slot -->
+        <ContentView x:Name="PageContent" Grid.Row="1" />
+    </Grid>
+
+    <!-- Mobile slide-out drawer overlay - only covers content area, not sidebar -->
+    <Grid x:Name="DrawerOverlay"
+          Grid.Column="1"
+          IsVisible="{Binding ShellVm.IsMobileDrawerOpen, Source={x:Reference Root}}"
+          ZIndex="100">
+        <BoxView BackgroundColor="#80000000">
+            <BoxView.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ShellVm.CloseMobileDrawerCommand, Source={x:Reference Root}}" />
+            </BoxView.GestureRecognizers>
+        </BoxView>
+        <Border WidthRequest="260"
+                HorizontalOptions="Start"
+                BackgroundColor="{StaticResource White}"
+                StrokeThickness="0">
+            <components:PosSidebarView NavItems="{Binding ShellVm.NavItems, Source={x:Reference Root}}"
+                                       IsCollapsed="False"
+                                       ToggleCommand="{Binding ShellVm.CloseMobileDrawerCommand, Source={x:Reference Root}}"
+                                       NavigateCommand="{Binding ShellVm.NavigateCommand, Source={x:Reference Root}}" />
+        </Border>
+    </Grid>
+</Grid>

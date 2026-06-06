@@ -8,4 +8,5 @@ public static class Routes
 	public const string Products = "products";
 	public const string ProductEditor = "product-editor";
 	public const string Inventory = "inventory";
+	public const string UserCreate = "user-create";
 }

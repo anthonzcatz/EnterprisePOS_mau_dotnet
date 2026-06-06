@@ -10,6 +10,7 @@ namespace EnterprisePOS.ViewModels;
 public sealed class AppShellViewModel : INotifyPropertyChanged
 {
 	private bool isSidebarCollapsed = true;
+	private bool isMobileDrawerOpen;
 	private double availableWidth = 1200;
 	private const double SidebarExpandedWidth = 240;
 	private const double SidebarCollapsedWidth = 76;
@@ -20,6 +21,8 @@ public sealed class AppShellViewModel : INotifyPropertyChanged
 	{
 		ToggleSidebarCommand = new Command(ToggleSidebar);
 		NavigateCommand = new Command<PosNavItem>(Navigate);
+		OpenMobileDrawerCommand = new Command(() => IsMobileDrawerOpen = true);
+		CloseMobileDrawerCommand = new Command(() => IsMobileDrawerOpen = false);
 		LoadNavItems();
 	}
 
@@ -37,21 +40,38 @@ public sealed class AppShellViewModel : INotifyPropertyChanged
 		}
 	}
 
+	public bool IsMobileDrawerOpen
+	{
+		get => isMobileDrawerOpen;
+		set
+		{
+			if (isMobileDrawerOpen == value) return;
+			isMobileDrawerOpen = value;
+			OnPropertyChanged();
+		}
+	}
+
 	public bool ShowSidebar => availableWidth >= LayoutBreakpoints.SidebarVisibleMin;
+
+	public bool ShowMobileNavbar => !ShowSidebar;
 
 	public GridLength SidebarGridLength =>
 		ShowSidebar ? new(IsSidebarCollapsed ? SidebarCollapsedWidth : SidebarExpandedWidth) : new(0);
 
 	public void UpdateAvailableWidth(double width)
 	{
-		if (Math.Abs(availableWidth - width) < 1) return;
+		if (width <= 0 || Math.Abs(availableWidth - width) < 1) return;
 		availableWidth = width;
 		OnPropertyChanged(nameof(ShowSidebar));
+		OnPropertyChanged(nameof(ShowMobileNavbar));
 		OnPropertyChanged(nameof(SidebarGridLength));
+		if (ShowSidebar) IsMobileDrawerOpen = false;
 	}
 
 	public Command ToggleSidebarCommand { get; }
 	public Command<PosNavItem> NavigateCommand { get; }
+	public Command OpenMobileDrawerCommand { get; }
+	public Command CloseMobileDrawerCommand { get; }
 
 	public void SetActiveRoute(string routeKey)
 	{
@@ -70,15 +90,19 @@ public sealed class AppShellViewModel : INotifyPropertyChanged
 			"home"       => "//dashboard/dashboard-main",
 			"pos"        => "//pos/pos-main",
 			"orders"     => "//sales/sales-main",
-			"kitchen"    => "//sales/sales-main",
 			"customers"  => "//customers/customers-main",
 			"reports"    => "//reports/reports-main",
+			"products"   => "//products/products-main",
+			"inventory"  => "//inventory/inventory-main",
+			"users"      => "//users/users-main",
+			"settings"   => "//settings/settings-main",
 			_            => null
 		};
 
 		if (route is null) return;
 
 		SetActiveRoute(item.Key);
+		IsMobileDrawerOpen = false;
 
 		try
 		{
@@ -93,11 +117,14 @@ public sealed class AppShellViewModel : INotifyPropertyChanged
 	private void LoadNavItems()
 	{
 		NavItems.Add(new PosNavItem { Key = "home",       Title = "Home",       Glyph = "⌂" });
-		NavItems.Add(new PosNavItem { Key = "pos",        Title = "Register",   Glyph = "⊞", IsActive = true });
+		NavItems.Add(new PosNavItem { Key = "pos",        Title = "Point of Sale", Glyph = "⊞" });
 		NavItems.Add(new PosNavItem { Key = "orders",     Title = "Orders",     Glyph = "🧾" });
-		NavItems.Add(new PosNavItem { Key = "kitchen",    Title = "Kitchen",    Glyph = "🍳" });
-		NavItems.Add(new PosNavItem { Key = "customers",  Title = "Guests",     Glyph = "�" });
+		NavItems.Add(new PosNavItem { Key = "customers",  Title = "Guests",     Glyph = "👤" });
+		NavItems.Add(new PosNavItem { Key = "products",   Title = "Products",   Glyph = "📦" });
+		NavItems.Add(new PosNavItem { Key = "inventory",  Title = "Inventory",  Glyph = "🗃" });
 		NavItems.Add(new PosNavItem { Key = "reports",    Title = "Reports",    Glyph = "📊" });
+		NavItems.Add(new PosNavItem { Key = "users",      Title = "Users",      Glyph = "👥" });
+		NavItems.Add(new PosNavItem { Key = "settings",   Title = "Settings",   Glyph = "⚙" });
 	}
 
 	private void OnPropertyChanged([CallerMemberName] string? propertyName = null)

@@ -15,16 +15,15 @@
             <HorizontalStackLayout Spacing="10"
                                    HorizontalOptions="{Binding Source={x:Reference Root}, Path=HeaderHorizontalOptions}"
                                    VerticalOptions="Center">
-                <Border BackgroundColor="{StaticResource ButtonPrimary}"
-                        WidthRequest="40"
-                        HeightRequest="40"
+                <Border WidthRequest="48"
+                        HeightRequest="48"
                         StrokeThickness="0">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="12" />
+                        <RoundRectangle CornerRadius="14" />
                     </Border.StrokeShape>
                     <Image Source="logo.png"
-                           WidthRequest="24"
-                           HeightRequest="24"
+                           WidthRequest="36"
+                           HeightRequest="36"
                            HorizontalOptions="Center"
                            VerticalOptions="Center"
                            Aspect="AspectFill" />
@@ -32,12 +31,12 @@
                 <VerticalStackLayout Spacing="0"
                                      VerticalOptions="Center"
                                      IsVisible="{Binding Source={x:Reference Root}, Path=ShowLabels}">
-                    <Label Text="Dos Avenue"
+                    <Label Text="TechFuxion POS"
                            TextColor="{StaticResource Gray900}"
                            FontAttributes="Bold"
                            FontSize="14"
                            LineBreakMode="TailTruncation" />
-                    <Label Text="Coffee &amp; Bites"
+                    <Label Text="Enterprise System"
                            TextColor="{StaticResource Gray500}"
                            FontSize="10" />
                 </VerticalStackLayout>

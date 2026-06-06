@@ -36,8 +36,6 @@ public class CustomersViewModel : BaseViewModel
         RefreshCommand = new Command(async () => await LoadCustomersAsync());
         AddCustomerCommand = new Command(async () => await OnAddCustomer());
         ViewDetailsCommand = new Command<Customer>(async (customer) => await OnViewDetails(customer));
-
-        _ = LoadCustomersAsync();
     }
 
     private async Task LoadCustomersAsync()

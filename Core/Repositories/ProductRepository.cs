@@ -18,7 +18,6 @@ public class ProductRepository
         return await _context.Products
             .Include(p => p.Category)
             .Include(p => p.Unit)
-            .Include(p => p.ProductStocks)
             .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 
@@ -27,7 +26,6 @@ public class ProductRepository
         return await _context.Products
             .Include(p => p.Category)
             .Include(p => p.Unit)
-            .Include(p => p.ProductStocks)
             .FirstOrDefaultAsync(p => p.Code == code, cancellationToken);
     }
 
@@ -36,7 +34,6 @@ public class ProductRepository
         return await _context.Products
             .Include(p => p.Category)
             .Include(p => p.Unit)
-            .Include(p => p.ProductStocks)
             .Where(p => p.IsActive)
             .ToListAsync(cancellationToken);
     }
@@ -46,7 +43,6 @@ public class ProductRepository
         return await _context.Products
             .Include(p => p.Category)
             .Include(p => p.Unit)
-            .Include(p => p.ProductStocks)
             .Where(p => p.CategoryId == categoryId && p.IsActive)
             .ToListAsync(cancellationToken);
     }

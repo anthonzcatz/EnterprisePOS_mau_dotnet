@@ -11,13 +11,9 @@
              ios:Page.UseSafeArea="True"
              BackgroundColor="{StaticResource BackgroundSecondary}">
 
-    <Grid ColumnSpacing="0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="{Binding ShellVm.SidebarGridLength, Source={x:Reference SidebarLayout}}" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <components:AppShellLayout x:Name="SidebarLayout" Grid.Column="0" ActiveKey="products" />
-        <Grid Grid.Column="1" RowDefinitions="Auto,Auto,*" RowSpacing="0">
+    <components:AppShellLayout ActiveKey="products" PageTitle="Products">
+        <components:AppShellLayout.PageBody>
+            <Grid RowDefinitions="Auto,Auto,*" RowSpacing="0">
         <!-- Header Section -->
         <Border Grid.Row="0" BackgroundColor="{StaticResource White}" StrokeThickness="0" Padding="{OnIdiom Phone=16, Tablet=20, Desktop=24}">
             <Grid ColumnDefinitions="*,Auto">
@@ -68,7 +64,7 @@
 
         <!-- Main Content -->
         <RefreshView Grid.Row="2" Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
-            <CollectionView ItemsSource="{Binding Products}" Margin="{OnIdiom Phone=16, Tablet=20, Desktop=24},0">
+            <CollectionView ItemsSource="{Binding Products}" Margin="{OnIdiom Phone=16, Tablet=20, Desktop=24}">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout 
                         Orientation="Vertical" 
@@ -102,7 +98,7 @@
                                     <Label Text="{Binding Name}" FontSize="{OnIdiom Phone=14, Tablet=16, Desktop=16}" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}" MaxLines="1" LineBreakMode="TailTruncation" />
                                     <Label Text="{Binding Code}" FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}" TextColor="{StaticResource Gray500}" />
                                     
-                                    <Grid ColumnDefinitions="*,Auto" Margin="0,{OnIdiom Phone=6, Tablet=8, Desktop=8},0,0">
+                                    <Grid ColumnDefinitions="*,Auto" Margin="0,6,0,0">
                                         <Label Grid.Column="0" Text="{Binding SellingPrice, StringFormat='₱{0:N2}'}" FontSize="{OnIdiom Phone=16, Tablet=18, Desktop=18}" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
                                         <Label Grid.Column="1" Text="In Stock" FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}" VerticalOptions="Center" TextColor="{StaticResource Success}" />
                                     </Grid>
@@ -119,6 +115,7 @@
                 </CollectionView.EmptyView>
             </CollectionView>
         </RefreshView>
-        </Grid>
-    </Grid>
+            </Grid>
+        </components:AppShellLayout.PageBody>
+    </components:AppShellLayout>
 </ContentPage>

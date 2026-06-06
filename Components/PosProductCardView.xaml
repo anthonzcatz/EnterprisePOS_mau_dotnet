@@ -35,31 +35,30 @@
         <VerticalStackLayout Spacing="{OnIdiom Phone=8, Tablet=10, Desktop=12}">
 
             <!-- ── Image + stock badge ── -->
-            <Grid HeightRequest="{OnIdiom Phone=120, Tablet=148, Desktop=160}">
+            <Grid HeightRequest="{OnIdiom Phone=110, Tablet=125, Desktop=140}">
                 <!-- Rounded image area -->
                 <Border StrokeThickness="0"
                         BackgroundColor="{StaticResource Gray100}">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="14" />
+                        <RoundRectangle CornerRadius="12" />
                     </Border.StrokeShape>
                     <Image Source="{Binding Source={x:Reference Root}, Path=ImageSource}"
-                           Aspect="AspectFit"
-                           Margin="8" />
+                           Aspect="AspectFill" />
                 </Border>
 
                 <!-- Stock badge — dark pill top-left -->
                 <Border BackgroundColor="{StaticResource PosStockBadge}"
                         StrokeThickness="0"
-                        Padding="10,5"
+                        Padding="{OnIdiom Phone='6,3', Tablet='8,4', Desktop='10,5'}"
                         HorizontalOptions="Start"
                         VerticalOptions="Start"
-                        Margin="10,10,0,0">
+                        Margin="{OnIdiom Phone='6,6,0,0', Tablet='8,8,0,0', Desktop='10,10,0,0'}">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="20" />
                     </Border.StrokeShape>
                     <Label Text="{Binding Source={x:Reference Root}, Path=StockBadgeText}"
                            TextColor="{StaticResource White}"
-                           FontSize="11"
+                           FontSize="{OnIdiom Phone=9, Tablet=10, Desktop=11}"
                            FontAttributes="Bold" />
                 </Border>
             </Grid>
@@ -67,14 +66,14 @@
             <!-- ── Name ── -->
             <Label Text="{Binding Source={x:Reference Root}, Path=Title}"
                    FontAttributes="Bold"
-                   FontSize="{OnIdiom Phone=13, Tablet=14, Desktop=15}"
+                   FontSize="{OnIdiom Phone=12, Tablet=13, Desktop=14}"
                    TextColor="{StaticResource Gray900}"
                    LineBreakMode="TailTruncation"
                    MaxLines="1" />
 
             <!-- ── Description ── -->
             <Label Text="{Binding Source={x:Reference Root}, Path=Description}"
-                   FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}"
+                   FontSize="{OnIdiom Phone=10, Tablet=11, Desktop=12}"
                    TextColor="{StaticResource PosTextMuted}"
                    MaxLines="2"
                    LineBreakMode="TailTruncation" />
@@ -82,14 +81,14 @@
             <!-- ── Price ── -->
             <Label Text="{Binding Source={x:Reference Root}, Path=PriceText}"
                    FontAttributes="Bold"
-                   FontSize="{OnIdiom Phone=14, Tablet=15, Desktop=16}"
+                   FontSize="{OnIdiom Phone=13, Tablet=14, Desktop=15}"
                    TextColor="{StaticResource Gray900}" />
 
             <!-- ── Add to Cart — Border+Tap works reliably on WinUI MSIX ── -->
             <Border Stroke="{StaticResource BorderColor}"
                     StrokeThickness="1.5"
                     BackgroundColor="Transparent"
-                    Padding="{OnIdiom Phone='10,6', Tablet='12,8', Desktop='14,10'}"
+                    Padding="{OnIdiom Phone='8,5', Tablet='10,6', Desktop='12,8'}"
                     HorizontalOptions="Fill">
                 <Border.StrokeShape>
                     <RoundRectangle CornerRadius="20" />
@@ -99,7 +98,7 @@
                                         CommandParameter="{Binding Source={x:Reference Root}, Path=CommandParameter}" />
                 </Border.GestureRecognizers>
                 <Label Text="+ Add to Cart"
-                       FontSize="{OnIdiom Phone=12, Tablet=13, Desktop=14}"
+                       FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}"
                        FontAttributes="Bold"
                        TextColor="{StaticResource Gray900}"
                        HorizontalOptions="Center"
