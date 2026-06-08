@@ -17,8 +17,8 @@ using EnterprisePOS.Features.Customers.ViewModels;
 using EnterprisePOS.Features.Sales.Views;
 using EnterprisePOS.Features.Sales.ViewModels;
 using EnterprisePOS.Features.Reports.Views;
-using EnterprisePOS.Features.Users.Views;
-using EnterprisePOS.Features.Users.ViewModels;
+using EnterprisePOS.Features.UserManagement.Views;
+using EnterprisePOS.Features.UserManagement.ViewModels;
 using EnterprisePOS.Features.Products.Views;
 using EnterprisePOS.Features.Products.ViewModels;
 using EnterprisePOS.Features.Inventory.Views;
@@ -43,6 +43,13 @@ public static class MauiProgram
 				{
 					fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 					fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+				})
+				.ConfigureMauiHandlers(handlers =>
+				{
+#if WINDOWS
+					handlers.AddHandler<Microsoft.Maui.Controls.Entry, EnterprisePOS.Platforms.Windows.EntryHandlerCustom>();
+					handlers.AddHandler<Microsoft.Maui.Controls.Picker, EnterprisePOS.Platforms.Windows.PickerHandlerCustom>();
+#endif
 				});
 
 		// Database Services
@@ -58,6 +65,7 @@ public static class MauiProgram
 		builder.Services.AddScoped<ProductStockRepository>();
 		builder.Services.AddScoped<SaleRepository>();
 		builder.Services.AddScoped<CustomerRepository>();
+		builder.Services.AddScoped<UserRepository>();
 
 		// Services
 		builder.Services.AddSingleton<ThemeService>();
@@ -79,14 +87,16 @@ public static class MauiProgram
 		builder.Services.AddTransient<SalesViewModel>();
 		builder.Services.AddTransient<SalesPage>();
 		builder.Services.AddTransient<ReportsPage>();
-		builder.Services.AddTransient<UsersViewModel>();
-		builder.Services.AddTransient<UsersPage>();
 		builder.Services.AddTransient<ProductsViewModel>();
 		builder.Services.AddTransient<ProductEditorViewModel>();
 		builder.Services.AddTransient<ProductsPage>();
 		builder.Services.AddTransient<ProductEditorPage>();
 		builder.Services.AddTransient<InventoryViewModel>();
 		builder.Services.AddTransient<InventoryPage>();
+		builder.Services.AddTransient<EnterprisePOS.Features.UserManagement.ViewModels.UserManagementViewModel>();
+		builder.Services.AddTransient<EnterprisePOS.Features.UserManagement.Views.UserManagementPage>();
+		builder.Services.AddTransient<EnterprisePOS.Features.UserManagement.ViewModels.CreateUserViewModel>();
+		builder.Services.AddTransient<EnterprisePOS.Features.UserManagement.Views.CreateUserPage>();
 
 #if DEBUG
 		builder.Logging.AddDebug();

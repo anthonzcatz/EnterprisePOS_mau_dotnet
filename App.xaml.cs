@@ -14,7 +14,7 @@ public partial class App : Application
 	public App(LocalDbContext dbContext)
 	{
 		InitializeComponent();
-		_ = DatabaseSeeder.SeedDatabaseAsync(dbContext);
+		DatabaseSeeder.SeedDatabaseAsync(dbContext).GetAwaiter().GetResult();
 	}
 
 	protected override Window CreateWindow(IActivationState? activationState)

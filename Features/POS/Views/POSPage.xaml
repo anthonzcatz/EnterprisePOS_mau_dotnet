@@ -455,13 +455,7 @@
 
                 <Button Grid.Row="4"
                         Text="&#x1F6CD; Place Order"
-                        BackgroundColor="{StaticResource ButtonPrimary}"
-                        TextColor="{StaticResource ButtonPrimaryText}"
-                        FontAttributes="Bold"
-                        FontSize="15"
-                        CornerRadius="24"
-                        HeightRequest="48"
-                        Padding="0"
+                        Style="{StaticResource PrimaryButton}"
                         Command="{Binding ContinueCommand}" />
             </Grid>
         </Grid>
@@ -956,7 +950,7 @@
                                 <Label Text="Total Payment" FontAttributes="Bold" FontSize="15" />
                                 <Label Grid.Column="1" Text="{Binding TotalPayment, StringFormat='₱{0:F2}'}" FontAttributes="Bold" FontSize="17" TextColor="{StaticResource Gray900}" />
                             </Grid>
-                            <Button Text="🛒 Place Order" BackgroundColor="{StaticResource ButtonPrimary}" TextColor="{StaticResource ButtonPrimaryText}" FontAttributes="Bold" FontSize="15" CornerRadius="24" HeightRequest="48" Padding="0" Command="{Binding ToggleMobileCheckoutCommand}" />
+                            <Button Text="🛒 Place Order" Style="{StaticResource PrimaryButton}" Command="{Binding ToggleMobileCheckoutCommand}" />
                         </VerticalStackLayout>
                     </Border>
                 </Grid>
@@ -1036,7 +1030,7 @@
                         </VerticalStackLayout>
                     </ScrollView>
                     <Border Grid.Row="3" Padding="20" BackgroundColor="{StaticResource White}" Stroke="{StaticResource PosBorder}" StrokeThickness="1">
-                        <Button Text="✓ Confirm Order" BackgroundColor="{StaticResource ButtonPrimary}" TextColor="{StaticResource ButtonPrimaryText}" FontAttributes="Bold" FontSize="16" CornerRadius="24" HeightRequest="52" Padding="0" Command="{Binding ContinueCommand}" />
+                        <Button Text="✓ Confirm Order" Style="{StaticResource PrimaryButton}" Command="{Binding ContinueCommand}" />
                     </Border>
                 </Grid>
             </Border>

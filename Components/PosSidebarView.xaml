@@ -96,10 +96,10 @@
                                            VerticalOptions="Center"
                                            HorizontalTextAlignment="Center"
                                            VerticalTextAlignment="Center"
-                                           TextColor="{StaticResource Gray600}">
+                                           TextColor="#1F2A3D">
                                         <Label.Triggers>
                                             <DataTrigger TargetType="Label" Binding="{Binding IsActive}" Value="True">
-                                                <Setter Property="TextColor" Value="{StaticResource ButtonPrimaryText}" />
+                                                <Setter Property="TextColor" Value="#FFFFFF" />
                                             </DataTrigger>
                                         </Label.Triggers>
                                     </Label>
@@ -150,10 +150,10 @@
                                                VerticalOptions="Center"
                                                HorizontalTextAlignment="Center"
                                                VerticalTextAlignment="Center"
-                                               TextColor="{StaticResource Gray600}">
+                                               TextColor="#1F2A3D">
                                             <Label.Triggers>
                                                 <DataTrigger TargetType="Label" Binding="{Binding IsActive}" Value="True">
-                                                    <Setter Property="TextColor" Value="{StaticResource ButtonPrimaryText}" />
+                                                    <Setter Property="TextColor" Value="#FFFFFF" />
                                                 </DataTrigger>
                                             </Label.Triggers>
                                         </Label>
@@ -162,10 +162,10 @@
                                            Text="{Binding Title}"
                                            FontSize="13"
                                            VerticalOptions="Center"
-                                           TextColor="{StaticResource Gray600}">
+                                           TextColor="#1F2A3D">
                                         <Label.Triggers>
                                             <DataTrigger TargetType="Label" Binding="{Binding IsActive}" Value="True">
-                                                <Setter Property="TextColor" Value="{StaticResource ButtonPrimaryText}" />
+                                                <Setter Property="TextColor" Value="#FFFFFF" />
                                                 <Setter Property="FontAttributes" Value="Bold" />
                                             </DataTrigger>
                                         </Label.Triggers>

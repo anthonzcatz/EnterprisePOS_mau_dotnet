@@ -10,7 +10,7 @@
     xmlns:inventory="clr-namespace:EnterprisePOS.Features.Inventory.Views"
     xmlns:customers="clr-namespace:EnterprisePOS.Features.Customers.Views"
     xmlns:reports="clr-namespace:EnterprisePOS.Features.Reports.Views"
-    xmlns:users="clr-namespace:EnterprisePOS.Features.Users.Views"
+    xmlns:usermgmt="clr-namespace:EnterprisePOS.Features.UserManagement.Views"
     xmlns:settings="clr-namespace:EnterprisePOS.Features.Settings.Views"
     Shell.FlyoutBehavior="Disabled"
     Shell.NavBarIsVisible="False"
@@ -99,10 +99,10 @@
                       Route="reports-main"/>
     </FlyoutItem>
 
-    <FlyoutItem Title="Users" Route="users">
+    <FlyoutItem Title="Users" Route="user-management">
         <ShellContent Title="Users"
-                      ContentTemplate="{DataTemplate users:UsersPage}"
-                      Route="users-main"/>
+                      ContentTemplate="{DataTemplate usermgmt:UserManagementPage}"
+                      Route="user-management-main"/>
     </FlyoutItem>
 
     <FlyoutItem Title="Settings" Route="settings">

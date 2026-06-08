@@ -3,20 +3,20 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <!-- ===== PRIMARY COLORS (Professional Enterprise Palette) ===== -->
-    <Color x:Key="Primary">#356AE6</Color>
-    <Color x:Key="PrimaryDark">#2F63B8</Color>
-    <Color x:Key="PrimaryLight">#EAF1FF</Color>
+    <!-- ===== PRIMARY COLORS (Updated Theme - Dark Green) ===== -->
+    <Color x:Key="Primary">#034424</Color>
+    <Color x:Key="PrimaryDark">#02331A</Color>
+    <Color x:Key="PrimaryLight">#E8F5E9</Color>
     <Color x:Key="PrimaryDarkText">#FFFFFF</Color>
 
-    <!-- ===== BUTTON COLORS (Template for Primary/CTA Actions) ===== -->
-    <Color x:Key="ButtonPrimary">#C2F970</Color>
-    <Color x:Key="ButtonPrimaryText">#1F2A3D</Color>
+    <!-- ===== BUTTON COLORS (Updated Theme - Dark Green Primary Actions) ===== -->
+    <Color x:Key="ButtonPrimary">#034424</Color>
+    <Color x:Key="ButtonPrimaryText">#FFFFFF</Color>
     <Color x:Key="ButtonSecondary">#356AE6</Color>
     <Color x:Key="ButtonSecondaryText">#FFFFFF</Color>
 
     <!-- ===== NAVIGATION COLORS (Template-based for all nav elements) ===== -->
-    <Color x:Key="NavActive">#356AE6</Color>
+    <Color x:Key="NavActive">#034424</Color>
     <Color x:Key="NavBackground">#FFFFFF</Color>
     <Color x:Key="NavText">#1F2A3D</Color>
     <Color x:Key="NavTextMuted">#73819A</Color>
@@ -27,9 +27,10 @@
     <Color x:Key="Warning">#C88A24</Color>
     <Color x:Key="WarningLight">#FFF4E2</Color>
     <Color x:Key="Danger">#D95364</Color>
+    <Color x:Key="Error">#D95364</Color>
     <Color x:Key="DangerLight">#FCECEF</Color>
-    <Color x:Key="Info">#6E56CF</Color>
-    <Color x:Key="InfoLight">#F1EBFF</Color>
+    <Color x:Key="Info">#034424</Color>
+    <Color x:Key="InfoLight">#E8F5E9</Color>
 
     <!-- ===== NEUTRAL COLORS ===== -->
     <Color x:Key="BackgroundPrimary">#FFFFFF</Color>
@@ -43,7 +44,7 @@
     <!-- ===== SIDEBAR / HEADER COLORS ===== -->
     <Color x:Key="SidebarBackgroundStart">#1F3353</Color>
     <Color x:Key="SidebarBackgroundEnd">#2F63B8</Color>
-    <Color x:Key="SidebarActiveItem">#356AE6</Color>
+    <Color x:Key="SidebarActiveItem">#034424</Color>
     <Color x:Key="SidebarHoverItem">#2A456C</Color>
     <Color x:Key="SidebarText">#FFFFFF</Color>
     <Color x:Key="SidebarTextMuted">#C9D5E7</Color>
@@ -86,9 +87,9 @@
     <Color x:Key="Gray900">#1F2A3D</Color>
     <Color x:Key="Gray950">#121820</Color>
 
-    <!-- ===== POS LAYOUT TOKENS (backward compat) ===== -->
+    <!-- ===== POS LAYOUT TOKENS ===== -->
     <Color x:Key="PosSidebar">#1F3353</Color>
-    <Color x:Key="PosNavActive">#356AE6</Color>
+    <Color x:Key="PosNavActive">#034424</Color>
     <Color x:Key="PosCanvas">#F4F7FC</Color>
     <Color x:Key="PosCard">#FFFFFF</Color>
     <Color x:Key="PosBorder">#D7E1F0</Color>

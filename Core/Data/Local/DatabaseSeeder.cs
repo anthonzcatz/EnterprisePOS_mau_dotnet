@@ -1,4 +1,5 @@
 using EnterprisePOS.Core.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace EnterprisePOS.Core.Data.Local;
 
@@ -8,6 +9,7 @@ public static class DatabaseSeeder
     {
         // Create database if it doesn't exist
         await context.Database.EnsureCreatedAsync();
+        await EnsureUserManagementSchemaAsync(context);
 
         // Check if data already exists
         if (context.Products.Any())
@@ -131,5 +133,39 @@ public static class DatabaseSeeder
         }
 
         await context.SaveChangesAsync();
+    }
+
+    public static async Task EnsureUserManagementSchemaAsync(LocalDbContext context)
+    {
+        await context.Database.ExecuteSqlRawAsync("""
+            CREATE TABLE IF NOT EXISTS "Users" (
+                "Id" INTEGER NOT NULL CONSTRAINT "PK_Users" PRIMARY KEY AUTOINCREMENT,
+                "FullName" TEXT NOT NULL,
+                "Username" TEXT NOT NULL,
+                "Email" TEXT NOT NULL,
+                "PasswordHash" TEXT NOT NULL,
+                "Role" TEXT NOT NULL,
+                "Branch" TEXT NOT NULL,
+                "IsAdmin" INTEGER NOT NULL,
+                "HasTwoFactor" INTEGER NOT NULL,
+                "IsActive" INTEGER NOT NULL,
+                "LastLoginAt" TEXT NULL,
+                "CreatedAt" TEXT NOT NULL,
+                "UpdatedAt" TEXT NOT NULL,
+                "IsDeleted" INTEGER NOT NULL
+            );
+            """);
+
+        await context.Database.ExecuteSqlRawAsync("""
+            CREATE UNIQUE INDEX IF NOT EXISTS "IX_Users_Username"
+            ON "Users" ("Username")
+            WHERE "IsDeleted" = 0;
+            """);
+
+        await context.Database.ExecuteSqlRawAsync("""
+            CREATE UNIQUE INDEX IF NOT EXISTS "IX_Users_Email"
+            ON "Users" ("Email")
+            WHERE "IsDeleted" = 0;
+            """);
     }
 }

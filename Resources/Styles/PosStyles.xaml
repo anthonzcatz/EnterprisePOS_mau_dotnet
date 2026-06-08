@@ -3,28 +3,17 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <!-- ── Primary / lime-green button (Continue, Place Order) ── -->
-    <Style x:Key="PosPrimaryButton" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
-        <Setter Property="TextColor" Value="{StaticResource White}" />
-        <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="FontSize" Value="{OnIdiom Phone=14, Tablet=15, Desktop=16}" />
+    <!-- ── Primary button (Continue, Place Order) - Uses global responsive styles ── -->
+    <Style x:Key="PosPrimaryButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
         <Setter Property="CornerRadius" Value="12" />
-        <Setter Property="Padding" Value="{OnIdiom Phone='16,10', Tablet='18,12', Desktop='20,14'}" />
-        <Setter Property="BorderWidth" Value="0" />
-        <Setter Property="MinimumHeightRequest" Value="{OnIdiom Phone=44, Tablet=48, Desktop=52}" />
     </Style>
 
-    <!-- ── Outline button (Add to Cart — small, pill) ── -->
-    <Style x:Key="PosOutlineButton" TargetType="Button">
+    <!-- ── Outline button (Add to Cart — small, pill) - Uses global responsive styles ── -->
+    <Style x:Key="PosOutlineButton" TargetType="Button" BasedOn="{StaticResource OutlineButtonSmall}">
         <Setter Property="BackgroundColor" Value="{StaticResource White}" />
         <Setter Property="TextColor" Value="{StaticResource Gray900}" />
         <Setter Property="BorderColor" Value="{StaticResource BorderColor}" />
-        <Setter Property="BorderWidth" Value="1" />
         <Setter Property="CornerRadius" Value="20" />
-        <Setter Property="FontSize" Value="{OnIdiom Phone=12, Tablet=13, Desktop=14}" />
-        <Setter Property="Padding" Value="{OnIdiom Phone='10,6', Tablet='12,8', Desktop='14,10'}" />
-        <Setter Property="MinimumHeightRequest" Value="{OnIdiom Phone=36, Tablet=40, Desktop=44}" />
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup Name="CommonStates">
@@ -64,16 +53,9 @@
         <Setter Property="TextColor" Value="{StaticResource Gray500}" />
     </Style>
 
-    <!-- ── Compact navbar: Create a Note pill ── -->
-    <Style x:Key="PosCreateNoteButton" TargetType="Button">
-        <Setter Property="BackgroundColor" Value="{StaticResource ButtonPrimary}" />
-        <Setter Property="TextColor" Value="{StaticResource ButtonPrimaryText}" />
-        <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="FontSize" Value="{OnIdiom Phone=11, Tablet=12, Desktop=13}" />
+    <!-- ── Compact navbar: Create a Note pill - Uses global responsive styles ── -->
+    <Style x:Key="PosCreateNoteButton" TargetType="Button" BasedOn="{StaticResource PrimaryButtonSmall}">
         <Setter Property="CornerRadius" Value="12" />
-        <Setter Property="Padding" Value="{OnIdiom Phone='12,6', Tablet='14,6', Desktop='16,8'}" />
-        <Setter Property="BorderWidth" Value="0" />
-        <Setter Property="MinimumHeightRequest" Value="{OnIdiom Phone=34, Tablet=36, Desktop=38}" />
         <Setter Property="HeightRequest" Value="{OnIdiom Phone=34, Tablet=36, Desktop=38}" />
     </Style>
 

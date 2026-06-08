@@ -30,6 +30,7 @@ public class LocalDbContext : DbContext, ILocalDbContext
     public DbSet<Customer> Customers { get; set; } = null!;
     public DbSet<SalePayment> SalePayments { get; set; } = null!;
     public DbSet<PaymentMethod> PaymentMethods { get; set; } = null!;
+    public DbSet<User> Users { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -113,5 +114,15 @@ public class LocalDbContext : DbContext, ILocalDbContext
             .WithMany()
             .HasForeignKey(ps => ps.ProductId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // User configuration
+        modelBuilder.Entity<User>()
+            .HasIndex(u => u.Username)
+            .IsUnique()
+            .HasFilter("\"IsDeleted\" = 0");
+        modelBuilder.Entity<User>()
+            .HasIndex(u => u.Email)
+            .IsUnique()
+            .HasFilter("\"IsDeleted\" = 0");
     }
 }

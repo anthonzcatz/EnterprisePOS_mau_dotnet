@@ -87,16 +87,16 @@ public sealed class AppShellViewModel : INotifyPropertyChanged
 
 		var route = item.Key switch
 		{
-			"home"       => "//dashboard/dashboard-main",
-			"pos"        => "//pos/pos-main",
-			"orders"     => "//sales/sales-main",
-			"customers"  => "//customers/customers-main",
-			"reports"    => "//reports/reports-main",
-			"products"   => "//products/products-main",
-			"inventory"  => "//inventory/inventory-main",
-			"users"      => "//users/users-main",
-			"settings"   => "//settings/settings-main",
-			_            => null
+			"home"            => "//dashboard/dashboard-main",
+			"pos"             => "//pos/pos-main",
+			"orders"          => "//sales/sales-main",
+			"customers"       => "//customers/customers-main",
+			"reports"         => "//reports/reports-main",
+			"products"        => "//products/products-main",
+			"inventory"       => "//inventory/inventory-main",
+			"user-management" => "//user-management/user-management-main",
+			"settings"        => "//settings/settings-main",
+			_                 => null
 		};
 
 		if (route is null) return;
@@ -116,15 +116,15 @@ public sealed class AppShellViewModel : INotifyPropertyChanged
 
 	private void LoadNavItems()
 	{
-		NavItems.Add(new PosNavItem { Key = "home",       Title = "Home",       Glyph = "⌂" });
-		NavItems.Add(new PosNavItem { Key = "pos",        Title = "Point of Sale", Glyph = "⊞" });
-		NavItems.Add(new PosNavItem { Key = "orders",     Title = "Orders",     Glyph = "🧾" });
-		NavItems.Add(new PosNavItem { Key = "customers",  Title = "Guests",     Glyph = "👤" });
-		NavItems.Add(new PosNavItem { Key = "products",   Title = "Products",   Glyph = "📦" });
-		NavItems.Add(new PosNavItem { Key = "inventory",  Title = "Inventory",  Glyph = "🗃" });
-		NavItems.Add(new PosNavItem { Key = "reports",    Title = "Reports",    Glyph = "📊" });
-		NavItems.Add(new PosNavItem { Key = "users",      Title = "Users",      Glyph = "👥" });
-		NavItems.Add(new PosNavItem { Key = "settings",   Title = "Settings",   Glyph = "⚙" });
+		NavItems.Add(new PosNavItem { Key = "home",            Title = "Home",            Glyph = "⌂" });
+		NavItems.Add(new PosNavItem { Key = "pos",             Title = "Point of Sale",   Glyph = "⊞" });
+		NavItems.Add(new PosNavItem { Key = "orders",          Title = "Orders",          Glyph = "🧾" });
+		NavItems.Add(new PosNavItem { Key = "customers",       Title = "Guests",          Glyph = "👤" });
+		NavItems.Add(new PosNavItem { Key = "products",        Title = "Products",        Glyph = "📦" });
+		NavItems.Add(new PosNavItem { Key = "inventory",       Title = "Inventory",       Glyph = "🗃" });
+		NavItems.Add(new PosNavItem { Key = "reports",         Title = "Reports",         Glyph = "📊" });
+		NavItems.Add(new PosNavItem { Key = "user-management", Title = "Users",           Glyph = "👤" });
+		NavItems.Add(new PosNavItem { Key = "settings",        Title = "Settings",        Glyph = "⚙" });
 	}
 
 	private void OnPropertyChanged([CallerMemberName] string? propertyName = null)

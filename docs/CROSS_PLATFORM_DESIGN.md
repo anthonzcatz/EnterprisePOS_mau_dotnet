@@ -42,6 +42,206 @@ DesktopMin = 900             // Desktop
 - **Navigation**: Sidebar or top navigation
 - **Keyboard**: Handle on-screen keyboard
 
+## Platform-Specific Handlers
+
+### Overview
+
+Platform-specific handlers allow you to customize the native rendering of MAUI controls on each platform. This is the recommended approach for platform-specific styling that cannot be achieved through XAML or resource dictionaries.
+
+### Handler Pattern
+
+#### 1. Create Platform-Specific Handler
+
+Create a handler file in the appropriate platform folder:
+
+**Windows Handler Example** (`Platforms/Windows/EntryHandler.cs`):
+```csharp
+using Microsoft.Maui.Handlers;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
+
+namespace EnterprisePOS.Platforms.Windows;
+
+public class EntryHandlerCustom : EntryHandler
+{
+    protected override void ConnectHandler(TextBox platformView)
+    {
+        base.ConnectHandler(platformView);
+        
+        // Apply platform-specific styling
+        platformView.Background = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.Colors.White);
+        platformView.Foreground = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.Colors.Black);
+        platformView.BorderBrush = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(255, 209, 213, 219));
+        platformView.BorderThickness = new Microsoft.UI.Xaml.Thickness(1);
+        platformView.CornerRadius = new Microsoft.UI.Xaml.CornerRadius(8);
+        platformView.Padding = new Microsoft.UI.Xaml.Thickness(12, 8, 12, 8);
+        
+        // Maintain styling on focus/hover
+        platformView.GotFocus += (s, e) =>
+        {
+            platformView.BorderBrush = new Microsoft.UI.Xaml.Media.SolidColorBrush(Microsoft.UI.ColorHelper.FromArgb(255, 209, 213, 219));
+            platformView.BorderThickness = new Microsoft.UI.Xaml.Thickness(1);
+        };
+    }
+}
+```
+
+**Android Handler Example** (`Platforms/Android/EntryHandler.cs`):
+```csharp
+using Microsoft.Maui.Handlers;
+using Android.Widget;
+using Android.Content.Res;
+
+namespace EnterprisePOS.Platforms.Android;
+
+public class EntryHandlerCustom : EntryHandler
+{
+    protected override void ConnectHandler(EditText platformView)
+    {
+        base.ConnectHandler(platformView);
+        
+        // Apply Android-specific styling
+        platformView.Background = null; // Remove default underline
+        platformView.SetPadding(24, 16, 24, 16);
+    }
+}
+```
+
+#### 2. Register Handler Globally
+
+Register the handler in `MauiProgram.cs` using platform-specific compilation directives:
+
+```csharp
+builder
+    .UseMauiApp<App>()
+    .ConfigureFonts(fonts =>
+    {
+        fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+        fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+    })
+    .ConfigureMauiHandlers(handlers =>
+    {
+#if WINDOWS
+        handlers.AddHandler<Microsoft.Maui.Controls.Entry, EnterprisePOS.Platforms.Windows.EntryHandlerCustom>();
+        handlers.AddHandler<Microsoft.Maui.Controls.Picker, EnterprisePOS.Platforms.Windows.PickerHandlerCustom>();
+#elif ANDROID
+        handlers.AddHandler<Microsoft.Maui.Controls.Entry, EnterprisePOS.Platforms.Android.EntryHandlerCustom>();
+#elif IOS
+        handlers.AddHandler<Microsoft.Maui.Controls.Entry, EnterprisePOS.Platforms.iOS.EntryHandlerCustom>();
+#elif MACCATALYST
+        handlers.AddHandler<Microsoft.Maui.Controls.Entry, EnterprisePOS.Platforms.MacCatalyst.EntryHandlerCustom>();
+#endif
+    });
+```
+
+### Current Global Handlers
+
+The project currently has the following global handlers registered:
+
+#### Windows Handlers
+- **EntryHandlerCustom** - Customizes Entry controls with:
+  - White background
+  - Black text
+  - Gray border (1px)
+  - Rounded corners (8px)
+  - Consistent padding
+  - Border persistence on focus/hover
+
+- **PickerHandlerCustom** - Customizes Picker controls with:
+  - White background
+  - Black text
+  - Gray border (1px)
+  - Rounded corners (8px)
+  - Light theme for dropdown popup
+  - Delayed styling via `Loaded` event to prevent data binding issues
+
+### Adding New Handlers
+
+#### Step-by-Step Process
+
+1. **Create Handler File**
+   - Navigate to `Platforms/[Platform]/` folder
+   - Create new file: `[Control]Handler.cs`
+   - Inherit from appropriate base handler (e.g., `EntryHandler`, `PickerHandler`)
+
+2. **Implement ConnectHandler**
+   - Override `ConnectHandler` method
+   - Access native platform view via `platformView` parameter
+   - Apply platform-specific styling
+   - Handle events if needed (focus, hover, etc.)
+
+3. **Register in MauiProgram.cs**
+   - Add handler registration in `ConfigureMauiHandlers`
+   - Wrap in appropriate `#if [PLATFORM]` directive
+   - Use full namespace for handler class
+
+4. **Test on Target Platform**
+   - Build and run on target platform
+   - Verify styling applies correctly
+   - Test control functionality (data binding, events, etc.)
+
+### Handler Best Practices
+
+#### DO
+- Use handlers for platform-specific native rendering
+- Apply styling that cannot be achieved through XAML
+- Handle platform-specific events (focus, hover, etc.)
+- Use platform-specific compilation directives
+- Test on actual target platform devices
+
+#### DON'T
+- Don't use handlers for cross-platform styling (use Styles.xaml instead)
+- Don't break data binding with handler modifications
+- Don't apply styling that conflicts with platform guidelines
+- Don't forget to unregister handlers if replacing default behavior
+- Don't assume handler timing - use `Loaded` event for delayed styling
+
+### Common Control Handlers
+
+#### Entry/Editor
+- Windows: `TextBox` styling
+- Android: `EditText` styling
+- iOS: `UITextField` styling
+- MacCatalyst: `NSTextField` styling
+
+#### Picker
+- Windows: `ComboBox` styling
+- Android: `Spinner` styling
+- iOS: `UISPickerView` styling
+- MacCatalyst: `NSPopUpButton` styling
+
+#### Button
+- Windows: `Button` styling
+- Android: `AppCompatButton` styling
+- iOS: `UIButton` styling
+- MacCatalyst: `NSButton` styling
+
+### Platform-Specific Considerations
+
+#### Windows
+- Use `Microsoft.UI.Xaml` namespace for WinUI 3 controls
+- Use `Loaded` event for delayed styling to avoid data binding issues
+- Set `RequestedTheme` to enforce light/dark mode
+- Handle ComboBox popup styling separately from control styling
+
+#### Android
+- Use `Android.Widget` namespace for native controls
+- Consider Material Design guidelines
+- Handle soft keyboard appearance
+- Use `AppCompat` widgets for consistent styling across Android versions
+
+#### iOS
+- Use `UIKit` namespace for native controls
+- Follow Human Interface Guidelines
+- Handle safe areas and notches
+- Use semantic colors for dark mode support
+
+#### MacCatalyst
+- Use `AppKit` namespace for native controls
+- Follow macOS design guidelines
+- Handle window chrome and title bar
+- Consider touch bar support if applicable
+
 ## Design Tokens
 
 ### Spacing

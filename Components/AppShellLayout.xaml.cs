@@ -24,17 +24,20 @@ public partial class AppShellLayout : Grid
 			{
 				var layout = (AppShellLayout)b;
 				if (layout.PageContent != null)
+				{
 					layout.PageContent.Content = (View?)n;
+					layout.UpdatePageBodyBindingContext();
+				}
 			});
 
 	public AppShellLayout()
 	{
 		ShellVm = ServiceHelper.GetRequiredService<AppShellViewModel>();
-		BindingContext = this;
 		InitializeComponent();
 
 		NavbarTitle.Text = PageTitle;
 		PageContent.Content = PageBody;
+		UpdatePageBodyBindingContext();
 
 		// Initial responsive setup - default to sidebar visible on desktop
 		DesktopSidebar.IsVisible = true;
@@ -66,6 +69,20 @@ public partial class AppShellLayout : Grid
 	{
 		get => (View?)GetValue(PageBodyProperty);
 		set => SetValue(PageBodyProperty, value);
+	}
+
+	protected override void OnBindingContextChanged()
+	{
+		base.OnBindingContextChanged();
+		UpdatePageBodyBindingContext();
+	}
+
+	private void UpdatePageBodyBindingContext()
+	{
+		if (PageContent?.Content != null)
+		{
+			PageContent.Content.BindingContext = BindingContext;
+		}
 	}
 
 	private void UpdateResponsive(double width)

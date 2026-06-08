@@ -22,16 +22,10 @@
                 <HorizontalStackLayout Grid.Column="1" Spacing="12" VerticalOptions="Center">
                     <Button Text="Cancel" 
                             Command="{Binding CancelCommand}"
-                            BackgroundColor="{StaticResource Gray200}"
-                            TextColor="{StaticResource TextPrimary}"
-                            CornerRadius="8"
-                            Padding="16,10" />
+                            Style="{StaticResource OutlineButton}" />
                     <Button Text="Save Product" 
                             Command="{Binding SaveCommand}"
-                            BackgroundColor="{StaticResource Primary}"
-                            TextColor="White"
-                            CornerRadius="8"
-                            Padding="16,10" />
+                            Style="{StaticResource PrimaryButton}" />
                 </HorizontalStackLayout>
             </Grid>
         </Border>

@@ -24,10 +24,7 @@
                 <HorizontalStackLayout Grid.Column="1" Spacing="12" VerticalOptions="Center">
                     <Button Text="+ Add Customer" 
                             Command="{Binding AddCustomerCommand}"
-                            BackgroundColor="{StaticResource Primary}"
-                            TextColor="White"
-                            CornerRadius="8"
-                            Padding="16,10" />
+                            Style="{StaticResource PrimaryButton}" />
                 </HorizontalStackLayout>
             </Grid>
         </Border>
@@ -82,10 +79,7 @@
                                     </HorizontalStackLayout>
 
                                     <Button Text="View Profile" 
-                                            FontSize="{OnIdiom Phone=11, Tablet=12, Desktop=13}"
-                                            Padding="0"
-                                            BackgroundColor="Transparent"
-                                            TextColor="{StaticResource Primary}"
+                                            Style="{StaticResource LinkButton}"
                                             HorizontalOptions="Start"
                                             Command="{Binding ViewDetailsCommand}"
                                             CommandParameter="{Binding .}" />
