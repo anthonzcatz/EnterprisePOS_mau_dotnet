@@ -12,6 +12,11 @@ public class Product : BaseEntity
     public bool IsActive { get; set; } = true;
     public bool IsTaxable { get; set; } = true;
     public string? ImageUrl { get; set; }
+    
+    // POS Representation
+    public bool UseImage { get; set; } = true;
+    public string? PosColor { get; set; } = "#356AE6"; // Default Blue
+    public string? PosShape { get; set; } = "Square"; // Square, Circle, Hexagon
 
     // Navigation properties
     public ProductCategory? Category { get; set; }

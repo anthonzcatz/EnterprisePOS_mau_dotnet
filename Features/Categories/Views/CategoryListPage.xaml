@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:EnterprisePOS.Features.Categories.ViewModels"
+             xmlns:models="clr-namespace:EnterprisePOS.Core.Data.Models"
+             xmlns:components="clr-namespace:EnterprisePOS.Components"
+             x:Class="EnterprisePOS.Features.Categories.Views.CategoryListPage"
+             x:DataType="vm:CategoryListViewModel"
+             BackgroundColor="{StaticResource Gray100}"
+             Title="Product Categories">
+
+    <components:AppShellLayout ActiveKey="categories" PageTitle="Categories">
+        <components:AppShellLayout.PageBody>
+            <Grid RowDefinitions="Auto,Auto,*">
+                <!-- Header -->
+                <Border Grid.Row="0" BackgroundColor="{StaticResource White}" StrokeThickness="0" Padding="24,16">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <components:PageHeader Grid.Column="0" 
+                                               Title="Product Categories" 
+                                               Description="Organize your product catalog with hierarchical categories." />
+                        
+                        <HorizontalStackLayout Grid.Column="1" Spacing="12" VerticalOptions="Center">
+                            <Button Text="+ New Category" Command="{Binding AddCategoryCommand}" Style="{StaticResource PrimaryButtonSmall}" />
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Border>
+
+                <!-- Search -->
+                <Border Grid.Row="1" BackgroundColor="{StaticResource White}" StrokeThickness="0" Margin="0,1,0,0" Padding="24,12">
+                    <Grid ColumnDefinitions="*">
+                        <Border Grid.Column="0" Stroke="{StaticResource BorderColor}" StrokeThickness="1" StrokeShape="RoundRectangle 8" BackgroundColor="{StaticResource Gray100}" MaximumWidthRequest="400" HorizontalOptions="Start">
+                            <Grid ColumnDefinitions="Auto,*">
+                                <Label Grid.Column="0" Text="🔍" VerticalOptions="Center" Margin="12,0,8,0" />
+                                <Entry Grid.Column="1" Placeholder="Search categories..." BackgroundColor="Transparent" HeightRequest="40" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Category List -->
+                <RefreshView Grid.Row="2" Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
+                    <CollectionView ItemsSource="{Binding Categories}" Margin="24">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical" Span="{OnIdiom Desktop=4, Tablet=2, Phone=1}" HorizontalItemSpacing="16" VerticalItemSpacing="16" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:ProductCategory">
+                                <Border Padding="16" BackgroundColor="{StaticResource White}" Stroke="{StaticResource BorderColor}" StrokeShape="RoundRectangle 12" StrokeThickness="1">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CategoryListViewModel}}, Path=EditCategoryCommand}" CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                    <VerticalStackLayout Spacing="8">
+                                        <Label Text="{Binding Name}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}" />
+                                        <Label Text="{Binding Description}" FontSize="12" TextColor="{StaticResource Gray500}" MaxLines="2" />
+                                        <HorizontalStackLayout Spacing="8" Margin="0,4,0,0">
+                                            <Border BackgroundColor="{StaticResource PrimaryLight}" Padding="8,4" StrokeShape="RoundRectangle 4">
+                                                <Label Text="Category" FontSize="10" TextColor="{StaticResource Primary}" FontAttributes="Bold" />
+                                            </Border>
+                                            <Label Text="{Binding IsActive}" FontSize="10" VerticalOptions="Center" />
+                                        </HorizontalStackLayout>
+                                    </VerticalStackLayout>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                        <CollectionView.EmptyView>
+                            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="16" Padding="40">
+                                <Label Text="📁" FontSize="64" HorizontalOptions="Center" />
+                                <Label Text="No categories found" FontSize="18" FontAttributes="Bold" HorizontalOptions="Center" />
+                                <Label Text="Start organizing your catalog by adding your first category." TextColor="{StaticResource Gray500}" HorizontalOptions="Center" />
+                                <Button Text="Add First Category" Command="{Binding AddCategoryCommand}" Style="{StaticResource PrimaryButtonSmall}" Margin="0,12,0,0" />
+                            </VerticalStackLayout>
+                        </CollectionView.EmptyView>
+                    </CollectionView>
+                </RefreshView>
+            </Grid>
+        </components:AppShellLayout.PageBody>
+    </components:AppShellLayout>
+</ContentPage>

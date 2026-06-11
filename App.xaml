@@ -17,6 +17,8 @@
             <!-- Converters -->
             <helpers:InvertedBoolConverter x:Key="InvertedBoolConverter" />
             <helpers:StringToBoolConverter x:Key="StringToBoolConverter" />
+            <helpers:EqualityConverter x:Key="EqualityConverter" />
+            <helpers:EqualityMultiConverter x:Key="EqualityMultiConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

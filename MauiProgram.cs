@@ -1,6 +1,4 @@
 using LiveChartsCore.SkiaSharpView.Maui;
-using SkiaSharp;
-using SkiaSharp.Views.Maui.Controls.Hosting;
 using Microsoft.Extensions.Logging;
 using EnterprisePOS.Interfaces;
 using EnterprisePOS.Services;
@@ -23,11 +21,16 @@ using EnterprisePOS.Features.Products.Views;
 using EnterprisePOS.Features.Products.ViewModels;
 using EnterprisePOS.Features.Inventory.Views;
 using EnterprisePOS.Features.Inventory.ViewModels;
+using EnterprisePOS.Features.Categories.ViewModels;
+using EnterprisePOS.Features.Categories.Views;
+using EnterprisePOS.Features.Units.ViewModels;
+using EnterprisePOS.Features.Units.Views;
 using EnterprisePOS.Core.Data.Local;
 using EnterprisePOS.Core.Data.Repositories;
 using EnterprisePOS.Core.Services;
 using EnterprisePOS.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Maui.Controls.Hosting;
 
 namespace EnterprisePOS;
 
@@ -35,73 +38,103 @@ public static class MauiProgram
 {
 	public static MauiApp CreateMauiApp()
 	{
-		var builder = MauiApp.CreateBuilder();
-		builder
-				.UseSkiaSharp()
-				.UseMauiApp<App>()
-				.ConfigureFonts(fonts =>
-				{
-					fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-					fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-				})
-				.ConfigureMauiHandlers(handlers =>
-				{
+		try
+		{
+			var builder = MauiApp.CreateBuilder();
+			builder
+					.UseMauiApp<App>()
+					.ConfigureFonts(fonts =>
+					{
+						fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+						fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+						fonts.AddFont("MaterialIcons-Regular.ttf", "MaterialIcons");
+					})
+					.ConfigureMauiHandlers(handlers =>
+					{
 #if WINDOWS
-					handlers.AddHandler<Microsoft.Maui.Controls.Entry, EnterprisePOS.Platforms.Windows.EntryHandlerCustom>();
-					handlers.AddHandler<Microsoft.Maui.Controls.Picker, EnterprisePOS.Platforms.Windows.PickerHandlerCustom>();
+						handlers.AddHandler<Microsoft.Maui.Controls.Entry, EnterprisePOS.Platforms.Windows.EntryHandlerCustom>();
+						handlers.AddHandler<Microsoft.Maui.Controls.Picker, EnterprisePOS.Platforms.Windows.PickerHandlerCustom>();
 #endif
-				});
+					});
 
-		// Database Services
-		builder.Services.AddDbContext<LocalDbContext>(options =>
-			options.UseSqlite("Data Source=local.db"));
+			// Database Services - use proper Android path
+			string dbPath = GetDatabasePath();
+			builder.Services.AddDbContext<LocalDbContext>(options =>
+				options.UseSqlite($"Data Source={dbPath}"));
 
-		// Core Services
-		builder.Services.AddSingleton<IImageService, ImageService>();
+			// Core Services
+			builder.Services.AddSingleton<IImageService, ImageService>();
 
-		// Repositories
-		builder.Services.AddScoped<ProductRepository>();
-		builder.Services.AddScoped<ProductCategoryRepository>();
-		builder.Services.AddScoped<ProductStockRepository>();
-		builder.Services.AddScoped<SaleRepository>();
-		builder.Services.AddScoped<CustomerRepository>();
-		builder.Services.AddScoped<UserRepository>();
+			// Repositories
+			builder.Services.AddScoped<ProductRepository>();
+			builder.Services.AddScoped<ProductCategoryRepository>();
+			builder.Services.AddScoped<UnitRepository>();
+			builder.Services.AddScoped<ProductStockRepository>();
+			builder.Services.AddScoped<SaleRepository>();
+			builder.Services.AddScoped<CustomerRepository>();
+			builder.Services.AddScoped<UserRepository>();
 
-		// Services
-		builder.Services.AddSingleton<ThemeService>();
-		builder.Services.AddSingleton<IPosService, MockPosService>();
-		builder.Services.AddSingleton<ILoggingService, LoggingService>();
-		builder.Services.AddSingleton<IDashboardService, MockDashboardService>();
-		builder.Services.AddSingleton<AppShellViewModel>();
+			// Services
+			builder.Services.AddSingleton<ThemeService>();
+			builder.Services.AddSingleton<IPosService, MockPosService>();
+			builder.Services.AddSingleton<ILoggingService, LoggingService>();
+			builder.Services.AddSingleton<IDashboardService, MockDashboardService>();
+			builder.Services.AddSingleton<AppShellViewModel>();
 
-		// ViewModels + Views
-		builder.Services.AddTransient<POSViewModel>();
-		builder.Services.AddTransient<POSPage>();
-		builder.Services.AddTransient<DashboardViewModel>();
-		builder.Services.AddTransient<DashboardPage>();
-		builder.Services.AddTransient<DashboardHomePage>();
-		builder.Services.AddTransient<SettingsViewModel>();
-		builder.Services.AddTransient<SettingsPage>();
-		builder.Services.AddTransient<CustomersViewModel>();
-		builder.Services.AddTransient<CustomersPage>();
-		builder.Services.AddTransient<SalesViewModel>();
-		builder.Services.AddTransient<SalesPage>();
-		builder.Services.AddTransient<ReportsPage>();
-		builder.Services.AddTransient<ProductsViewModel>();
-		builder.Services.AddTransient<ProductEditorViewModel>();
-		builder.Services.AddTransient<ProductsPage>();
-		builder.Services.AddTransient<ProductEditorPage>();
-		builder.Services.AddTransient<InventoryViewModel>();
-		builder.Services.AddTransient<InventoryPage>();
-		builder.Services.AddTransient<EnterprisePOS.Features.UserManagement.ViewModels.UserManagementViewModel>();
-		builder.Services.AddTransient<EnterprisePOS.Features.UserManagement.Views.UserManagementPage>();
-		builder.Services.AddTransient<EnterprisePOS.Features.UserManagement.ViewModels.CreateUserViewModel>();
-		builder.Services.AddTransient<EnterprisePOS.Features.UserManagement.Views.CreateUserPage>();
+			// ViewModels + Views
+			builder.Services.AddTransient<POSViewModel>();
+			builder.Services.AddTransient<POSPage>();
+			builder.Services.AddTransient<DashboardViewModel>();
+			builder.Services.AddTransient<DashboardPage>();
+			builder.Services.AddTransient<DashboardHomePage>();
+			builder.Services.AddTransient<SettingsViewModel>();
+			builder.Services.AddTransient<SettingsPage>();
+			builder.Services.AddTransient<CustomersViewModel>();
+			builder.Services.AddTransient<CustomersPage>();
+			builder.Services.AddTransient<SalesViewModel>();
+			builder.Services.AddTransient<SalesPage>();
+			builder.Services.AddTransient<ReportsPage>();
+			builder.Services.AddTransient<ProductsViewModel>();
+			builder.Services.AddTransient<ProductEditorViewModel>();
+			builder.Services.AddTransient<ProductsPage>();
+			builder.Services.AddTransient<ProductEditorPage>();
+			builder.Services.AddTransient<InventoryViewModel>();
+			builder.Services.AddTransient<InventoryPage>();
+			builder.Services.AddTransient<EnterprisePOS.Features.UserManagement.ViewModels.UserManagementViewModel>();
+			builder.Services.AddTransient<EnterprisePOS.Features.UserManagement.Views.UserManagementPage>();
+			builder.Services.AddTransient<EnterprisePOS.Features.UserManagement.ViewModels.CreateUserViewModel>();
+			builder.Services.AddTransient<EnterprisePOS.Features.UserManagement.Views.CreateUserPage>();
+
+			// Categories
+			builder.Services.AddTransient<EnterprisePOS.Features.Categories.ViewModels.CategoryListViewModel>();
+			builder.Services.AddTransient<EnterprisePOS.Features.Categories.Views.CategoryListPage>();
+			builder.Services.AddTransient<EnterprisePOS.Features.Categories.ViewModels.CategoryEditorViewModel>();
+			builder.Services.AddTransient<EnterprisePOS.Features.Categories.Views.CategoryEditorPage>();
+
+			// Units
+			builder.Services.AddTransient<EnterprisePOS.Features.Units.ViewModels.UnitListViewModel>();
+			builder.Services.AddTransient<EnterprisePOS.Features.Units.Views.UnitListPage>();
 
 #if DEBUG
-		builder.Logging.AddDebug();
+			builder.Logging.AddDebug();
 #endif
 
-		return builder.Build();
+			return builder.Build();
+		}
+		catch (Exception ex)
+		{
+			System.Diagnostics.Debug.WriteLine($"FATAL ERROR in MauiProgram: {ex.Message}");
+			System.Diagnostics.Debug.WriteLine($"Stack trace: {ex.StackTrace}");
+			throw;
+		}
+	}
+
+	private static string GetDatabasePath()
+	{
+#if ANDROID
+		return Path.Combine(FileSystem.AppDataDirectory, "local.db");
+#else
+		return "local.db";
+#endif
 	}
 }

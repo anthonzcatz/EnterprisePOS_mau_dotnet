@@ -4,25 +4,47 @@ using Windows.Graphics;
 #endif
 
 using EnterprisePOS.Core.Data.Local;
+using System.Text;
 
 namespace EnterprisePOS;
 
 public partial class App : Application
 {
 	private static Microsoft.Maui.Controls.Window? mainWindow;
+	private static readonly string StartupLogPath = Path.Combine(FileSystem.Current.AppDataDirectory, "startup-errors.log");
 
 	public App(LocalDbContext dbContext)
 	{
+		AttachExceptionHandlers();
 		InitializeComponent();
-		DatabaseSeeder.SeedDatabaseAsync(dbContext).GetAwaiter().GetResult();
+	}
+
+	private static async Task SeedDatabaseAsync(LocalDbContext dbContext)
+	{
+		try
+		{
+			await DatabaseSeeder.SeedDatabaseAsync(dbContext);
+		}
+		catch (Exception ex)
+		{
+			LogStartupException("Database seeding failed", ex);
+		}
 	}
 
 	protected override Window CreateWindow(IActivationState? activationState)
 	{
-		// Use AppShell for navigation
-		var appShell = new AppShell();
+		AppShell rootPage;
+		try
+		{
+			rootPage = new AppShell();
+		}
+		catch (Exception ex)
+		{
+			LogStartupException("Failed to create AppShell", ex);
+			throw;
+		}
 
-		mainWindow = new Window(appShell)
+		mainWindow = new Window(rootPage)
 		{
 			Title = "EnterprisePOS",
 			Width = 1400,
@@ -37,6 +59,50 @@ public partial class App : Application
 		};
 
 		return mainWindow;
+	}
+
+	private static void AttachExceptionHandlers()
+	{
+		AppDomain.CurrentDomain.UnhandledException -= OnUnhandledException;
+		AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
+		TaskScheduler.UnobservedTaskException -= OnUnobservedTaskException;
+		TaskScheduler.UnobservedTaskException += OnUnobservedTaskException;
+	}
+
+	private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+	{
+		if (e.ExceptionObject is Exception ex)
+		{
+			LogStartupException("Unhandled exception", ex);
+		}
+	}
+
+	private static void OnUnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
+	{
+		LogStartupException("Unobserved task exception", e.Exception);
+	}
+
+	private static void LogStartupException(string context, Exception exception)
+	{
+		try
+		{
+			var logDirectory = Path.GetDirectoryName(StartupLogPath);
+			if (!string.IsNullOrWhiteSpace(logDirectory))
+			{
+				Directory.CreateDirectory(logDirectory);
+			}
+
+			var builder = new StringBuilder()
+				.AppendLine($"[{DateTimeOffset.Now:O}] {context}")
+				.AppendLine(exception.ToString())
+				.AppendLine(new string('-', 80));
+
+			File.AppendAllText(StartupLogPath, builder.ToString());
+		}
+		catch
+		{
+			// Ignore logging failures so they do not mask the original startup error.
+		}
 	}
 
 #if WINDOWS

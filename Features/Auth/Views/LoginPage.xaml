@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EnterprisePOS.Features.Auth.Views.LoginPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="#F0F4F8">
+
+    <!-- Desktop Layout - Split Screen -->
+    <Grid x:Name="DesktopLayout" IsVisible="False">
+        <!-- Background Wallpaper (branded gradient shown in the gaps) -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#034424" Offset="0.0"/>
+                <GradientStop Color="#02331A" Offset="0.55"/>
+                <GradientStop Color="#0B5C33" Offset="1.0"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        
+        <!-- Centered Login Card with gaps to show wallpaper -->
+        <Frame Margin="60"
+               Padding="0"
+               CornerRadius="20"
+               BackgroundColor="White"
+               HasShadow="True"
+               HorizontalOptions="Fill"
+               VerticalOptions="Fill"
+               MaximumWidthRequest="1100"
+               MaximumHeightRequest="680">
+            
+            <Grid ColumnDefinitions="*,*">
+                <!-- Left Panel - Login Form (45%) -->
+                <Grid Grid.Column="0"
+                      BackgroundColor="White"
+                      Padding="50,40,40,40">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Company Logo -->
+                    <Border Grid.Row="0"
+                            WidthRequest="80"
+                            HeightRequest="80"
+                            StrokeShape="RoundRectangle 16"
+                            StrokeThickness="0"
+                            BackgroundColor="{StaticResource Primary}"
+                            HorizontalOptions="Center"
+                            Margin="0,0,0,20">
+                        <Label Text="TF"
+                               FontSize="32"
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"/>
+                    </Border>
+
+                    <!-- System Name -->
+                    <Label Grid.Row="1"
+                           Text="AHR Techfuxion POS"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           TextColor="#1E293B"
+                           HorizontalOptions="Center"
+                           Margin="0,0,0,8"/>
+
+                    <!-- Welcome Message -->
+                    <Label Grid.Row="2"
+                           Text="Welcome Back"
+                           FontSize="16"
+                           TextColor="#64748B"
+                           HorizontalOptions="Center"
+                           Margin="0,0,0,40"/>
+
+                    <!-- Username Label -->
+                    <Label Grid.Row="3"
+                           Text="Employee ID or Username"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#334155"
+                           Margin="0,0,0,8"/>
+
+                    <!-- Username Entry -->
+                    <Frame Grid.Row="4"
+                           CornerRadius="8"
+                           BorderColor="#CBD5E1"
+                           BackgroundColor="#F8FAFC"
+                           Padding="0"
+                           Margin="0,0,0,20"
+                           HasShadow="False">
+                        <Entry Placeholder="Enter your employee ID"
+                               PlaceholderColor="#94A3B8"
+                               TextColor="#1E293B"
+                               FontSize="14"
+                               Margin="15,12"/>
+                    </Frame>
+
+                    <!-- Password Label -->
+                    <Label Grid.Row="5"
+                           Text="Password"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#334155"
+                           Margin="0,0,0,8"/>
+
+                    <!-- Password Entry -->
+                    <Frame Grid.Row="6"
+                           CornerRadius="8"
+                           BorderColor="#CBD5E1"
+                           BackgroundColor="#F8FAFC"
+                           Padding="0"
+                           Margin="0,0,0,20"
+                           HasShadow="False">
+                        <Entry Placeholder="Enter your password"
+                               PlaceholderColor="#94A3B8"
+                               TextColor="#1E293B"
+                               FontSize="14"
+                               IsPassword="True"
+                               Margin="15,12"/>
+                    </Frame>
+
+                    <!-- Remember Me -->
+                    <Grid Grid.Row="7"
+                          ColumnDefinitions="Auto,*"
+                          Margin="0,0,0,30">
+                        <CheckBox Grid.Column="0"
+                                  Color="{StaticResource Primary}"
+                                  Margin="0,0,10,0"/>
+                        <Label Grid.Column="1"
+                               Text="Remember me"
+                               FontSize="14"
+                               TextColor="#64748B"
+                               VerticalOptions="Center"/>
+                    </Grid>
+
+                    <!-- Sign In Button -->
+                    <Button Grid.Row="8"
+                            Text="Sign In"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            TextColor="White"
+                            BackgroundColor="{StaticResource Primary}"
+                            CornerRadius="8"
+                            HeightRequest="50"
+                            Clicked="OnSignInClicked"/>
+
+                    <!-- System Version -->
+                    <Label Grid.Row="9"
+                           Text="Version 1.0.0"
+                           FontSize="12"
+                           TextColor="#94A3B8"
+                           HorizontalOptions="Center"
+                           Margin="0,0,0,8"/>
+
+                    <!-- Copyright Footer -->
+                    <Label Grid.Row="10"
+                           Text="© 2024 AHR Techfuxion. All rights reserved."
+                           FontSize="12"
+                           TextColor="#94A3B8"
+                           HorizontalOptions="Center"/>
+                </Grid>
+
+                <!-- Right Panel - Dashboard Preview (55%) -->
+                <Grid Grid.Column="1"
+                      BackgroundColor="#F8FAFC"
+                      Padding="40">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Dashboard Header -->
+                    <Label Grid.Row="0"
+                           Text="Dashboard Overview"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="#1E293B"
+                           Margin="0,0,0,24"/>
+
+                    <!-- Metrics Grid -->
+                    <Grid Grid.Row="1"
+                          ColumnDefinitions="*,*"
+                          RowDefinitions="Auto,Auto,Auto,Auto"
+                          ColumnSpacing="16"
+                          RowSpacing="16">
+                        
+                        <!-- Today's Sales -->
+                        <Frame Grid.Row="0" Grid.Column="0"
+                                CornerRadius="12"
+                                BackgroundColor="White"
+                                Padding="20"
+                                HasShadow="True">
+                            <Grid RowDefinitions="Auto,Auto">
+                                <Label Grid.Row="0"
+                                       Text="Today's Sales"
+                                       FontSize="13"
+                                       TextColor="#64748B"
+                                       Margin="0,0,0,8"/>
+                                <Label Grid.Row="1"
+                                       Text="₱12,450"
+                                       FontSize="24"
+                                       FontAttributes="Bold"
+                                       TextColor="#1E293B"/>
+                            </Grid>
+                        </Frame>
+
+                        <!-- Transactions Count -->
+                        <Frame Grid.Row="0" Grid.Column="1"
+                                CornerRadius="12"
+                                BackgroundColor="White"
+                                Padding="20"
+                                HasShadow="True">
+                            <Grid RowDefinitions="Auto,Auto">
+                                <Label Grid.Row="0"
+                                       Text="Transactions"
+                                       FontSize="13"
+                                       TextColor="#64748B"
+                                       Margin="0,0,0,8"/>
+                                <Label Grid.Row="1"
+                                       Text="47"
+                                       FontSize="24"
+                                       FontAttributes="Bold"
+                                       TextColor="#1E293B"/>
+                            </Grid>
+                        </Frame>
+
+                        <!-- Revenue Analytics -->
+                        <Frame Grid.Row="1" Grid.Column="0"
+                                CornerRadius="12"
+                                BackgroundColor="White"
+                                Padding="20"
+                                HasShadow="True">
+                            <Grid RowDefinitions="Auto,Auto">
+                                <Label Grid.Row="0"
+                                       Text="Revenue"
+                                       FontSize="13"
+                                       TextColor="#64748B"
+                                       Margin="0,0,0,8"/>
+                                <Label Grid.Row="1"
+                                       Text="+15.3%"
+                                       FontSize="24"
+                                       FontAttributes="Bold"
+                                       TextColor="#10B981"/>
+                            </Grid>
+                        </Frame>
+
+                        <!-- Best Selling Products -->
+                        <Frame Grid.Row="1" Grid.Column="1"
+                                CornerRadius="12"
+                                BackgroundColor="White"
+                                Padding="20"
+                                HasShadow="True">
+                            <Grid RowDefinitions="Auto,Auto">
+                                <Label Grid.Row="0"
+                                       Text="Top Product"
+                                       FontSize="13"
+                                       TextColor="#64748B"
+                                       Margin="0,0,0,8"/>
+                                <Label Grid.Row="1"
+                                       Text="Espresso"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       TextColor="#1E293B"
+                                       LineBreakMode="TailTruncation"/>
+                            </Grid>
+                        </Frame>
+
+                        <!-- Inventory Status -->
+                        <Frame Grid.Row="2" Grid.Column="0"
+                                CornerRadius="12"
+                                BackgroundColor="White"
+                                Padding="20"
+                                HasShadow="True">
+                            <Grid RowDefinitions="Auto,Auto">
+                                <Label Grid.Row="0"
+                                       Text="Inventory"
+                                       FontSize="13"
+                                       TextColor="#64748B"
+                                       Margin="0,0,0,8"/>
+                                <Label Grid.Row="1"
+                                       Text="1,234 items"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       TextColor="#1E293B"/>
+                            </Grid>
+                        </Frame>
+
+                        <!-- Low Stock Alerts -->
+                        <Frame Grid.Row="2" Grid.Column="1"
+                                CornerRadius="12"
+                                BackgroundColor="#FEF2F2"
+                                Padding="20"
+                                HasShadow="False">
+                            <Grid RowDefinitions="Auto,Auto">
+                                <Label Grid.Row="0"
+                                       Text="Low Stock"
+                                       FontSize="13"
+                                       TextColor="#991B1B"
+                                       Margin="0,0,0,8"/>
+                                <Label Grid.Row="1"
+                                       Text="5 items"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       TextColor="#991B1B"/>
+                            </Grid>
+                        </Frame>
+
+                        <!-- Employee Activity -->
+                        <Frame Grid.Row="3" Grid.Column="0"
+                                CornerRadius="12"
+                                BackgroundColor="White"
+                                Padding="20"
+                                HasShadow="True">
+                            <Grid RowDefinitions="Auto,Auto">
+                                <Label Grid.Row="0"
+                                       Text="Staff Online"
+                                       FontSize="13"
+                                       TextColor="#64748B"
+                                       Margin="0,0,0,8"/>
+                                <Label Grid.Row="1"
+                                       Text="3 active"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       TextColor="#1E293B"/>
+                            </Grid>
+                        </Frame>
+
+                        <!-- Coffee Shop Metrics -->
+                        <Frame Grid.Row="3" Grid.Column="1"
+                                CornerRadius="12"
+                                BackgroundColor="White"
+                                Padding="20"
+                                HasShadow="True">
+                            <Grid RowDefinitions="Auto,Auto">
+                                <Label Grid.Row="0"
+                                       Text="Avg Order"
+                                       FontSize="13"
+                                       TextColor="#64748B"
+                                       Margin="0,0,0,8"/>
+                                <Label Grid.Row="1"
+                                       Text="₱265"
+                                       FontSize="18"
+                                       FontAttributes="Bold"
+                                       TextColor="#1E293B"/>
+                            </Grid>
+                        </Frame>
+                    </Grid>
+
+                    <!-- Footer Note -->
+                    <Label Grid.Row="3"
+                           Text="Secure Business Management System"
+                           FontSize="13"
+                           TextColor="#64748B"
+                           HorizontalOptions="Center"
+                           FontAttributes="Italic"
+                           Margin="0,20,0,0"/>
+                </Grid>
+            </Grid>
+        </Frame>
+    </Grid>
+
+    <!-- Mobile Layout - Full Screen Login -->
+    <ScrollView x:Name="MobileLayout" IsVisible="True">
+        <Grid RowDefinitions="Auto,*,Auto" Padding="20">
+            <!-- Top Logo Area -->
+            <VerticalStackLayout Grid.Row="0" Padding="0,48,0,24" Spacing="10">
+                <!-- Company Logo -->
+                <Border WidthRequest="80"
+                        HeightRequest="80"
+                        StrokeShape="RoundRectangle 16"
+                        StrokeThickness="0"
+                        BackgroundColor="{StaticResource Primary}"
+                        HorizontalOptions="Center">
+                    <Label Text="TF"
+                           FontSize="32"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"/>
+                </Border>
+
+                <!-- System Name -->
+                <Label Text="AHR Techfuxion POS"
+                       FontSize="24"
+                       FontAttributes="Bold"
+                       TextColor="#1E293B"
+                       HorizontalOptions="Center"/>
+
+                <!-- Welcome Message -->
+                <Label Text="Welcome Back"
+                       FontSize="16"
+                       TextColor="#64748B"
+                       HorizontalOptions="Center"/>
+            </VerticalStackLayout>
+
+            <!-- Login Form Area -->
+            <Grid Grid.Row="1" Padding="20,0,20,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Username Label -->
+                <Label Grid.Row="0"
+                       Text="Employee ID or Username"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="#334155"
+                       Margin="0,0,0,8"/>
+
+                <!-- Username Entry -->
+                <Frame Grid.Row="1"
+                       CornerRadius="8"
+                       BorderColor="#CBD5E1"
+                       BackgroundColor="#F8FAFC"
+                       Padding="0"
+                       Margin="0,0,0,20"
+                       HasShadow="False">
+                    <Entry Placeholder="Enter your employee ID"
+                           PlaceholderColor="#94A3B8"
+                           TextColor="#1E293B"
+                           FontSize="14"
+                           Margin="15,12"/>
+                </Frame>
+
+                <!-- Password Label -->
+                <Label Grid.Row="2"
+                       Text="Password"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="#334155"
+                       Margin="0,0,0,8"/>
+
+                <!-- Password Entry -->
+                <Frame Grid.Row="3"
+                       CornerRadius="8"
+                       BorderColor="#CBD5E1"
+                       BackgroundColor="#F8FAFC"
+                       Padding="0"
+                       Margin="0,0,0,20"
+                       HasShadow="False">
+                    <Entry Placeholder="Enter your password"
+                           PlaceholderColor="#94A3B8"
+                           TextColor="#1E293B"
+                           FontSize="14"
+                           IsPassword="True"
+                           Margin="15,12"/>
+                </Frame>
+
+                <!-- Remember Me -->
+                <Grid Grid.Row="4"
+                      ColumnDefinitions="Auto,*"
+                      Margin="0,0,0,30">
+                    <CheckBox Grid.Column="0"
+                              Color="{StaticResource Primary}"
+                              Margin="0,0,10,0"/>
+                    <Label Grid.Column="1"
+                           Text="Remember me"
+                           FontSize="14"
+                           TextColor="#64748B"
+                           VerticalOptions="Center"/>
+                </Grid>
+
+                <!-- Sign In Button -->
+                <Button Grid.Row="5"
+                        Text="Sign In"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        TextColor="White"
+                        BackgroundColor="{StaticResource Primary}"
+                        CornerRadius="8"
+                        HeightRequest="50"
+                        Clicked="OnSignInClicked"/>
+            </Grid>
+
+            <!-- Footer Area -->
+            <Grid Grid.Row="2" Padding="0,20,0,40">
+                <!-- System Version -->
+                <Label Text="Version 1.0.0"
+                       FontSize="12"
+                       TextColor="#94A3B8"
+                       HorizontalOptions="Center"
+                       Margin="0,0,0,8"/>
+
+                <!-- Copyright Footer -->
+                <Label Text="© 2024 AHR Techfuxion. All rights reserved."
+                       FontSize="12"
+                       TextColor="#94A3B8"
+                       HorizontalOptions="Center"/>
+            </Grid>
+        </Grid>
+    </ScrollView>
+
+</ContentPage>

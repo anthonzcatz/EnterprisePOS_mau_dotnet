@@ -4,11 +4,9 @@
              xmlns:components="clr-namespace:EnterprisePOS.Components"
              xmlns:vm="clr-namespace:EnterprisePOS.Features.Sales.ViewModels"
              xmlns:models="clr-namespace:EnterprisePOS.Core.Data.Models"
-             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="EnterprisePOS.Features.Sales.Views.SalesPage"
              x:DataType="vm:SalesViewModel"
              Title="Sales History"
-             ios:Page.UseSafeArea="True"
              BackgroundColor="{StaticResource BackgroundSecondary}">
 
     <components:AppShellLayout ActiveKey="orders" PageTitle="Sales History">

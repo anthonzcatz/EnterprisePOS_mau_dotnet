@@ -89,19 +89,26 @@ public class UserManagementViewModel : BaseViewModel
             IsBusy = true;
             var users = await _userRepository.GetAllAsync();
             
-            _allUsers = users.Select(u => new UserModel
+            if (users != null)
             {
-                Id = u.Id,
-                FullName = u.FullName,
-                Username = u.Username,
-                Email = u.Email,
-                Role = u.Role,
-                Branch = u.Branch,
-                IsActive = u.IsActive,
-                IsAdmin = u.IsAdmin,
-                HasTwoFactor = u.HasTwoFactor,
-                CreatedAt = u.CreatedAt
-            }).ToList();
+                _allUsers = users.Select(u => new UserModel
+                {
+                    Id = u.Id,
+                    FullName = u.FullName ?? string.Empty,
+                    Username = u.Username ?? string.Empty,
+                    Email = u.Email ?? string.Empty,
+                    Role = u.Role ?? string.Empty,
+                    Branch = u.Branch ?? string.Empty,
+                    IsActive = u.IsActive,
+                    IsAdmin = u.IsAdmin,
+                    HasTwoFactor = u.HasTwoFactor,
+                    CreatedAt = u.CreatedAt
+                }).ToList();
+            }
+            else
+            {
+                _allUsers = new List<UserModel>();
+            }
 
             OnPropertyChanged(nameof(TotalUsersText));
             OnPropertyChanged(nameof(ActiveUsersText));
@@ -112,7 +119,9 @@ public class UserManagementViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlertAsync("Error", $"Failed to load users: {ex.Message}", "OK");
+            System.Diagnostics.Debug.WriteLine($"[UserManagementViewModel] LoadUsersAsync error: {ex.Message}");
+            _allUsers = new List<UserModel>();
+            FilterUsers();
         }
         finally
         {
@@ -122,18 +131,25 @@ public class UserManagementViewModel : BaseViewModel
 
     private void FilterUsers()
     {
-        Users.Clear();
-        var filtered = string.IsNullOrWhiteSpace(SearchQuery)
-            ? _allUsers
-            : _allUsers.Where(u => u.FullName.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ||
-                                     u.Username.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ||
-                                     u.Email.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ||
-                                     u.Role.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ||
-                                     u.Branch.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase));
-
-        foreach (var user in filtered)
+        try
         {
-            Users.Add(user);
+            Users.Clear();
+            var filtered = string.IsNullOrWhiteSpace(SearchQuery)
+                ? _allUsers
+                : _allUsers.Where(u => (u.FullName?.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                                         (u.Username?.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                                         (u.Email?.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                                         (u.Role?.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ?? false) ||
+                                         (u.Branch?.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase) ?? false));
+
+            foreach (var user in filtered)
+            {
+                Users.Add(user);
+            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[UserManagementViewModel] FilterUsers error: {ex.Message}");
         }
     }
 
@@ -141,18 +157,18 @@ public class UserManagementViewModel : BaseViewModel
     {
         if (user == null) return;
 
-        var confirm = await Shell.Current.DisplayAlertAsync("Confirm", $"Delete user '{user.Username}'?", "Yes", "No");
-        if (confirm)
+        try
         {
-            try
+            var confirm = await Shell.Current.DisplayAlertAsync("Confirm", $"Delete user '{user.Username}'?", "Yes", "No");
+            if (confirm)
             {
                 await _userRepository.DeleteAsync(user.Id);
                 await LoadUsersAsync();
             }
-            catch (Exception ex)
-            {
-                await Shell.Current.DisplayAlertAsync("Error", $"Failed to delete user: {ex.Message}", "OK");
-            }
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[UserManagementViewModel] DeleteUserAsync error: {ex.Message}");
         }
     }
 
@@ -188,7 +204,7 @@ public class UserManagementViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlertAsync("Update Error", $"Failed to update user: {ex.Message}", "OK");
+            System.Diagnostics.Debug.WriteLine($"[UserManagementViewModel] EditUserAsync error: {ex.Message}");
         }
     }
 }

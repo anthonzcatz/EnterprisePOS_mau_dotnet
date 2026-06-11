@@ -7,9 +7,13 @@ public static class DatabaseSeeder
 {
     public static async Task SeedDatabaseAsync(LocalDbContext context)
     {
-        // Create database if it doesn't exist
-        await context.Database.EnsureCreatedAsync();
-        await EnsureUserManagementSchemaAsync(context);
+        try
+        {
+            // Create database if it doesn't exist
+            await context.Database.EnsureCreatedAsync();
+            await EnsureUserManagementSchemaAsync(context);
+            await EnsureUnitsSchemaAsync(context);
+            await EnsureProductCategoriesSchemaAsync(context);
 
         // Check if data already exists
         if (context.Products.Any())
@@ -133,39 +137,96 @@ public static class DatabaseSeeder
         }
 
         await context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[DatabaseSeeder] Error: {ex.Message}");
+            throw;
+        }
     }
 
     public static async Task EnsureUserManagementSchemaAsync(LocalDbContext context)
     {
-        await context.Database.ExecuteSqlRawAsync("""
-            CREATE TABLE IF NOT EXISTS "Users" (
-                "Id" INTEGER NOT NULL CONSTRAINT "PK_Users" PRIMARY KEY AUTOINCREMENT,
-                "FullName" TEXT NOT NULL,
-                "Username" TEXT NOT NULL,
-                "Email" TEXT NOT NULL,
-                "PasswordHash" TEXT NOT NULL,
-                "Role" TEXT NOT NULL,
-                "Branch" TEXT NOT NULL,
-                "IsAdmin" INTEGER NOT NULL,
-                "HasTwoFactor" INTEGER NOT NULL,
-                "IsActive" INTEGER NOT NULL,
-                "LastLoginAt" TEXT NULL,
-                "CreatedAt" TEXT NOT NULL,
-                "UpdatedAt" TEXT NOT NULL,
-                "IsDeleted" INTEGER NOT NULL
-            );
-            """);
+        try
+        {
+            await context.Database.ExecuteSqlRawAsync("""
+                CREATE TABLE IF NOT EXISTS "Users" (
+                    "Id" INTEGER NOT NULL CONSTRAINT "PK_Users" PRIMARY KEY AUTOINCREMENT,
+                    "FullName" TEXT NOT NULL,
+                    "Username" TEXT NOT NULL,
+                    "Email" TEXT NOT NULL,
+                    "PasswordHash" TEXT NOT NULL,
+                    "Role" TEXT NOT NULL,
+                    "Branch" TEXT NOT NULL,
+                    "IsAdmin" INTEGER NOT NULL,
+                    "HasTwoFactor" INTEGER NOT NULL,
+                    "IsActive" INTEGER NOT NULL,
+                    "LastLoginAt" TEXT NULL,
+                    "CreatedAt" TEXT NOT NULL,
+                    "UpdatedAt" TEXT NOT NULL,
+                    "IsDeleted" INTEGER NOT NULL
+                );
+                """);
 
-        await context.Database.ExecuteSqlRawAsync("""
-            CREATE UNIQUE INDEX IF NOT EXISTS "IX_Users_Username"
-            ON "Users" ("Username")
-            WHERE "IsDeleted" = 0;
-            """);
+            await context.Database.ExecuteSqlRawAsync("""
+                CREATE UNIQUE INDEX IF NOT EXISTS "IX_Users_Username"
+                ON "Users" ("Username")
+                WHERE "IsDeleted" = 0;
+                """);
 
-        await context.Database.ExecuteSqlRawAsync("""
-            CREATE UNIQUE INDEX IF NOT EXISTS "IX_Users_Email"
-            ON "Users" ("Email")
-            WHERE "IsDeleted" = 0;
-            """);
+            await context.Database.ExecuteSqlRawAsync("""
+                CREATE UNIQUE INDEX IF NOT EXISTS "IX_Users_Email"
+                ON "Users" ("Email")
+                WHERE "IsDeleted" = 0;
+                """);
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[EnsureUserManagementSchemaAsync] Error: {ex.Message}");
+        }
+    }
+
+    public static async Task EnsureUnitsSchemaAsync(LocalDbContext context)
+    {
+        try
+        {
+            // Ensure Units table has all required columns
+            await context.Database.ExecuteSqlRawAsync("""
+                CREATE TABLE IF NOT EXISTS "Units" (
+                    "Id" INTEGER NOT NULL CONSTRAINT "PK_Units" PRIMARY KEY AUTOINCREMENT,
+                    "Name" TEXT NOT NULL,
+                    "Abbreviation" TEXT NOT NULL,
+                    "BaseUnitId" INTEGER NULL,
+                    "ConversionFactor" REAL NOT NULL,
+                    "IsActive" INTEGER NOT NULL,
+                    "IsDeleted" INTEGER NOT NULL,
+                    "CreatedAt" TEXT NOT NULL,
+                    "UpdatedAt" TEXT NOT NULL
+                );
+                """);
+
+            // Add missing columns for existing databases
+            await context.Database.ExecuteSqlRawAsync("ALTER TABLE \"Units\" ADD COLUMN \"BaseUnitId\" INTEGER NULL;");
+            await context.Database.ExecuteSqlRawAsync("ALTER TABLE \"Units\" ADD COLUMN \"ConversionFactor\" REAL NOT NULL DEFAULT 1.0;");
+        }
+        catch (Exception ex)
+        {
+            // Ignore errors if column already exists
+            System.Diagnostics.Debug.WriteLine($"[EnsureUnitsSchemaAsync] Error: {ex.Message}");
+        }
+    }
+
+    public static async Task EnsureProductCategoriesSchemaAsync(LocalDbContext context)
+    {
+        try
+        {
+            // Add SortOrder column if it doesn't exist
+            await context.Database.ExecuteSqlRawAsync("ALTER TABLE \"ProductCategories\" ADD COLUMN \"SortOrder\" INTEGER NOT NULL DEFAULT 0;");
+        }
+        catch (Exception ex)
+        {
+            // Ignore errors if column already exists
+            System.Diagnostics.Debug.WriteLine($"[EnsureProductCategoriesSchemaAsync] Error: {ex.Message}");
+        }
     }
 }

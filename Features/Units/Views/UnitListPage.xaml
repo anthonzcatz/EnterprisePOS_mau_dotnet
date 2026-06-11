@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:EnterprisePOS.Features.Units.ViewModels"
+             xmlns:models="clr-namespace:EnterprisePOS.Core.Data.Models"
+             xmlns:components="clr-namespace:EnterprisePOS.Components"
+             x:Class="EnterprisePOS.Features.Units.Views.UnitListPage"
+             x:DataType="vm:UnitListViewModel"
+             BackgroundColor="{StaticResource Gray100}"
+             Title="Measurement Units">
+
+    <components:AppShellLayout ActiveKey="units" PageTitle="Units">
+        <components:AppShellLayout.PageBody>
+            <Grid RowDefinitions="Auto,*">
+                <!-- Header -->
+                <Border Grid.Row="0" BackgroundColor="{StaticResource White}" StrokeThickness="0" Padding="24,16">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <components:PageHeader Grid.Column="0" 
+                                               Title="Measurement Units" 
+                                               Description="Manage units of measure and conversion factors." />
+                        <Button Grid.Column="1" Text="+ New Unit" Command="{Binding AddUnitCommand}" Style="{StaticResource PrimaryButtonSmall}" VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+
+                <RefreshView Grid.Row="1" Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsBusy}">
+                    <CollectionView ItemsSource="{Binding Units}" Margin="24">
+                        <CollectionView.Header>
+                            <Grid ColumnDefinitions="2*,*,*,*" Padding="16" BackgroundColor="{StaticResource Gray200}">
+                                <Label Grid.Column="0" Text="Name" FontAttributes="Bold" />
+                                <Label Grid.Column="1" Text="Abbr" FontAttributes="Bold" />
+                                <Label Grid.Column="2" Text="Factor" FontAttributes="Bold" />
+                                <Label Grid.Column="3" Text="Status" FontAttributes="Bold" />
+                            </Grid>
+                        </CollectionView.Header>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Unit">
+                                <Border BackgroundColor="{StaticResource White}" Stroke="{StaticResource BorderColor}" StrokeThickness="0.5" Padding="16">
+                                    <Grid ColumnDefinitions="2*,*,*,*">
+                                        <Label Grid.Column="0" Text="{Binding Name}" VerticalOptions="Center" />
+                                        <Label Grid.Column="1" Text="{Binding Abbreviation}" VerticalOptions="Center" />
+                                        <Label Grid.Column="2" Text="{Binding ConversionFactor}" VerticalOptions="Center" />
+                                        <Label Grid.Column="3" Text="{Binding IsActive}" VerticalOptions="Center" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </RefreshView>
+            </Grid>
+        </components:AppShellLayout.PageBody>
+    </components:AppShellLayout>
+</ContentPage>

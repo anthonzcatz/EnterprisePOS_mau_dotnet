@@ -4,3 +4,9 @@ obj/
 certs/*.pfx
 certs/*.cer
 publish_*.log
+.vs/
+local.db
+local.db-shm
+local.db-wal
+.dbg/
+*.user

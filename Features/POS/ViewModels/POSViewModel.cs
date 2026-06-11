@@ -274,6 +274,18 @@ public sealed class POSViewModel : BaseViewModel
 		private set => SetProperty(ref selectedCategoryKey, value);
 	}
 
+	public ProductCategory? SelectedCategory
+	{
+		get => Categories.FirstOrDefault(c => c.Key == selectedCategoryKey);
+		set
+		{
+			if (value is not null)
+			{
+				SelectCategory(value);
+			}
+		}
+	}
+
 	public decimal SubTotal => CartItems.Sum(item => item.LineTotal);
 	public decimal TaxAmount => Math.Round(SubTotal * 0.12m, 2);
 	public decimal DiscountAmount => Math.Round(SubTotal * 0.10m, 2);
@@ -397,6 +409,7 @@ public sealed class POSViewModel : BaseViewModel
 			return;
 		}
 
+		System.Diagnostics.Debug.WriteLine($"[POSViewModel] SelectCategory: {category.Key}");
 		SelectedCategoryKey = category.Key;
 		foreach (var cat in Categories)
 		{
@@ -404,11 +417,13 @@ public sealed class POSViewModel : BaseViewModel
 		}
 
 		OnPropertyChanged(nameof(SelectedCategoryName));
+		OnPropertyChanged(nameof(SelectedCategory));
 		ApplyFilter();
 	}
 
 	private void ApplyFilter()
 	{
+		System.Diagnostics.Debug.WriteLine($"[POSViewModel] ApplyFilter: Category={SelectedCategoryKey}, Search={SearchText}");
 		Products.Clear();
 		var query = allProducts.AsEnumerable();
 
@@ -425,7 +440,9 @@ public sealed class POSViewModel : BaseViewModel
 				p.Category.Contains(SearchText, StringComparison.OrdinalIgnoreCase));
 		}
 
-		foreach (var product in query)
+		var filtered = query.ToList();
+		System.Diagnostics.Debug.WriteLine($"[POSViewModel] ApplyFilter: Found {filtered.Count} products");
+		foreach (var product in filtered)
 		{
 			Products.Add(product);
 		}

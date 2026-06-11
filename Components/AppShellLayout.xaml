@@ -4,23 +4,15 @@
       xmlns:components="clr-namespace:EnterprisePOS.Components"
       x:Class="EnterprisePOS.Components.AppShellLayout"
       x:Name="Root"
-      ColumnSpacing="0">
+      ColumnSpacing="0"
+      IsClippedToBounds="False">
     <Grid.ColumnDefinitions>
         <ColumnDefinition x:Name="SidebarColumn" Width="76" />
         <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
 
-    <!-- Desktop / tablet persistent sidebar - ensure it's on top -->
-    <components:PosSidebarView x:Name="DesktopSidebar"
-                               Grid.Column="0"
-                               ZIndex="10"
-                               NavItems="{Binding ShellVm.NavItems, Source={x:Reference Root}}"
-                               IsCollapsed="{Binding ShellVm.IsSidebarCollapsed, Source={x:Reference Root}}"
-                               ToggleCommand="{Binding ShellVm.ToggleSidebarCommand, Source={x:Reference Root}}"
-                               NavigateCommand="{Binding ShellVm.NavigateCommand, Source={x:Reference Root}}" />
-
     <!-- Content area with mobile top navbar -->
-    <Grid Grid.Column="1" RowDefinitions="Auto,*" RowSpacing="0" HorizontalOptions="FillAndExpand">
+    <Grid Grid.Column="1" RowDefinitions="Auto,*" RowSpacing="0" HorizontalOptions="FillAndExpand" IsClippedToBounds="False" ZIndex="1">
         <!-- Mobile top navbar (burger menu) -->
         <Border x:Name="MobileNavbar"
                 Grid.Row="0"
@@ -58,24 +50,102 @@
         <ContentView x:Name="PageContent" Grid.Row="1" />
     </Grid>
 
-    <!-- Mobile slide-out drawer overlay - only covers content area, not sidebar -->
-    <Grid x:Name="DrawerOverlay"
-          Grid.Column="1"
+    <!-- Desktop / tablet persistent sidebar - placed after content so it renders on top -->
+    <components:PosSidebarView x:Name="DesktopSidebar"
+                               Grid.Column="0"
+                               ZIndex="100"
+                               IsClippedToBounds="False"
+                               NavItems="{Binding ShellVm.NavItems, Source={x:Reference Root}}"
+                               IsCollapsed="{Binding ShellVm.IsSidebarCollapsed, Source={x:Reference Root}}"
+                               ToggleCommand="{Binding ShellVm.ToggleSidebarCommand, Source={x:Reference Root}}"
+                               NavigateCommand="{Binding ShellVm.NavigateCommand, Source={x:Reference Root}}" />
+
+    <!-- Floating submenu popup — rendered at layout level so it isn't clipped by adjacent columns -->
+    <Border Grid.ColumnSpan="2"
+            IsVisible="{Binding Source={x:Reference DesktopSidebar}, Path=HasPopup, FallbackValue=False}"
+            HorizontalOptions="Start"
+            VerticalOptions="Start"
+            Margin="{Binding Source={x:Reference DesktopSidebar}, Path=PopupOuterMargin}"
+            WidthRequest="200"
+            BackgroundColor="{StaticResource White}"
+            Stroke="{StaticResource Gray200}"
+            StrokeThickness="1"
+            ZIndex="300">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="14" />
+        </Border.StrokeShape>
+        <Border.Shadow>
+            <Shadow Brush="#22000000" Offset="0,6" Radius="18" Opacity="1" />
+        </Border.Shadow>
+        <VerticalStackLayout Padding="8" Spacing="6">
+            <Label Text="{Binding Source={x:Reference DesktopSidebar}, Path=PopupTitle, FallbackValue=''}"
+                   FontSize="11"
+                   FontAttributes="Bold"
+                   Margin="4,2,4,0"
+                   TextColor="{StaticResource Gray500}" />
+            <VerticalStackLayout BindableLayout.ItemsSource="{Binding Source={x:Reference DesktopSidebar}, Path=PopupItems, FallbackValue={x:Null}}"
+                                 Spacing="4">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Border BackgroundColor="{StaticResource Gray100}"
+                                StrokeThickness="0"
+                                Padding="12,10"
+                                StrokeShape="RoundRectangle 12">
+                            <Border.Triggers>
+                                <DataTrigger TargetType="Border" Binding="{Binding IsActive}" Value="True">
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                                </DataTrigger>
+                            </Border.Triggers>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={x:Reference DesktopSidebar}, Path=NavigateCommand}"
+                                                      CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10" VerticalOptions="Center">
+                                <Label Grid.Column="0" Text="{Binding Glyph}" FontSize="13" VerticalOptions="Center" TextColor="{StaticResource Gray500}">
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding IsActive}" Value="True">
+                                            <Setter Property="TextColor" Value="White" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                                <Label Grid.Column="1" Text="{Binding Title}" FontSize="12" VerticalOptions="Center" TextColor="{StaticResource Gray900}">
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding IsActive}" Value="True">
+                                            <Setter Property="TextColor" Value="White" />
+                                            <Setter Property="FontAttributes" Value="Bold" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </Border>
+
+    <!-- Mobile drawer overlay (shown when burger menu tapped on small screens) -->
+    <Grid x:Name="MobileDrawerOverlay"
+          Grid.ColumnSpan="2"
           IsVisible="{Binding ShellVm.IsMobileDrawerOpen, Source={x:Reference Root}}"
-          ZIndex="100">
+          ZIndex="200">
+        <!-- Scrim / backdrop -->
         <BoxView BackgroundColor="#80000000">
             <BoxView.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding ShellVm.CloseMobileDrawerCommand, Source={x:Reference Root}}" />
             </BoxView.GestureRecognizers>
         </BoxView>
-        <Border WidthRequest="260"
-                HorizontalOptions="Start"
+        <!-- Sidebar panel -->
+        <Border HorizontalOptions="Start"
+                WidthRequest="260"
                 BackgroundColor="{StaticResource White}"
-                StrokeThickness="0">
+                StrokeThickness="0"
+                Padding="0">
             <components:PosSidebarView NavItems="{Binding ShellVm.NavItems, Source={x:Reference Root}}"
                                        IsCollapsed="False"
                                        ToggleCommand="{Binding ShellVm.CloseMobileDrawerCommand, Source={x:Reference Root}}"
                                        NavigateCommand="{Binding ShellVm.NavigateCommand, Source={x:Reference Root}}" />
         </Border>
     </Grid>
+
 </Grid>

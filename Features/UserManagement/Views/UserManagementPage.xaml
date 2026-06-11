@@ -4,12 +4,10 @@
              xmlns:components="clr-namespace:EnterprisePOS.Components"
              xmlns:vm="clr-namespace:EnterprisePOS.Features.UserManagement.ViewModels"
              xmlns:models="clr-namespace:EnterprisePOS.Features.UserManagement.Models"
-             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="EnterprisePOS.Features.UserManagement.Views.UserManagementPage"
              x:DataType="vm:UserManagementViewModel"
              x:Name="Page"
              Title="Users"
-             ios:Page.UseSafeArea="True"
              BackgroundColor="{StaticResource BackgroundSecondary}">
 
     <components:AppShellLayout ActiveKey="user-management" PageTitle="Users">

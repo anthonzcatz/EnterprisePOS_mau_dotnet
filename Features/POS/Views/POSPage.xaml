@@ -2,12 +2,10 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:components="clr-namespace:EnterprisePOS.Components"
-             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="EnterprisePOS.Features.POS.Views.POSPage"
              x:Name="Page"
              Title="EnterprisePOS"
-             BackgroundColor="{StaticResource BackgroundSecondary}"
-             ios:Page.UseSafeArea="True">
+             BackgroundColor="{StaticResource BackgroundSecondary}">
 
     <Grid x:Name="LayoutRoot">
 
@@ -183,16 +181,18 @@
                   Grid.Column="1"
                   RowDefinitions="Auto,Auto,Auto,*"
                   RowSpacing="0"
-                  BackgroundColor="{StaticResource BackgroundSecondary}">
+                  BackgroundColor="{StaticResource BackgroundSecondary}"
+                  Padding="20,0,12,0">
                 <BoxView Grid.Row="0"
                          HeightRequest="1"
                          Color="{StaticResource PosBorder}"
-                         Margin="20,0,12,8" />
+                         Margin="0,0,0,8" />
                 <Border Grid.Row="1"
                         BackgroundColor="{StaticResource White}"
                         StrokeThickness="0"
                         HeightRequest="50"
-                        Padding="0">
+                        Padding="0"
+                        Margin="0,0,0,8">
                     <ScrollView Orientation="Horizontal"
                                 HorizontalScrollBarVisibility="Default"
                                 VerticalScrollBarVisibility="Never">
@@ -215,11 +215,11 @@
                 <BoxView Grid.Row="2"
                          HeightRequest="1"
                          Color="{StaticResource PosBorder}"
-                         Margin="20,0,12,0" />
+                         Margin="0,0,0,0" />
                 <CollectionView Grid.Row="3"
                                 ItemsSource="{Binding Products}"
                                 SelectionMode="None"
-                                Margin="20,8,12,16">
+                                Margin="0,8,0,16">
                     <CollectionView.ItemsLayout>
                         <GridItemsLayout Orientation="Vertical"
                                          Span="{Binding ProductGridSpan}"
@@ -244,7 +244,7 @@
             <Grid Grid.Row="1"
                   Grid.Column="2"
                   BackgroundColor="{StaticResource BackgroundSecondary}"
-                  Padding="12,12,18,16"
+                  Padding="12,0,18,0"
                   RowDefinitions="*,Auto,Auto,Auto,Auto"
                   RowSpacing="12">
                 <!-- Cart card: header + items in ONE bordered panel (fills column height) -->
@@ -254,6 +254,7 @@
                         Stroke="{StaticResource PosBorder}"
                         StrokeThickness="1"
                         Padding="14"
+                        Margin="0,12,0,16"
                         StrokeShape="RoundRectangle 16">
                     <Grid RowDefinitions="Auto,Auto,*"
                           VerticalOptions="Fill"
@@ -680,7 +681,7 @@
                                        Text="🔍"
                                        FontSize="14"
                                        VerticalOptions="Center"
-                                       TextColor="{StaticResource Gray500}" />
+                                       TextColor="{StaticResource Gray700}" />
                                 <Entry Grid.Column="1"
                                        Placeholder="Search..."
                                        Text="{Binding SearchText}"

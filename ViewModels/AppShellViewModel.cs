@@ -76,7 +76,9 @@ public sealed class AppShellViewModel : INotifyPropertyChanged
 	public void SetActiveRoute(string routeKey)
 	{
 		foreach (var nav in NavItems)
-			nav.IsActive = nav.Key == routeKey;
+		{
+			SetActiveRouteRecursive(nav, routeKey);
+		}
 	}
 
 	private void ToggleSidebar() => IsSidebarCollapsed = !IsSidebarCollapsed;
@@ -85,28 +87,21 @@ public sealed class AppShellViewModel : INotifyPropertyChanged
 	{
 		if (item is null) return;
 
-		var route = item.Key switch
+		if (item.HasChildren)
 		{
-			"home"            => "//dashboard/dashboard-main",
-			"pos"             => "//pos/pos-main",
-			"orders"          => "//sales/sales-main",
-			"customers"       => "//customers/customers-main",
-			"reports"         => "//reports/reports-main",
-			"products"        => "//products/products-main",
-			"inventory"       => "//inventory/inventory-main",
-			"user-management" => "//user-management/user-management-main",
-			"settings"        => "//settings/settings-main",
-			_                 => null
-		};
+			ToggleSubmenu(item);
+			return;
+		}
 
-		if (route is null) return;
+		var route = item.Route;
+		if (string.IsNullOrWhiteSpace(route)) return;
 
 		SetActiveRoute(item.Key);
 		IsMobileDrawerOpen = false;
 
 		try
 		{
-			await Shell.Current.GoToAsync(route);
+			await Shell.Current.GoToAsync(route, false);
 		}
 		catch (Exception ex)
 		{
@@ -116,15 +111,52 @@ public sealed class AppShellViewModel : INotifyPropertyChanged
 
 	private void LoadNavItems()
 	{
-		NavItems.Add(new PosNavItem { Key = "home",            Title = "Home",            Glyph = "⌂" });
-		NavItems.Add(new PosNavItem { Key = "pos",             Title = "Point of Sale",   Glyph = "⊞" });
-		NavItems.Add(new PosNavItem { Key = "orders",          Title = "Orders",          Glyph = "🧾" });
-		NavItems.Add(new PosNavItem { Key = "customers",       Title = "Guests",          Glyph = "👤" });
-		NavItems.Add(new PosNavItem { Key = "products",        Title = "Products",        Glyph = "📦" });
-		NavItems.Add(new PosNavItem { Key = "inventory",       Title = "Inventory",       Glyph = "🗃" });
-		NavItems.Add(new PosNavItem { Key = "reports",         Title = "Reports",         Glyph = "📊" });
-		NavItems.Add(new PosNavItem { Key = "user-management", Title = "Users",           Glyph = "👤" });
-		NavItems.Add(new PosNavItem { Key = "settings",        Title = "Settings",        Glyph = "⚙" });
+		NavItems.Add(new PosNavItem { Key = "home",            Title = "Home",          Glyph = "⌂", Route = "//dashboard/dashboard-main" });
+		NavItems.Add(new PosNavItem { Key = "pos",             Title = "Point of Sale", Glyph = "⊞", Route = "//pos/pos-main" });
+		NavItems.Add(new PosNavItem { Key = "orders",          Title = "Orders",        Glyph = "🧾", Route = "//sales/sales-main" });
+		NavItems.Add(new PosNavItem { Key = "customers",       Title = "Guests",        Glyph = "👤", Route = "//customers/customers-main" });
+
+		var catalog = new PosNavItem { Key = "catalog", Title = "Products", Glyph = "📦" };
+		catalog.Children.Add(new PosNavItem { Key = "products", Title = "Product List", Glyph = "•", Route = "//products", IsChild = true });
+		catalog.Children.Add(new PosNavItem { Key = "categories", Title = "Categories", Glyph = "•", Route = "//categories", IsChild = true });
+		catalog.Children.Add(new PosNavItem { Key = "units", Title = "Units", Glyph = "•", Route = "//units", IsChild = true });
+		NavItems.Add(catalog);
+
+		NavItems.Add(new PosNavItem { Key = "inventory",       Title = "Inventory",     Glyph = "🗃", Route = "//inventory/inventory-main" });
+		NavItems.Add(new PosNavItem { Key = "reports",         Title = "Reports",       Glyph = "📊", Route = "//reports/reports-main" });
+		NavItems.Add(new PosNavItem { Key = "user-management", Title = "Users",         Glyph = "👤", Route = "//user-management/user-management-main" });
+		NavItems.Add(new PosNavItem { Key = "settings",        Title = "Settings",      Glyph = "⚙", Route = "//settings/settings-main" });
+	}
+
+	private void ToggleSubmenu(PosNavItem selected)
+	{
+		foreach (var nav in NavItems.Where(n => n.HasChildren))
+		{
+			nav.IsExpanded = nav == selected && !nav.IsExpanded;
+		}
+	}
+
+	private bool SetActiveRouteRecursive(PosNavItem item, string routeKey)
+	{
+		var isActive = item.Key == routeKey;
+		var hasActiveChild = false;
+
+		foreach (var child in item.Children)
+		{
+			if (SetActiveRouteRecursive(child, routeKey))
+			{
+				hasActiveChild = true;
+				isActive = true;
+			}
+		}
+
+		if (item.HasChildren)
+		{
+			item.IsExpanded = hasActiveChild;
+		}
+
+		item.IsActive = isActive;
+		return isActive;
 	}
 
 	private void OnPropertyChanged([CallerMemberName] string? propertyName = null)

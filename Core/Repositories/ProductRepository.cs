@@ -18,6 +18,7 @@ public class ProductRepository
         return await _context.Products
             .Include(p => p.Category)
             .Include(p => p.Unit)
+            .Include(p => p.ProductVariants)
             .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 
@@ -27,6 +28,11 @@ public class ProductRepository
             .Include(p => p.Category)
             .Include(p => p.Unit)
             .FirstOrDefaultAsync(p => p.Code == code, cancellationToken);
+    }
+
+    public async Task<bool> CodeExistsAsync(string code, CancellationToken cancellationToken = default)
+    {
+        return await _context.Products.AnyAsync(p => p.Code == code, cancellationToken);
     }
 
     public async Task<IReadOnlyList<Product>> GetAllAsync(CancellationToken cancellationToken = default)

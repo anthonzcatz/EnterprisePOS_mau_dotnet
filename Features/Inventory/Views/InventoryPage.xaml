@@ -4,11 +4,9 @@
              xmlns:components="clr-namespace:EnterprisePOS.Components"
              xmlns:vm="clr-namespace:EnterprisePOS.Features.Inventory.ViewModels"
              xmlns:models="clr-namespace:EnterprisePOS.Core.Data.Models"
-             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
              x:Class="EnterprisePOS.Features.Inventory.Views.InventoryPage"
              x:DataType="vm:InventoryViewModel"
              Title="Inventory"
-             ios:Page.UseSafeArea="True"
              BackgroundColor="{StaticResource Gray100}">
 
     <components:AppShellLayout ActiveKey="inventory" PageTitle="Inventory">

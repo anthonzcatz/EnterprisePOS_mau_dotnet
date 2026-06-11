@@ -12,11 +12,19 @@
     xmlns:reports="clr-namespace:EnterprisePOS.Features.Reports.Views"
     xmlns:usermgmt="clr-namespace:EnterprisePOS.Features.UserManagement.Views"
     xmlns:settings="clr-namespace:EnterprisePOS.Features.Settings.Views"
+    xmlns:categories="clr-namespace:EnterprisePOS.Features.Categories.Views"
+    xmlns:units="clr-namespace:EnterprisePOS.Features.Units.Views"
+    xmlns:auth="clr-namespace:EnterprisePOS.Features.Auth.Views"
     Shell.FlyoutBehavior="Disabled"
     Shell.NavBarIsVisible="False"
     FlyoutBackgroundColor="Transparent"
     BackgroundColor="{StaticResource BackgroundSecondary}"
     Title="EnterprisePOS">
+
+    <!-- Login Page (Not in Flyout) -->
+    <ShellContent Route="login"
+                  ContentTemplate="{DataTemplate auth:LoginPage}"
+                  Shell.FlyoutItemIsVisible="False"/>
 
     <!-- Sidebar Header -->
     <Shell.FlyoutHeader>
@@ -75,10 +83,11 @@
                       Route="sales-main"/>
     </FlyoutItem>
 
-    <FlyoutItem Title="Products" Route="products">
-        <ShellContent Title="Products"
-                      ContentTemplate="{DataTemplate products:ProductsPage}"
-                      Route="products-main"/>
+    <FlyoutItem Title="Catalog" Icon="inventory_2" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent Title="Products" Icon="inventory_2" ContentTemplate="{DataTemplate products:ProductsPage}" Route="products" />
+        <ShellContent Title="Categories" Icon="category" ContentTemplate="{DataTemplate categories:CategoryListPage}" Route="categories" />
+        <ShellContent Title="CategoryEditor" ContentTemplate="{DataTemplate categories:CategoryEditorPage}" Route="CategoryEditor" />
+        <ShellContent Title="Units" Icon="straighten" ContentTemplate="{DataTemplate units:UnitListPage}" Route="units" />
     </FlyoutItem>
 
     <FlyoutItem Title="Inventory" Route="inventory">
